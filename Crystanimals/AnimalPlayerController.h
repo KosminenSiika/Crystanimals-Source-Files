@@ -4,14 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "AnimalCharacter.h"
-#include "EnhancedInputComponent.h"
-#include "InputMappingContext.h"
 #include "AnimalPlayerController.generated.h"
 
-/**
- * 
- */
+// Forward Declarations
+class UInputAction;
+class UInputMappingContext;
+class AAnimalCharacter;
+class UEnhancedInputComponent;
+struct FInputActionValue;
+
 UCLASS()
 class CRYSTANIMALS_API AAnimalPlayerController : public APlayerController
 {

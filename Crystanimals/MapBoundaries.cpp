@@ -2,6 +2,7 @@
 
 
 #include "MapBoundaries.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 AMapBoundaries::AMapBoundaries()
@@ -9,6 +10,7 @@ AMapBoundaries::AMapBoundaries()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Creates a collision volume for the actor
 	CollisionVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionVolume"));
 	CollisionVolume->SetupAttachment(RootComponent);
 	CollisionVolume->OnComponentBeginOverlap.AddDynamic(this, &AMapBoundaries::BeginOverlap);
