@@ -4,13 +4,21 @@
 #include "AnimalCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
+	SetActorTickInterval(0.5f);
+	SetActorTickEnabled(true);
 
+	// Create First Person Camera and attach it to the characters CapsuleComponent (hitbox)
+	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());
+	FirstPersonCamera->bUsePawnControlRotation = true;
 }
 
 // Called when the game starts or when spawned
@@ -54,7 +62,7 @@ void AAnimalCharacter::SelectAnimal(ECurrentAnimal SelectedAnimal)
 			GetCharacterMovement()->JumpZVelocity = CatJumpHeight;
 			// CanGlide
 			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(CatCharacterSize, CatCharacterSize, 1);
+			GetCapsuleComponent()->SetCapsuleSize(CatCharacterSize/4, CatCharacterSize/2, 1);
 			// BreathHoldTime
 			break;
 
@@ -65,7 +73,7 @@ void AAnimalCharacter::SelectAnimal(ECurrentAnimal SelectedAnimal)
 			GetCharacterMovement()->JumpZVelocity = OtterJumpHeight;
 			// CanGlide
 			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(OtterCharacterSize, OtterCharacterSize, 1);
+			GetCapsuleComponent()->SetCapsuleSize(OtterCharacterSize/4, OtterCharacterSize/2, 1);
 			// BreathHoldTime
 			break;
 
@@ -76,7 +84,7 @@ void AAnimalCharacter::SelectAnimal(ECurrentAnimal SelectedAnimal)
 			GetCharacterMovement()->JumpZVelocity = FlyingSquirrelJumpHeight;
 			// CanGlide
 			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(FlyingSquirrelCharacterSize, FlyingSquirrelCharacterSize, 1);
+			GetCapsuleComponent()->SetCapsuleSize(FlyingSquirrelCharacterSize/4, FlyingSquirrelCharacterSize/2, 1);
 			// BreathHoldTime
 			break;
 
@@ -87,7 +95,7 @@ void AAnimalCharacter::SelectAnimal(ECurrentAnimal SelectedAnimal)
 			GetCharacterMovement()->JumpZVelocity = JerboaJumpHeight;
 			// CanGlide
 			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(JerboaCharacterSize, JerboaCharacterSize, 1);
+			GetCapsuleComponent()->SetCapsuleSize(JerboaCharacterSize/4, JerboaCharacterSize/2, 1);
 			// BreathHoldTime
 			break;
 
@@ -98,18 +106,21 @@ void AAnimalCharacter::SelectAnimal(ECurrentAnimal SelectedAnimal)
 			GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
 			// CanGlide
 			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(BirdCharacterSize, BirdCharacterSize, 1);
+			GetCapsuleComponent()->SetCapsuleSize(BirdCharacterSize/4, BirdCharacterSize/2, 1);
 			// BreathHoldTime
 			break;
 
 		default:
+			// CHECK IF THERE IS ENOUGH CLEARANCE TO BE ABLE TO SWITCH ANIMAL
 			WalkSpeed = DogWalkSpeed;
 			GetCharacterMovement()->MaxWalkSpeed = DogWalkSpeed;
 			GetCharacterMovement()->MaxSwimSpeed = DogSwimSpeed;
 			GetCharacterMovement()->JumpZVelocity = DogJumpHeight;
 			// CanGlide
 			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(DogCharacterSize, DogCharacterSize, 1);
+			GetCapsuleComponent()->SetCapsuleSize(DogCharacterSize/2, DogCharacterSize/2, 1);
+			FirstPersonCamera->AddRelativeLocation(FVector(0, 0, DogCharacterSize/4));
+			// TELEPORT THE PLAYER A LITTLE UP TO NOT GET STUCK IN THE FLOOR
 			// BreathHoldTime
 			break;
 	}

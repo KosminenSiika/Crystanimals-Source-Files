@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "AnimalCharacter.generated.h"
 
+// Forward Declarations
+class UCameraComponent;
+
 UENUM(BlueprintType)
 enum class ECurrentAnimal :uint8
 {
@@ -43,6 +46,11 @@ protected:
 	virtual void BeginPlay() override;
 
 private:	
+	UPROPERTY(VisibleAnywhere, Category="Player|Camera")
+	TObjectPtr<UCameraComponent> FirstPersonCamera;
+
+
+
 	UPROPERTY()
 	bool bIsRunning = false;
 
@@ -51,6 +59,9 @@ private:
 
 	UPROPERTY()
 	float WalkSpeed;
+
+	
+	// TODO: MAKE WALKSPEED, SWIMSPEED, JUMPHEIGHT, GLIDE, FLY AND BREATH DEFAULTS AND ONLY MAKE SPECIAL VARIABLES FOR THE ANIMALS THAT CHANGE THEM
 
 
 	// Default Dog Stats - editable in UE5 editor
