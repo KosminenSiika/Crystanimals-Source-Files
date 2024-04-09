@@ -21,7 +21,7 @@ class CRYSTANIMALS_API AAnimalPlayerController : public APlayerController
 public:
 	// The Input Action to map to movement.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
-	UInputAction* ActionMove = nullptr;
+	TObjectPtr<UInputAction> ActionMove = nullptr;
 
 	// The Input Action to map to looking around.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
@@ -30,6 +30,9 @@ public:
 	// The Input Action to map to jumping.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
 	TObjectPtr<UInputAction> ActionJump = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
+	TObjectPtr<UInputAction> ActionHoldSprint = nullptr;
 
 	// The Input Mapping Context to use.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
@@ -41,6 +44,8 @@ protected:
 
 	void HandleLook(const FInputActionValue& InputActionValue);
 	void HandleMove(const FInputActionValue& InputActionValue);
+	void HandleHoldSprint();
+	void HandleStopHoldingSprint();
 	void HandleJump();
 
 private:

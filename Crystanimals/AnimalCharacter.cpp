@@ -2,6 +2,7 @@
 
 
 #include "AnimalCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
@@ -32,3 +33,9 @@ void AAnimalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+void AAnimalCharacter::SetRunning(bool IsRunning)
+{
+	bIsRunning = IsRunning;
+
+	GetCharacterMovement()->MaxWalkSpeed = bIsRunning ? SprintSpeedModifier*WalkSpeed : WalkSpeed;
+}

@@ -44,6 +44,12 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 	{
 		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Triggered, this, &AAnimalPlayerController::HandleJump);
 	}
+
+	if (ActionHoldSprint)
+	{
+		EnhancedInputComponent->BindAction(ActionHoldSprint, ETriggerEvent::Triggered, this, &AAnimalPlayerController::HandleHoldSprint);
+		EnhancedInputComponent->BindAction(ActionHoldSprint, ETriggerEvent::Completed, this, &AAnimalPlayerController::HandleStopHoldingSprint);
+	}
 }
 
 void AAnimalPlayerController::OnUnPossess()
@@ -77,10 +83,26 @@ void AAnimalPlayerController::HandleMove(const FInputActionValue& InputActionVal
 	}
 }
 
+void AAnimalPlayerController::HandleHoldSprint()
+{
+	// Make the Player's Character Pawn start running
+	if (PlayerCharacter)
+	{
+		PlayerCharacter->SetRunning(true);
+	}
+}
+
+void AAnimalPlayerController::HandleStopHoldingSprint()
+{
+	// Make the Player's Character Pawn stop running
+	if (PlayerCharacter)
+	{
+		PlayerCharacter->SetRunning(false);
+	}
+}
+
 void AAnimalPlayerController::HandleJump()
 {
-	// Input is "Digital"
-
 	// Make the Player's Character Pawn jump
 	if (PlayerCharacter)
 	{
