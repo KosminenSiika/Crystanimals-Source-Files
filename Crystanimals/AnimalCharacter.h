@@ -38,6 +38,8 @@ public:
 	UFUNCTION()
 	void SetRunning(bool IsRunning);
 
+
+	// Tries to switch the character to the desired animal
 	UFUNCTION()
 	void SelectAnimal(EAnimal SelectedAnimal);
 
@@ -49,7 +51,8 @@ private:
 	UPROPERTY(VisibleAnywhere, Category="Player|Camera")
 	TObjectPtr<UCameraComponent> FirstPersonCamera;
 
-
+	UPROPERTY(VisibleAnywhere, Category = "Collision")
+	TObjectPtr<UCapsuleComponent> Hitbox;
 
 	UPROPERTY()
 	bool bIsRunning = false;
@@ -114,8 +117,14 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
 	float BirdJumpHeight;
 
-
+	// Sets the characters stats and hitbox to that of the desired animal
 	UFUNCTION()
 	void SetStatsByAnimalSize(float AnimalSize);
+
+
+	// Checks if there is room to switch to desired animal
+	// Returns true if switching is possible, otherwise returns false
+	UFUNCTION()
+	bool CheckEnoughSpaceForAnimalSwitch(float AnimalSize);
 
 };

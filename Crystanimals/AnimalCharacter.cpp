@@ -15,9 +15,11 @@ AAnimalCharacter::AAnimalCharacter()
 	SetActorTickInterval(0.5f);
 	SetActorTickEnabled(true);
 
+	Hitbox = GetCapsuleComponent();
+
 	// Create First Person Camera and attach it to the characters CapsuleComponent (hitbox)
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
-	FirstPersonCamera->SetupAttachment(GetCapsuleComponent());
+	FirstPersonCamera->SetupAttachment(Hitbox);
 	FirstPersonCamera->bUsePawnControlRotation = true;
 }
 
@@ -44,6 +46,38 @@ void AAnimalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+void AAnimalCharacter::SetRunning(bool IsRunning)
+{
+	bIsRunning = IsRunning;
+
+	GetCharacterMovement()->MaxWalkSpeed = bIsRunning ? SprintSpeedModifier * WalkSpeed : WalkSpeed;
+	GetCharacterMovement()->MaxSwimSpeed = bIsRunning ? SprintSpeedModifier * SwimSpeed : SwimSpeed;
+}
+
+bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
+{
+	// Create temporary CollisionTestVolume to test if character would overlap with other actors after animal switch
+	TObjectPtr<UCapsuleComponent> CollisionTestVolume = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CollisionTestVolume"));
+	CollisionTestVolume->SetupAttachment(Hitbox);
+	CollisionTestVolume->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
+
+	// Add the height difference of the CollisionTestVolume and Hitbox to the Hitbox's world location to get CollisionTestVolume's required location
+	FVector CollisionTestWorldLocation = Hitbox->GetComponentLocation() + (FVector(0, 0, (AnimalSize / 2) - Hitbox->GetScaledCapsuleHalfHeight()));
+	CollisionTestVolume->SetWorldLocation(CollisionTestWorldLocation);
+
+	TArray OverlappingActors = TArray<AActor*>();
+	CollisionTestVolume->GetOverlappingActors(OverlappingActors);
+
+	if (OverlappingActors.IsEmpty())
+	{
+		CollisionTestVolume->DestroyComponent();
+		return true;
+	}
+
+	CollisionTestVolume->DestroyComponent();
+	return false;
+}
+
 void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 {
 	// Set the basic stats for the animal based on the size of the animal, magic numbers found by trial and error
@@ -59,18 +93,10 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 
 	// Set the size of the capsule component (root component of the character) to the size of the animal
 	// All animal sizes are their height in cm, for ease of use in the UE5 editor, hence the magic numbers
-	GetCapsuleComponent()->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
+	Hitbox->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
 
 	// Raise the camera to "eye height" from the centre of the capsule
 	FirstPersonCamera->SetRelativeLocation(FVector(0, 0, AnimalSize / 4));
-}
-
-void AAnimalCharacter::SetRunning(bool IsRunning)
-{
-	bIsRunning = IsRunning;
-
-	GetCharacterMovement()->MaxWalkSpeed = bIsRunning ? SprintSpeedModifier * WalkSpeed : WalkSpeed;
-	GetCharacterMovement()->MaxSwimSpeed = bIsRunning ? SprintSpeedModifier * SwimSpeed : SwimSpeed;
 }
 
 void AAnimalCharacter::SelectAnimal(EAnimal SelectedAnimal)
