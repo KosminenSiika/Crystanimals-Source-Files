@@ -41,7 +41,7 @@ public:
 
 	// Tries to switch the character to the desired animal
 	UFUNCTION()
-	void SelectAnimal(EAnimal SelectedAnimal);
+	void SwitchAnimal(EAnimal SelectedAnimal);
 
 protected:
 	// Called when the game starts or when spawned

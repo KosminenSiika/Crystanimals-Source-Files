@@ -28,7 +28,7 @@ void AAnimalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SelectAnimal(EAnimal::Dog);
+	SwitchAnimal(EAnimal::Dog);
 	
 }
 
@@ -99,7 +99,7 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 	FirstPersonCamera->SetRelativeLocation(FVector(0, 0, AnimalSize / 4));
 }
 
-void AAnimalCharacter::SelectAnimal(EAnimal SelectedAnimal)
+void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 {
 	switch (SelectedAnimal)
 	{
