@@ -54,21 +54,22 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Collision")
 	TObjectPtr<UCapsuleComponent> Hitbox;
 
+	UPROPERTY(VisibleAnywhere, Category = "Collision")
+	TObjectPtr<UCapsuleComponent> CollisionTestVolume;
+
+
+
 	UPROPERTY()
 	bool bIsRunning = false;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player|General")
 	float SprintSpeedModifier;
-
 	
 	UPROPERTY()
 	float WalkSpeed;
 
 	UPROPERTY()
 	float SwimSpeed;
-
-	
-	// TODO: MAKE WALKSPEED, SWIMSPEED, JUMPHEIGHT, GLIDE, FLY AND BREATH DEFAULTS AND ONLY MAKE SPECIAL VARIABLES FOR THE ANIMALS THAT CHANGE THEM
 
 	// Dog Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")

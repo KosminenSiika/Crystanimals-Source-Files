@@ -17,6 +17,10 @@ AAnimalCharacter::AAnimalCharacter()
 
 	Hitbox = GetCapsuleComponent();
 
+	// Create CollisionTestVolume used to test if character would overlap with other actors after animal switch
+	CollisionTestVolume = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CollisionTestVolume"));
+	CollisionTestVolume->SetupAttachment(Hitbox);
+
 	// Create First Person Camera and attach it to the characters CapsuleComponent (hitbox)
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCamera->SetupAttachment(Hitbox);
@@ -56,25 +60,31 @@ void AAnimalCharacter::SetRunning(bool IsRunning)
 
 bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
 {
-	// Create temporary CollisionTestVolume to test if character would overlap with other actors after animal switch
-	TObjectPtr<UCapsuleComponent> CollisionTestVolume = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CollisionTestVolume"));
-	CollisionTestVolume->SetupAttachment(Hitbox);
-	CollisionTestVolume->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
-
-	// Add the height difference of the CollisionTestVolume and Hitbox to the Hitbox's world location to get CollisionTestVolume's required location
-	FVector CollisionTestWorldLocation = Hitbox->GetComponentLocation() + (FVector(0, 0, (AnimalSize / 2) - Hitbox->GetScaledCapsuleHalfHeight()));
-	CollisionTestVolume->SetWorldLocation(CollisionTestWorldLocation);
-
-	TArray OverlappingActors = TArray<AActor*>();
-	CollisionTestVolume->GetOverlappingActors(OverlappingActors);
-
-	if (OverlappingActors.IsEmpty())
+	if (CollisionTestVolume)
 	{
-		CollisionTestVolume->DestroyComponent();
-		return true;
+		CollisionTestVolume->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
+
+		// Set the relative location of the CollisionTestVolume to the height difference of the upcoming and current Hitbox
+		// Meaning the relative location will be set where the Hitbox will be after the animal switch
+		CollisionTestVolume->SetRelativeLocation(FVector(0, 0, (AnimalSize / 2) - Hitbox->GetScaledCapsuleHalfHeight()));
+
+		// Check if the CollisionTestVolume is colliding with any actors other than the AnimalCharacter itself
+		TArray OverlappingActors = TArray<AActor*>();
+		CollisionTestVolume->GetOverlappingActors(OverlappingActors);
+		OverlappingActors.Remove(this);
+
+		if (OverlappingActors.IsEmpty())
+		{
+			return true;
+		}
 	}
 
-	CollisionTestVolume->DestroyComponent();
+	if (GEngine) 
+	{
+		// TODO: REPLACE THIS WITH A HUD MESSAGE
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString(TEXT("Collision check failed :(")));
+	}
+
 	return false;
 }
 
@@ -89,9 +99,13 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 	// CanGlide = false;
 	// CanFly = false;
 	// BreathHoldTime = 10;
-	// TELEPORT CAPSULE UP TO NOT CLIP IN THE GROUND
 
-	// Set the size of the capsule component (root component of the character) to the size of the animal
+	// Teleport the Hitbox (root component) up, so the player doesn't get stuck in the ground after animal switch
+	// Add the height difference of the current and upcoming Hitbox to the Hitbox's world location to get the new location
+	FVector NewCapsuleLocation = Hitbox->GetComponentLocation() + FVector(0, 0, (AnimalSize / 2) - Hitbox->GetScaledCapsuleHalfHeight());
+	Hitbox->SetWorldLocation(NewCapsuleLocation);
+
+	// Set the size of the Hitbox (root component) to the size of the animal
 	// All animal sizes are their height in cm, for ease of use in the UE5 editor, hence the magic numbers
 	Hitbox->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
 
@@ -104,38 +118,55 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 	switch (SelectedAnimal)
 	{
 		case EAnimal::Cat:
-			SetStatsByAnimalSize(CatSize);
-			GetCharacterMovement()->JumpZVelocity = CatJumpHeight;
+			if (CheckEnoughSpaceForAnimalSwitch(CatSize))
+			{
+				SetStatsByAnimalSize(CatSize);
+				GetCharacterMovement()->JumpZVelocity = CatJumpHeight;
+			}
 			break;
 
 		case EAnimal::Otter:
-			SetStatsByAnimalSize(OtterSize);
-			SwimSpeed = OtterSwimSpeed;
-			GetCharacterMovement()->MaxSwimSpeed = OtterSwimSpeed;
-			GetCharacterMovement()->JumpZVelocity = OtterJumpHeight;
-			// BreathHoldTime = OtterBreathHoldTime;
+			if (CheckEnoughSpaceForAnimalSwitch(OtterSize))
+			{
+				SetStatsByAnimalSize(OtterSize);
+				SwimSpeed = OtterSwimSpeed;
+				GetCharacterMovement()->MaxSwimSpeed = OtterSwimSpeed;
+				GetCharacterMovement()->JumpZVelocity = OtterJumpHeight;
+				// BreathHoldTime = OtterBreathHoldTime;
+			}
 			break;
 
 		case EAnimal::FlyingSquirrel:
-			SetStatsByAnimalSize(FlyingSquirrelSize);
-			// CanGlide = true;
+			if (CheckEnoughSpaceForAnimalSwitch(FlyingSquirrelSize))
+			{
+				SetStatsByAnimalSize(FlyingSquirrelSize);
+				// CanGlide = true;
+			}
 			break;
 
 		case EAnimal::Jerboa:
-			SetStatsByAnimalSize(JerboaSize);
+			if (CheckEnoughSpaceForAnimalSwitch(JerboaSize))
+			{
+				SetStatsByAnimalSize(JerboaSize);
+			}
 			break;
 
 		case EAnimal::Bird:
-			SetStatsByAnimalSize(BirdSize);
-			GetCharacterMovement()->MaxSwimSpeed = BirdSwimSpeed;
-			GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
-			// CanGlide = true;
-			// CanFly = true;
+			if (CheckEnoughSpaceForAnimalSwitch(BirdSize))
+			{
+				SetStatsByAnimalSize(BirdSize);
+				GetCharacterMovement()->MaxSwimSpeed = BirdSwimSpeed;
+				GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
+				// CanGlide = true;
+				// CanFly = true;
+			}
 			break;
 
 		default:
-			// CHECK IF THERE IS ENOUGH CLEARANCE TO BE ABLE TO SWITCH ANIMAL
-			SetStatsByAnimalSize(DogSize);
+			if (CheckEnoughSpaceForAnimalSwitch(DogSize))
+			{
+				SetStatsByAnimalSize(DogSize);
+			}
 			break;
 	}
 }
