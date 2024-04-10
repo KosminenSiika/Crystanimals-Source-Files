@@ -26,7 +26,7 @@ void AAnimalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SelectAnimal(ECurrentAnimal::Dog);
+	SelectAnimal(EAnimal::Dog);
 	
 }
 
@@ -44,84 +44,72 @@ void AAnimalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
+{
+	// Set the basic stats for the animal based on the size of the animal, magic numbers found by trial and error
+	WalkSpeed = 80 + (3 * AnimalSize);
+	SwimSpeed = 50 + (0.5 * AnimalSize);
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	GetCharacterMovement()->MaxSwimSpeed = SwimSpeed;
+	GetCharacterMovement()->JumpZVelocity = 300 + (2 * AnimalSize);
+	// CanGlide = false;
+	// CanFly = false;
+	// BreathHoldTime = 10;
+	// TELEPORT CAPSULE UP TO NOT CLIP IN THE GROUND
+
+	// Set the size of the capsule component (root component of the character) to the size of the animal
+	// All animal sizes are their height in cm, for ease of use in the UE5 editor, hence the magic numbers
+	GetCapsuleComponent()->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
+
+	// Raise the camera to "eye height" from the centre of the capsule
+	FirstPersonCamera->SetRelativeLocation(FVector(0, 0, AnimalSize / 4));
+}
+
 void AAnimalCharacter::SetRunning(bool IsRunning)
 {
 	bIsRunning = IsRunning;
 
-	GetCharacterMovement()->MaxWalkSpeed = bIsRunning ? SprintSpeedModifier*WalkSpeed : WalkSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = bIsRunning ? SprintSpeedModifier * WalkSpeed : WalkSpeed;
+	GetCharacterMovement()->MaxSwimSpeed = bIsRunning ? SprintSpeedModifier * SwimSpeed : SwimSpeed;
 }
 
-void AAnimalCharacter::SelectAnimal(ECurrentAnimal SelectedAnimal)
+void AAnimalCharacter::SelectAnimal(EAnimal SelectedAnimal)
 {
 	switch (SelectedAnimal)
 	{
-		case ECurrentAnimal::Cat:
-			WalkSpeed = CatWalkSpeed;
-			GetCharacterMovement()->MaxWalkSpeed = CatWalkSpeed;
-			GetCharacterMovement()->MaxSwimSpeed = CatSwimSpeed;
+		case EAnimal::Cat:
+			SetStatsByAnimalSize(CatSize);
 			GetCharacterMovement()->JumpZVelocity = CatJumpHeight;
-			// CanGlide
-			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(CatCharacterSize/4, CatCharacterSize/2, 1);
-			// BreathHoldTime
 			break;
 
-		case ECurrentAnimal::Otter:
-			WalkSpeed = OtterWalkSpeed;
-			GetCharacterMovement()->MaxWalkSpeed = OtterWalkSpeed;
+		case EAnimal::Otter:
+			SetStatsByAnimalSize(OtterSize);
+			SwimSpeed = OtterSwimSpeed;
 			GetCharacterMovement()->MaxSwimSpeed = OtterSwimSpeed;
 			GetCharacterMovement()->JumpZVelocity = OtterJumpHeight;
-			// CanGlide
-			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(OtterCharacterSize/4, OtterCharacterSize/2, 1);
-			// BreathHoldTime
+			// BreathHoldTime = OtterBreathHoldTime;
 			break;
 
-		case ECurrentAnimal::FlyingSquirrel:
-			WalkSpeed = FlyingSquirrelWalkSpeed;
-			GetCharacterMovement()->MaxWalkSpeed = FlyingSquirrelWalkSpeed;
-			GetCharacterMovement()->MaxSwimSpeed = FlyingSquirrelSwimSpeed;
-			GetCharacterMovement()->JumpZVelocity = FlyingSquirrelJumpHeight;
-			// CanGlide
-			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(FlyingSquirrelCharacterSize/4, FlyingSquirrelCharacterSize/2, 1);
-			// BreathHoldTime
+		case EAnimal::FlyingSquirrel:
+			SetStatsByAnimalSize(FlyingSquirrelSize);
+			// CanGlide = true;
 			break;
 
-		case ECurrentAnimal::Jerboa:
-			WalkSpeed = JerboaWalkSpeed;
-			GetCharacterMovement()->MaxWalkSpeed = JerboaWalkSpeed;
-			GetCharacterMovement()->MaxSwimSpeed = JerboaSwimSpeed;
-			GetCharacterMovement()->JumpZVelocity = JerboaJumpHeight;
-			// CanGlide
-			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(JerboaCharacterSize/4, JerboaCharacterSize/2, 1);
-			// BreathHoldTime
+		case EAnimal::Jerboa:
+			SetStatsByAnimalSize(JerboaSize);
 			break;
 
-		case ECurrentAnimal::Bird:
-			WalkSpeed = BirdWalkSpeed;
-			GetCharacterMovement()->MaxWalkSpeed = BirdWalkSpeed;
+		case EAnimal::Bird:
+			SetStatsByAnimalSize(BirdSize);
 			GetCharacterMovement()->MaxSwimSpeed = BirdSwimSpeed;
 			GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
-			// CanGlide
-			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(BirdCharacterSize/4, BirdCharacterSize/2, 1);
-			// BreathHoldTime
+			// CanGlide = true;
+			// CanFly = true;
 			break;
 
 		default:
 			// CHECK IF THERE IS ENOUGH CLEARANCE TO BE ABLE TO SWITCH ANIMAL
-			WalkSpeed = DogWalkSpeed;
-			GetCharacterMovement()->MaxWalkSpeed = DogWalkSpeed;
-			GetCharacterMovement()->MaxSwimSpeed = DogSwimSpeed;
-			GetCharacterMovement()->JumpZVelocity = DogJumpHeight;
-			// CanGlide
-			// CanFly
-			GetCapsuleComponent()->SetCapsuleSize(DogCharacterSize/2, DogCharacterSize/2, 1);
-			FirstPersonCamera->AddRelativeLocation(FVector(0, 0, DogCharacterSize/4));
-			// TELEPORT THE PLAYER A LITTLE UP TO NOT GET STUCK IN THE FLOOR
-			// BreathHoldTime
+			SetStatsByAnimalSize(DogSize);
 			break;
 	}
 }

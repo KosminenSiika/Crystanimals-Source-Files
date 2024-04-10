@@ -10,7 +10,7 @@
 class UCameraComponent;
 
 UENUM(BlueprintType)
-enum class ECurrentAnimal :uint8
+enum class EAnimal :uint8
 {
 	Dog,
 	Cat,
@@ -39,7 +39,7 @@ public:
 	void SetRunning(bool IsRunning);
 
 	UFUNCTION()
-	void SelectAnimal(ECurrentAnimal SelectedAnimal);
+	void SelectAnimal(EAnimal SelectedAnimal);
 
 protected:
 	// Called when the game starts or when spawned
@@ -57,62 +57,32 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Player|General")
 	float SprintSpeedModifier;
 
+	
 	UPROPERTY()
 	float WalkSpeed;
+
+	UPROPERTY()
+	float SwimSpeed;
 
 	
 	// TODO: MAKE WALKSPEED, SWIMSPEED, JUMPHEIGHT, GLIDE, FLY AND BREATH DEFAULTS AND ONLY MAKE SPECIAL VARIABLES FOR THE ANIMALS THAT CHANGE THEM
 
-
-	// Default Dog Stats - editable in UE5 editor
+	// Dog Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
-	float DogWalkSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
-	float DogSwimSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
-	float DogJumpHeight;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
-	bool DogCanGlide;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
-	bool DogCanFly;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
-	float DogCharacterSize;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
-	float DogBreathHoldTime;
+	float DogSize;
 
 
-	// Default Cat Stats - editable in UE5 editor
+	// Cat Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Cat")
-	float CatWalkSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Cat")
-	float CatSwimSpeed;
+	float CatSize;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Cat")
 	float CatJumpHeight;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Cat")
-	bool CatCanGlide;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Cat")
-	bool CatCanFly;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Cat")
-	float CatCharacterSize;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Cat")
-	float CatBreathHoldTime;
-
-
-	// Default Otter Stats - editable in UE5 editor
+	
+	// Otter Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Otter")
-	float OtterWalkSpeed;
+	float OtterSize;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Otter")
 	float OtterSwimSpeed;
@@ -121,83 +91,31 @@ private:
 	float OtterJumpHeight;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Otter")
-	bool OtterCanGlide;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Otter")
-	bool OtterCanFly;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Otter")
-	float OtterCharacterSize;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Otter")
 	float OtterBreathHoldTime;
 
 
-	// Default FlyingSquirrel Stats - editable in UE5 editor
+	// FlyingSquirrel Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|FlyingSquirrel")
-	float FlyingSquirrelWalkSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|FlyingSquirrel")
-	float FlyingSquirrelSwimSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|FlyingSquirrel")
-	float FlyingSquirrelJumpHeight;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|FlyingSquirrel")
-	bool FlyingSquirrelCanGlide;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|FlyingSquirrel")
-	bool FlyingSquirrelCanFly;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|FlyingSquirrel")
-	float FlyingSquirrelCharacterSize;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|FlyingSquirrel")
-	float FlyingSquirrelBreathHoldTime;
+	float FlyingSquirrelSize;
 
 
-	// Default Jerboa Stats - editable in UE5 editor
+	// Jerboa Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Jerboa")
-	float JerboaWalkSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Jerboa")
-	float JerboaSwimSpeed;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Jerboa")
-	float JerboaJumpHeight;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Jerboa")
-	bool JerboaCanGlide;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Jerboa")
-	bool JerboaCanFly;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Jerboa")
-	float JerboaCharacterSize;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Jerboa")
-	float JerboaBreathHoldTime;
+	float JerboaSize;
 
 
-	// Default Bird Stats - editable in UE5 editor
+	// Bird Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
-	float BirdWalkSpeed;
-
+	float BirdSize;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
 	float BirdSwimSpeed;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
 	float BirdJumpHeight;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
-	bool BirdCanGlide;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
-	bool BirdCanFly;
+	UFUNCTION()
+	void SetStatsByAnimalSize(float AnimalSize);
 
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
-	float BirdCharacterSize;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
-	float BirdBreathHoldTime;
 };
