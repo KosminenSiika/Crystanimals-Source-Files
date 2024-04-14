@@ -20,22 +20,25 @@ class CRYSTANIMALS_API AAnimalPlayerController : public APlayerController
 
 public:
 	// The Input Action to map to movement.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputAction> ActionMove = nullptr;
 
 	// The Input Action to map to looking around.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputAction> ActionLook = nullptr;
 
 	// The Input Action to map to jumping.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputAction> ActionJump = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputAction> ActionHoldSprint = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Interaction")
+	TObjectPtr<UInputAction> ActionInteract = nullptr;
+
 	// The Input Mapping Context to use.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Player Input|Character Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
 protected:
@@ -47,6 +50,7 @@ protected:
 	void HandleHoldSprint();
 	void HandleStopHoldingSprint();
 	void HandleJump();
+	void HandleInteract();
 
 private:
 	// Used to store a reference to the InputComponent cast to an EnhancedInputComponent.

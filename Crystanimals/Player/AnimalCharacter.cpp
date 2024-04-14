@@ -5,15 +5,16 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
-	SetActorTickInterval(0.5f);
-	SetActorTickEnabled(true);
+
+	InteractionCheckFrequency = 0.1f;
+	InteractionCheckDistance = 100.0f;
 
 	Hitbox = GetCapsuleComponent();
 
@@ -41,6 +42,12 @@ void AAnimalCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// No need to call PerformInteractionCheck every frame, InteractionCheckFrequency set in constructor
+	if (GetWorld()->TimeSince(InteractionData.LastInteractionCheckTime) > InteractionCheckFrequency)
+	{
+		PerformInteractionCheck();
+	}
+
 }
 
 // Called to bind functionality to input
@@ -48,6 +55,49 @@ void AAnimalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+// Check if the Character is looking at an interactable actor
+void AAnimalCharacter::PerformInteractionCheck()
+{
+	InteractionData.LastInteractionCheckTime = GetWorld()->GetTimeSeconds();
+
+	FVector TraceStart = FirstPersonCamera->GetComponentLocation();
+	FVector TraceEnd = TraceStart + (GetViewRotation().Vector() * InteractionCheckDistance);
+
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 1.0f);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	
+	FHitResult TraceHit;
+
+	// Shoot out a trace in the direction the Character is looking
+	if (GetWorld()->LineTraceSingleByChannel(TraceHit, TraceStart, TraceEnd, ECC_Visibility, QueryParams))
+	{
+		// Check if hit actor implements InteractionInterface
+		if (TraceHit.GetActor()->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
+		{
+			if (TraceHit.GetActor() != InteractionData.CurrentInteractable)
+			{
+				// Show interaction widget on the HUD
+				InteractionData.CurrentInteractable = TraceHit.GetActor();
+				TargetInteractable = TraceHit.GetActor();
+			}
+			return;
+		}
+	}
+	// Hide interaction widget on the HUD
+	InteractionData.CurrentInteractable = nullptr;
+	TargetInteractable = nullptr;
+}
+
+void AAnimalCharacter::Interact()
+{
+	if (IsValid(TargetInteractable.GetObject()))
+	{
+		TargetInteractable->Interact();
+	}
 }
 
 void AAnimalCharacter::SetRunning(bool IsRunning)
@@ -77,28 +127,27 @@ bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
 		{
 			return true;
 		}
-	}
 
-	if (GEngine) 
-	{
 		// TODO: REPLACE THIS WITH A HUD MESSAGE
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString(TEXT("Collision check failed :(")));
+		UE_LOG(LogTemp, Warning, TEXT("Not enough room to switch animal"));
 	}
-
 	return false;
 }
 
 void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 {
 	// Set the basic stats for the animal based on the size of the animal, magic numbers found by trial and error
-	WalkSpeed = 80 + (3 * AnimalSize);
-	SwimSpeed = 50 + (0.5 * AnimalSize);
+	WalkSpeed = 80.0f + (3 * AnimalSize);
+	SwimSpeed = 50.0f + (0.5f * AnimalSize);
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->MaxSwimSpeed = SwimSpeed;
-	GetCharacterMovement()->JumpZVelocity = 300 + (2 * AnimalSize);
+	GetCharacterMovement()->JumpZVelocity = 300.0f + (2 * AnimalSize);
 	// CanGlide = false;
 	// CanFly = false;
 	// BreathHoldTime = 10;
+
+	// Change interaction distance based on the size of the animal
+	InteractionCheckDistance = 65.0f + AnimalSize;
 
 	// Teleport the Hitbox (root component) up, so the player doesn't get stuck in the ground after animal switch
 	// Add the height difference of the current and upcoming Hitbox to the Hitbox's world location to get the new location
@@ -107,7 +156,7 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 
 	// Set the size of the Hitbox (root component) to the size of the animal
 	// All animal sizes are their height in cm, for ease of use in the UE5 editor, hence the magic numbers
-	Hitbox->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
+	Hitbox->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, true);
 
 	// Raise the camera to "eye height" from the centre of the capsule
 	FirstPersonCamera->SetRelativeLocation(FVector(0, 0, AnimalSize / 4));

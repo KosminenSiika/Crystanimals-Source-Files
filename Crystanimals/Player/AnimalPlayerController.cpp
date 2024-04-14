@@ -42,13 +42,18 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 
 	if (ActionJump)
 	{
-		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Triggered, this, &AAnimalPlayerController::HandleJump);
+		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleJump);
 	}
 
 	if (ActionHoldSprint)
 	{
 		EnhancedInputComponent->BindAction(ActionHoldSprint, ETriggerEvent::Triggered, this, &AAnimalPlayerController::HandleHoldSprint);
 		EnhancedInputComponent->BindAction(ActionHoldSprint, ETriggerEvent::Completed, this, &AAnimalPlayerController::HandleStopHoldingSprint);
+	}
+
+	if (ActionInteract)
+	{
+		EnhancedInputComponent->BindAction(ActionInteract, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleInteract);
 	}
 }
 
@@ -107,5 +112,14 @@ void AAnimalPlayerController::HandleJump()
 	if (PlayerCharacter)
 	{
 		PlayerCharacter->Jump();
+	}
+}
+
+void AAnimalPlayerController::HandleInteract()
+{
+	// Make the Player's Character Pawn interact with what they are looking at
+	if (PlayerCharacter)
+	{
+		PlayerCharacter->Interact();
 	}
 }

@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/InteractionInterface.h"
 #include "AnimalCharacter.generated.h"
 
 // Forward Declarations
 class UCameraComponent;
 
-UENUM(BlueprintType)
+UENUM()
 enum class EAnimal :uint8
 {
 	Dog,
@@ -18,6 +19,20 @@ enum class EAnimal :uint8
 	FlyingSquirrel,
 	Jerboa,
 	Bird
+};
+
+USTRUCT()
+struct FInteractionData
+{
+	GENERATED_USTRUCT_BODY()
+
+	FInteractionData() : CurrentInteractable(nullptr), LastInteractionCheckTime(0.0f) {};
+
+	UPROPERTY()
+	TObjectPtr<AActor> CurrentInteractable;
+
+	UPROPERTY()
+	float LastInteractionCheckTime;
 };
 
 UCLASS()
@@ -36,8 +51,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void SetRunning(bool IsRunning);
+	void Interact();
 
+	UFUNCTION()
+	void SetRunning(bool IsRunning);
 
 	// Tries to switch the character to the desired animal
 	UFUNCTION()
@@ -51,14 +68,26 @@ private:
 	UPROPERTY(VisibleAnywhere, Category="Player|Camera")
 	TObjectPtr<UCameraComponent> FirstPersonCamera;
 
-	UPROPERTY(VisibleAnywhere, Category = "Collision")
+	UPROPERTY(VisibleAnywhere, Category = "Player|Collision")
 	TObjectPtr<UCapsuleComponent> Hitbox;
 
-	UPROPERTY(VisibleAnywhere, Category = "Collision")
+	UPROPERTY(VisibleAnywhere, Category = "Player|Collision")
 	TObjectPtr<UCapsuleComponent> CollisionTestVolume;
+	
+	// Interaction
+	UPROPERTY(VisibleAnywhere, Category="Player|Interaction")
+	TScriptInterface<IInteractionInterface> TargetInteractable;
 
+	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
+	float InteractionCheckFrequency;
 
+	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
+	float InteractionCheckDistance;
 
+	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
+	FInteractionData InteractionData;
+
+	// Movement
 	UPROPERTY()
 	bool bIsRunning = false;
 
@@ -70,6 +99,7 @@ private:
 
 	UPROPERTY()
 	float SwimSpeed;
+
 
 	// Dog Specific Stats - editable in UE5 editor
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Dog")
@@ -122,10 +152,11 @@ private:
 	UFUNCTION()
 	void SetStatsByAnimalSize(float AnimalSize);
 
-
 	// Checks if there is room to switch to desired animal
 	// Returns true if switching is possible, otherwise returns false
 	UFUNCTION()
 	bool CheckEnoughSpaceForAnimalSwitch(float AnimalSize);
 
+	UFUNCTION()
+	void PerformInteractionCheck();
 };
