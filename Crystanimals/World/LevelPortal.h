@@ -23,6 +23,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Portal")
 	TObjectPtr<UStaticMeshComponent> Mesh;
 
+	UPROPERTY(EditInstanceOnly, Category = "Portal")
+	FInteractableData InstanceInteractableData;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

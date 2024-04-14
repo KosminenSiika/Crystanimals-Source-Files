@@ -19,6 +19,7 @@ void ACrystalCollectible::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	InteractableData = InstanceInteractableData;
 }
 
 // Called every frame
@@ -30,7 +31,7 @@ void ACrystalCollectible::Tick(float DeltaTime)
 
 void ACrystalCollectible::Interact()
 {
-	// TODO: REPLACE THIS WITH ACTUAL FUNCTIONALITY (DISABLE COLLISION, MAKE INVISIBLE, UPDATE SCORE)
+	// TODO: REPLACE THIS WITH ACTUAL FUNCTIONALITY (DISABLE COLLISION, MAKE INVISIBLE, UPDATE SCORE, SAVE GAME)
 	UE_LOG(LogTemp, Warning, TEXT("Calling Interact override on CrystalCollectible"));
 
 }

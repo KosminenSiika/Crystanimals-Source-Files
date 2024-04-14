@@ -6,6 +6,20 @@
 #include "UObject/Interface.h"
 #include "InteractionInterface.generated.h"
 
+USTRUCT()
+struct FInteractableData
+{
+	GENERATED_USTRUCT_BODY()
+
+	FInteractableData() : Name(FText::GetEmpty()), Action(FText::GetEmpty()) {};
+
+	UPROPERTY(EditInstanceOnly)  
+	FText Name;
+
+	UPROPERTY(EditInstanceOnly)
+	FText Action;
+};
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UInteractionInterface : public UInterface
@@ -22,5 +36,7 @@ class CRYSTANIMALS_API IInteractionInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	FInteractableData InteractableData;
+
 	virtual void Interact();
 };

@@ -18,7 +18,8 @@ AProgressionShop::AProgressionShop()
 void AProgressionShop::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	InteractableData = InstanceInteractableData;
 }
 
 // Called every frame
