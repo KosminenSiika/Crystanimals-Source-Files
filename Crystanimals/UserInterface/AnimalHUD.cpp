@@ -5,6 +5,7 @@
 #include "UserInterface/MainMenu.h"
 #include "UserInterface/AnimalSelectionMenu.h"
 #include "UserInterface/InteractionWidget.h"
+#include "UserInterface/StaticWidgetBase.h"
 #include "Interfaces/InteractionInterface.h"
 
 AAnimalHUD::AAnimalHUD()
@@ -35,6 +36,27 @@ void AAnimalHUD::BeginPlay()
 		InteractionWidget->AddToViewport(-1);
 		InteractionWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
+
+	if (OutOfBoundsWidgetClass)
+	{
+		OutOfBoundsWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), OutOfBoundsWidgetClass);
+		OutOfBoundsWidget->AddToViewport();
+		OutOfBoundsWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (CrosshairClass)
+	{
+		Crosshair = CreateWidget<UStaticWidgetBase>(GetWorld(), CrosshairClass);
+		Crosshair->AddToViewport();
+		Crosshair->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (NewUnlocksWidgetClass)
+	{
+		NewUnlocksWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), NewUnlocksWidgetClass);
+		NewUnlocksWidget->AddToViewport();
+		NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void AAnimalHUD::DisplayMainMenu()
@@ -44,6 +66,7 @@ void AAnimalHUD::DisplayMainMenu()
 		bIsMainMenuVisible = true;
 		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 		HideAnimalSelectionMenu();
+		HideCrosshair();
 	}
 }
 
@@ -53,6 +76,7 @@ void AAnimalHUD::HideMainMenu()
 	{
 		bIsMainMenuVisible = false;
 		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+		DisplayCrosshair();
 	}
 }
 
@@ -96,6 +120,54 @@ void AAnimalHUD::UpdateInteractionWidget(const FInteractableData InteractableDat
 	{
 		InteractionWidget->UpdateWidget(InteractableData);
 		DisplayInteractionWidget();
+	}
+}
+
+void AAnimalHUD::DisplayOutOfBoundsWidget() const
+{
+	if (OutOfBoundsWidget)
+	{
+		OutOfBoundsWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::HideOutOfBoundsWidget() const
+{
+	if (OutOfBoundsWidget)
+	{
+		OutOfBoundsWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayCrosshair() const
+{
+	if (Crosshair)
+	{
+		Crosshair->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::HideCrosshair() const
+{
+	if (Crosshair)
+	{
+		Crosshair->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayNewUnlocksWidget() const
+{
+	if (NewUnlocksWidget)
+	{
+		NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::HideNewUnlocksWidget() const
+{
+	if (NewUnlocksWidget)
+	{
+		NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 

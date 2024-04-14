@@ -3,6 +3,7 @@
 
 #include "MapBoundaries.h"
 #include "Components/BoxComponent.h"
+#include "UserInterface/AnimalHUD.h"
 
 // Sets default values
 AMapBoundaries::AMapBoundaries()
@@ -14,13 +15,15 @@ AMapBoundaries::AMapBoundaries()
 	CollisionVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionVolume"));
 	CollisionVolume->SetupAttachment(RootComponent);
 	CollisionVolume->OnComponentBeginOverlap.AddDynamic(this, &AMapBoundaries::BeginOverlap);
+	CollisionVolume->OnComponentEndOverlap.AddDynamic(this, &AMapBoundaries::EndOverlap);
 }
 
 // Called when the game starts or when spawned
 void AMapBoundaries::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	HUD = Cast<AAnimalHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 }
 
 // Called every frame
@@ -32,11 +35,17 @@ void AMapBoundaries::Tick(float DeltaTime)
 
 void AMapBoundaries::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	// Notify the player through a HUD widget of being too far to find anything 
-
-	if (GEngine)
+	if (HUD)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 20.f, FColor::Red, FString::Printf(TEXT("Player collided with boundary")));
+		HUD->DisplayOutOfBoundsWidget();
+	}
+}
+
+void AMapBoundaries::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (HUD)
+	{
+		HUD->HideOutOfBoundsWidget();
 	}
 }
 

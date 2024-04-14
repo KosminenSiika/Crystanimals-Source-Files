@@ -10,6 +10,7 @@
 class UMainMenu;
 class UAnimalSelectionMenu;
 class UInteractionWidget;
+class UStaticWidgetBase;
 struct FInteractableData;
 
 /**
@@ -29,6 +30,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UInteractionWidget> InteractionWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> OutOfBoundsWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> CrosshairClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> NewUnlocksWidgetClass;
 
 	bool bIsMainMenuVisible;
 	bool bIsAnimalSelectionMenuVisible;
@@ -52,6 +62,21 @@ public:
 	UFUNCTION()
 	void UpdateInteractionWidget(const FInteractableData InteractableData) const;
 
+	UFUNCTION()
+	void DisplayOutOfBoundsWidget() const;
+	UFUNCTION()
+	void HideOutOfBoundsWidget() const;
+
+	UFUNCTION()
+	void DisplayCrosshair() const;
+	UFUNCTION()
+	void HideCrosshair() const;
+
+	UFUNCTION()
+	void DisplayNewUnlocksWidget() const;
+	UFUNCTION()
+	void HideNewUnlocksWidget() const;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -64,5 +89,14 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UInteractionWidget> InteractionWidget;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> OutOfBoundsWidget;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> Crosshair;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> NewUnlocksWidget;
 	
 };
