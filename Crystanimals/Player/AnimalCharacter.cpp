@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
 #include "DrawDebugHelpers.h"
+#include "UserInterface/AnimalHUD.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
@@ -32,6 +33,8 @@ AAnimalCharacter::AAnimalCharacter()
 void AAnimalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HUD = Cast<AAnimalHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
 	SwitchAnimal(EAnimal::Dog);
 	
@@ -65,7 +68,7 @@ void AAnimalCharacter::PerformInteractionCheck()
 	FVector TraceStart = FirstPersonCamera->GetComponentLocation();
 	FVector TraceEnd = TraceStart + (GetViewRotation().Vector() * InteractionCheckDistance);
 
-	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 1.0f);
+	// DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 1.0f);
 
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
@@ -80,14 +83,16 @@ void AAnimalCharacter::PerformInteractionCheck()
 		{
 			if (TraceHit.GetActor() != InteractionData.CurrentInteractable)
 			{
-				// Show interaction widget on the HUD
 				InteractionData.CurrentInteractable = TraceHit.GetActor();
 				TargetInteractable = TraceHit.GetActor();
+				
+				HUD->UpdateInteractionWidget(TargetInteractable->InteractableData);
 			}
 			return;
 		}
 	}
-	// Hide interaction widget on the HUD
+	HUD->HideInteractionWidget();
+
 	InteractionData.CurrentInteractable = nullptr;
 	TargetInteractable = nullptr;
 }

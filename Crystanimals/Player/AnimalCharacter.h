@@ -9,6 +9,7 @@
 
 // Forward Declarations
 class UCameraComponent;
+class AAnimalHUD;
 
 UENUM()
 enum class EAnimal :uint8
@@ -73,6 +74,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Player|Collision")
 	TObjectPtr<UCapsuleComponent> CollisionTestVolume;
+
+	UPROPERTY()
+	TObjectPtr<AAnimalHUD> HUD;
 	
 	// Interaction
 	UPROPERTY(VisibleAnywhere, Category="Player|Interaction")
