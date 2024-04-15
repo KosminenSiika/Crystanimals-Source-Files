@@ -7,6 +7,7 @@
 #include "UserInterface/InteractionWidget.h"
 #include "UserInterface/StaticWidgetBase.h"
 #include "Interfaces/InteractionInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 AAnimalHUD::AAnimalHUD()
 {
@@ -48,7 +49,7 @@ void AAnimalHUD::BeginPlay()
 	{
 		Crosshair = CreateWidget<UStaticWidgetBase>(GetWorld(), CrosshairClass);
 		Crosshair->AddToViewport();
-		Crosshair->SetVisibility(ESlateVisibility::Collapsed);
+		Crosshair->SetVisibility(ESlateVisibility::Visible);
 	}
 
 	if (NewUnlocksWidgetClass)
@@ -67,6 +68,7 @@ void AAnimalHUD::DisplayMainMenu()
 		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 		HideAnimalSelectionMenu();
 		HideCrosshair();
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
 	}
 }
 
@@ -77,6 +79,7 @@ void AAnimalHUD::HideMainMenu()
 		bIsMainMenuVisible = false;
 		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 		DisplayCrosshair();
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
 	}
 }
 
@@ -84,7 +87,6 @@ void AAnimalHUD::DisplayAnimalSelectionMenu()
 {
 	if (AnimalSelectionMenuWidget && !bIsMainMenuVisible)
 	{
-		bIsAnimalSelectionMenuVisible = true;
 		AnimalSelectionMenuWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
@@ -93,7 +95,6 @@ void AAnimalHUD::HideAnimalSelectionMenu()
 {
 	if (AnimalSelectionMenuWidget)
 	{
-		bIsAnimalSelectionMenuVisible = false;
 		AnimalSelectionMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

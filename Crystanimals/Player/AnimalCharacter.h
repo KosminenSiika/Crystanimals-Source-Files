@@ -55,6 +55,9 @@ public:
 	void Interact();
 
 	UFUNCTION()
+	bool OpenCloseMainMenu();
+
+	UFUNCTION()
 	void SetRunning(bool IsRunning);
 
 	// Tries to switch the character to the desired animal

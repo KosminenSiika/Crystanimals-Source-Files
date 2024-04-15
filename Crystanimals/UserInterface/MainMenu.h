@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "MainMenu.generated.h"
 
+class UButton;
+
 /**
  * 
  */
@@ -15,8 +17,16 @@ class CRYSTANIMALS_API UMainMenu : public UUserWidget
 	GENERATED_BODY()
 
 private:
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UButton> ResetButton;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UButton> ExitButton;
+
 	UFUNCTION()
 	void ResetGameProgress();
+	UFUNCTION()
 	void ExitGame();
 	
+	virtual void NativeConstruct() override;
 };

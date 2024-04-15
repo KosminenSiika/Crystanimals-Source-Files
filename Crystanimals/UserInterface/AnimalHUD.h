@@ -41,7 +41,6 @@ public:
 	TSubclassOf<UStaticWidgetBase> NewUnlocksWidgetClass;
 
 	bool bIsMainMenuVisible;
-	bool bIsAnimalSelectionMenuVisible;
 
 	AAnimalHUD();
 

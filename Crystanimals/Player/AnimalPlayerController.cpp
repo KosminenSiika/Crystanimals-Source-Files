@@ -55,6 +55,11 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 	{
 		EnhancedInputComponent->BindAction(ActionInteract, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleInteract);
 	}
+
+	if (ActionOpenCloseMainMenu)
+	{
+		EnhancedInputComponent->BindAction(ActionOpenCloseMainMenu, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleOpenCloseMainMenu);
+	}
 }
 
 void AAnimalPlayerController::OnUnPossess()
@@ -121,5 +126,22 @@ void AAnimalPlayerController::HandleInteract()
 	if (PlayerCharacter)
 	{
 		PlayerCharacter->Interact();
+	}
+}
+
+void AAnimalPlayerController::HandleOpenCloseMainMenu()
+{
+	if (PlayerCharacter)
+	{
+		if (PlayerCharacter->OpenCloseMainMenu())
+		{
+			bShowMouseCursor = true;
+			bEnableClickEvents = true;
+		} 
+		else
+		{
+			bShowMouseCursor = false;
+			bEnableClickEvents = false;
+		}
 	}
 }
