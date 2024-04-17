@@ -95,6 +95,7 @@ void AAnimalHUD::DisplayAnimalSelectionMenu()
 	if (AnimalSelectionMenuWidget && !bIsMainMenuVisible)
 	{
 		AnimalSelectionMenuWidget->SetVisibility(ESlateVisibility::Visible);
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
 	}
 }
 
@@ -103,6 +104,7 @@ void AAnimalHUD::HideAnimalSelectionMenu()
 	if (AnimalSelectionMenuWidget)
 	{
 		AnimalSelectionMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
 	}
 }
 

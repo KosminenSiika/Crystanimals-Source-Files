@@ -122,6 +122,18 @@ bool AAnimalCharacter::OpenCloseMainMenu()
 	}
 }
 
+void AAnimalCharacter::OpenCloseAnimalSelectionMenu(bool ShouldOpen)
+{
+	if (ShouldOpen)
+	{
+		HUD->DisplayAnimalSelectionMenu();
+	}
+	else
+	{
+		HUD->HideAnimalSelectionMenu();
+	}
+}
+
 void AAnimalCharacter::SetRunning(bool IsRunning)
 {
 	bIsRunning = IsRunning;

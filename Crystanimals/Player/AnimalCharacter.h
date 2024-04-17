@@ -58,6 +58,9 @@ public:
 	bool OpenCloseMainMenu();
 
 	UFUNCTION()
+	void OpenCloseAnimalSelectionMenu(bool ShouldOpen);
+
+	UFUNCTION()
 	void SetRunning(bool IsRunning);
 
 	// Tries to switch the character to the desired animal
@@ -80,7 +83,7 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<AAnimalHUD> HUD;
-	
+
 	// Interaction
 	UPROPERTY(VisibleAnywhere, Category="Player|Interaction")
 	TScriptInterface<IInteractionInterface> TargetInteractable;

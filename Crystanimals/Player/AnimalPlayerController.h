@@ -40,6 +40,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Menu")
 	TObjectPtr<UInputAction> ActionOpenCloseMainMenu = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Menu")
+	TObjectPtr<UInputAction> ActionOpenCloseAnimalSelectionMenu = nullptr;
+
 	// The Input Mapping Context to use.
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
@@ -55,6 +58,8 @@ protected:
 	void HandleJump();
 	void HandleInteract();
 	void HandleOpenCloseMainMenu();
+	void HandleOpenAnimalSelectionMenu();
+	void HandleCloseAnimalSelectionMenu();
 
 private:
 	// Used to store a reference to the InputComponent cast to an EnhancedInputComponent.

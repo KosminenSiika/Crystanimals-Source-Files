@@ -6,6 +6,8 @@
 
 void UMainMenu::NativeConstruct()
 {
+	Super::NativeConstruct();
+
 	if (ResetButton)
 	{
 		ResetButton->OnClicked.AddDynamic(this, &UMainMenu::ResetGameProgress);
