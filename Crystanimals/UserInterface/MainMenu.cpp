@@ -2,6 +2,7 @@
 
 
 #include "UserInterface/MainMenu.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Components/Button.h"
 
 void UMainMenu::NativeConstruct()
@@ -28,7 +29,7 @@ void UMainMenu::ResetGameProgress()
 
 void UMainMenu::ExitGame()
 {
-	// REPLACE WITH FUNCTIONALITY TO EXIT GAME
-	UE_LOG(LogTemp, Warning, TEXT("Clicked on Exit Button"));
+	// ADD AN "ARE YOU SURE?" QUERY BEFORE EXITING
+	UKismetSystemLibrary::QuitGame(GetWorld(), GetWorld()->GetFirstPlayerController(), EQuitPreference::Quit, false);
 }
 
