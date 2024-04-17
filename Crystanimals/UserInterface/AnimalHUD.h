@@ -22,6 +22,8 @@ class CRYSTANIMALS_API AAnimalHUD : public AHUD
 	GENERATED_BODY()
 
 public:
+
+	// These are defined in the editor as WidgetBlueprints with actual graphics
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UMainMenu> MainMenuClass;
 
@@ -39,6 +41,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UStaticWidgetBase> NewUnlocksWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> NotEnoughSpaceWidgetClass;
 
 	bool bIsMainMenuVisible;
 
@@ -76,6 +81,12 @@ public:
 	UFUNCTION()
 	void HideNewUnlocksWidget() const;
 
+	UFUNCTION()
+	void DisplayNotEnoughSpaceWidget() const;
+
+	UFUNCTION()
+	void HideNotEnoughSpaceWidget() const;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -97,5 +108,8 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UStaticWidgetBase> NewUnlocksWidget;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> NotEnoughSpaceWidget;
 	
 };

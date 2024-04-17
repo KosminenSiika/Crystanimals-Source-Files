@@ -58,6 +58,13 @@ void AAnimalHUD::BeginPlay()
 		NewUnlocksWidget->AddToViewport();
 		NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
+
+	if (NotEnoughSpaceWidgetClass)
+	{
+		NotEnoughSpaceWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), NotEnoughSpaceWidgetClass);
+		NotEnoughSpaceWidget->AddToViewport();
+		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void AAnimalHUD::DisplayMainMenu()
@@ -169,6 +176,29 @@ void AAnimalHUD::HideNewUnlocksWidget() const
 	if (NewUnlocksWidget)
 	{
 		NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayNotEnoughSpaceWidget() const
+{
+	if (NotEnoughSpaceWidget)
+	{
+		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Visible);
+
+		FTimerHandle TimerHandle;
+		GetWorldTimerManager().SetTimer(TimerHandle,
+			this,
+			&AAnimalHUD::HideNotEnoughSpaceWidget,
+			3.0f,
+			false);
+	}
+}
+
+void AAnimalHUD::HideNotEnoughSpaceWidget() const
+{
+	if (NotEnoughSpaceWidget)
+	{
+		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 

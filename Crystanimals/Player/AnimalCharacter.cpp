@@ -150,8 +150,7 @@ bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
 			return true;
 		}
 
-		// TODO: REPLACE THIS WITH A HUD MESSAGE
-		UE_LOG(LogTemp, Warning, TEXT("Not enough room to switch animal"));
+		HUD->DisplayNotEnoughSpaceWidget();
 	}
 	return false;
 }
