@@ -7,8 +7,7 @@
 #include "AnimalSelectionMenu.generated.h"
 
 // Forward Declarations
-class UButton;
-class AAnimalCharacter;
+class UAnimalButtonWidget;
 
 /**
  * 
@@ -18,40 +17,30 @@ class CRYSTANIMALS_API UAnimalSelectionMenu : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION()
+	void UpdateButtons(int Score);
+
 private:
-	UPROPERTY()
-	TObjectPtr<AAnimalCharacter> PlayerCharacter;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UAnimalButtonWidget> DogButton;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> DogButton;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UAnimalButtonWidget> CatButton;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> CatButton;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UAnimalButtonWidget> OtterButton;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> OtterButton;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UAnimalButtonWidget> FlyingSquirrelButton;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> FlyingSquirrelButton;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UAnimalButtonWidget> JerboaButton;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> JerboaButton;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	TObjectPtr<UAnimalButtonWidget> BirdButton;
 
-	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> BirdButton;
-
-	UFUNCTION()
-	void SwitchToDog();
-	UFUNCTION()
-	void SwitchToCat();
-	UFUNCTION()
-	void SwitchToOtter();
-	UFUNCTION()
-	void SwitchToFlyingSquirrel();
-	UFUNCTION()
-	void SwitchToJerboa();
-	UFUNCTION()
-	void SwitchToBird();
+	void ToggleButtonHittable(UAnimalButtonWidget* Button, bool IsHittable);
 
 	virtual void NativeConstruct() override;
 };

@@ -64,7 +64,6 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 	if (ActionOpenCloseAnimalSelectionMenu)
 	{
 		EnhancedInputComponent->BindAction(ActionOpenCloseAnimalSelectionMenu, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleOpenAnimalSelectionMenu);
-		EnhancedInputComponent->BindAction(ActionOpenCloseAnimalSelectionMenu, ETriggerEvent::Completed, this, &AAnimalPlayerController::HandleCloseAnimalSelectionMenu);
 	}
 }
 
@@ -143,11 +142,17 @@ void AAnimalPlayerController::HandleOpenCloseMainMenu()
 		{
 			bShowMouseCursor = true;
 			bEnableClickEvents = true;
+			SetInputMode(FInputModeGameAndUI());
+
+			int x, y;
+			GetViewportSize(x, y);
+			SetMouseLocation(x / 2.0f, y / 2.0f);
 		} 
 		else
 		{
 			bShowMouseCursor = false;
 			bEnableClickEvents = false;
+			SetInputMode(FInputModeGameOnly());
 		}
 	}
 }
@@ -159,6 +164,11 @@ void AAnimalPlayerController::HandleOpenAnimalSelectionMenu()
 		PlayerCharacter->OpenCloseAnimalSelectionMenu(true);
 		bShowMouseCursor = true;
 		bEnableClickEvents = true;
+		SetInputMode(FInputModeUIOnly());
+		
+		int x, y;
+		GetViewportSize(x, y);
+		SetMouseLocation(x/2.0f, y/2.0f);
 	}
 }
 
@@ -169,5 +179,6 @@ void AAnimalPlayerController::HandleCloseAnimalSelectionMenu()
 		PlayerCharacter->OpenCloseAnimalSelectionMenu(false);
 		bShowMouseCursor = false;
 		bEnableClickEvents = false;
+		SetInputMode(FInputModeGameOnly());
 	}
 }

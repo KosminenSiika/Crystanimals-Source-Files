@@ -11,6 +11,8 @@
 
 AAnimalHUD::AAnimalHUD()
 {
+	// GameInstance->OnScoreUpdated
+	// GameInstance->OnUnlocksClaimed			called from ProgressionShop???
 }
 
 void AAnimalHUD::BeginPlay()
@@ -48,7 +50,7 @@ void AAnimalHUD::BeginPlay()
 	if (CrosshairClass)
 	{
 		Crosshair = CreateWidget<UStaticWidgetBase>(GetWorld(), CrosshairClass);
-		Crosshair->AddToViewport();
+		Crosshair->AddToViewport(0);
 		Crosshair->SetVisibility(ESlateVisibility::Visible);
 	}
 
@@ -191,7 +193,7 @@ void AAnimalHUD::DisplayNotEnoughSpaceWidget() const
 		GetWorldTimerManager().SetTimer(TimerHandle,
 			this,
 			&AAnimalHUD::HideNotEnoughSpaceWidget,
-			3.0f,
+			1.5f,
 			false);
 	}
 }

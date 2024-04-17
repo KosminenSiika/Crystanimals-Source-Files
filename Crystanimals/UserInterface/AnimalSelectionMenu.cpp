@@ -3,75 +3,77 @@
 
 #include "UserInterface/AnimalSelectionMenu.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 #include "Player/AnimalCharacter.h"
+#include "UserInterface/AnimalButtonWidget.h"
+
 
 void UAnimalSelectionMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	PlayerCharacter = Cast<AAnimalCharacter>(GetOwningPlayerPawn());
-	checkf(PlayerCharacter, TEXT("AnimalSelectionMenu could not get a reference to the PlayerCharacter"));
+	// REPLACE WITH CALL FROM HUD UPON ONSCOREUPDATED
+	UpdateButtons(80);
 
-	if (DogButton)
-	{
-		DogButton->OnClicked.AddDynamic(this, &UAnimalSelectionMenu::SwitchToDog);
-	}
-
-	if (CatButton)
-	{
-		CatButton->OnClicked.AddDynamic(this, &UAnimalSelectionMenu::SwitchToCat);
-	}
-
-	if (OtterButton)
-	{
-		OtterButton->OnClicked.AddDynamic(this, &UAnimalSelectionMenu::SwitchToOtter);
-	}
-
-	if (FlyingSquirrelButton)
-	{
-		FlyingSquirrelButton->OnClicked.AddDynamic(this, &UAnimalSelectionMenu::SwitchToFlyingSquirrel);
-	}
-
-	if (JerboaButton)
-	{
-		JerboaButton->OnClicked.AddDynamic(this, &UAnimalSelectionMenu::SwitchToJerboa);
-	}
-
-	if (BirdButton)
-	{
-		BirdButton->OnClicked.AddDynamic(this, &UAnimalSelectionMenu::SwitchToBird);
-	}
-
+	// The editor absolutely did not let me set values in the graphical widget interface, 
+	// so they just have to be set here...
+	DogButton->AnimalName->SetText(FText::FromString("Dog"));
+	DogButton->SetToolTipText(FText::FromString("Just a cute dog"));
+	CatButton->AnimalName->SetText(FText::FromString("Cat"));
+	CatButton->SetToolTipText(FText::FromString("Can jump really high"));
+	OtterButton->AnimalName->SetText(FText::FromString("Otter"));
+	OtterButton->SetToolTipText(FText::FromString("Can hold breath for longer and swim a lot faster"));
+	FlyingSquirrelButton->AnimalName->SetText(FText::FromString("Flying Squirrel"));
+	FlyingSquirrelButton->SetToolTipText(FText::FromString("Can glide down from high places"));
+	JerboaButton->AnimalName->SetText(FText::FromString("Jerboa"));
+	JerboaButton->SetToolTipText(FText::FromString("Is tiny, so can fit in places others cannot"));
+	BirdButton->AnimalName->SetText(FText::FromString("Bird"));
+	BirdButton->SetToolTipText(FText::FromString("Can FLY! The sky is the limit"));
 }
 
-void UAnimalSelectionMenu::SwitchToDog()
+void UAnimalSelectionMenu::ToggleButtonHittable(UAnimalButtonWidget* Button, bool IsHittable)
 {
-	PlayerCharacter->SwitchAnimal(EAnimal::Dog);
+	if (IsHittable)
+	{
+		Button->SetGreyMaskVisibility(false);
+		Button->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		Button->SetGreyMaskVisibility(true);
+		Button->SetVisibility(ESlateVisibility::HitTestInvisible);
+	}
 }
 
-void UAnimalSelectionMenu::SwitchToCat()
+void UAnimalSelectionMenu::UpdateButtons(int Score)
 {
-	PlayerCharacter->SwitchAnimal(EAnimal::Cat);
+	DogButton->SetGreyMaskVisibility(false);
+
+	ToggleButtonHittable(CatButton, false);
+	ToggleButtonHittable(OtterButton, false);
+	ToggleButtonHittable(FlyingSquirrelButton, false);
+	ToggleButtonHittable(JerboaButton, false);
+
+	BirdButton->SetVisibility(ESlateVisibility::Collapsed);
+
+	if (Score >= 10)
+	{
+		ToggleButtonHittable(CatButton, true);
+	}
+	if (Score >= 30)
+	{
+		ToggleButtonHittable(OtterButton, true);
+	}
+	if (Score >= 50)
+	{
+		ToggleButtonHittable(FlyingSquirrelButton, true);
+	}
+	if (Score >= 60)
+	{
+		ToggleButtonHittable(JerboaButton, true);
+	}
+	if (Score >= 80)
+	{
+		ToggleButtonHittable(BirdButton, true);
+	}
 }
-
-void UAnimalSelectionMenu::SwitchToOtter()
-{
-	PlayerCharacter->SwitchAnimal(EAnimal::Otter);
-}
-
-void UAnimalSelectionMenu::SwitchToFlyingSquirrel()
-{
-	PlayerCharacter->SwitchAnimal(EAnimal::FlyingSquirrel);
-}
-
-void UAnimalSelectionMenu::SwitchToJerboa()
-{
-	PlayerCharacter->SwitchAnimal(EAnimal::Jerboa);
-}
-
-void UAnimalSelectionMenu::SwitchToBird()
-{
-	PlayerCharacter->SwitchAnimal(EAnimal::Bird);
-}
-
-
