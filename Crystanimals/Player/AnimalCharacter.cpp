@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "DrawDebugHelpers.h"
 #include "UserInterface/AnimalHUD.h"
+#include "Core/TreasureGameInstance.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
@@ -34,11 +35,13 @@ void AAnimalCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	HUD = Cast<AAnimalHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	HUD = GetWorld()->GetFirstPlayerController()->GetHUD<AAnimalHUD>();
 	checkf(HUD, TEXT("AnimalCharacter unable to get reference to HUD"));
 
-	SwitchAnimal(EAnimal::Dog);
-	
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("AnimalCharacter unable to get reference to GameInstance"));
+
+	SwitchAnimal(GameInstance->CurrentAnimal);
 }
 
 // Called every frame
@@ -208,6 +211,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 			{
 				SetStatsByAnimalSize(CatSize);
 				GetCharacterMovement()->JumpZVelocity = CatJumpHeight;
+				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
 
@@ -219,6 +223,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				GetCharacterMovement()->MaxSwimSpeed = OtterSwimSpeed;
 				GetCharacterMovement()->JumpZVelocity = OtterJumpHeight;
 				// BreathHoldTime = OtterBreathHoldTime;
+				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
 
@@ -227,6 +232,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 			{
 				SetStatsByAnimalSize(FlyingSquirrelSize);
 				// CanGlide = true;
+				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
 
@@ -234,6 +240,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 			if (CheckEnoughSpaceForAnimalSwitch(JerboaSize))
 			{
 				SetStatsByAnimalSize(JerboaSize);
+				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
 
@@ -245,6 +252,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
 				// CanGlide = true;
 				// CanFly = true;
+				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
 
@@ -252,6 +260,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 			if (CheckEnoughSpaceForAnimalSwitch(DogSize))
 			{
 				SetStatsByAnimalSize(DogSize);
+				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
 	}
