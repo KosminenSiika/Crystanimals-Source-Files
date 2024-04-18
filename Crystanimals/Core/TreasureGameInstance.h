@@ -32,7 +32,11 @@ public:
 	UPROPERTY()
 	float MouseSens;
 
+	UPROPERTY()
 	FScoreUpdated OnScoreUpdated;
+
+	UFUNCTION()
+	void ChangeRealm(FName RealmName);
 
 private:
 	virtual void OnStart() override;

@@ -2,6 +2,7 @@
 
 
 #include "World/LevelPortal.h"
+#include "Core/TreasureGameInstance.h"
 
 // Sets default values
 ALevelPortal::ALevelPortal()
@@ -18,6 +19,9 @@ ALevelPortal::ALevelPortal()
 void ALevelPortal::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("LevelPortal unable to get reference to GameInstance"));
 	
 	InteractableData = InstanceInteractableData;
 }
@@ -31,8 +35,13 @@ void ALevelPortal::Tick(float DeltaTime)
 
 void ALevelPortal::Interact()
 {
-	// TODO: REPLACE THIS WITH ACTUAL FUNCTIONALITY (CHANGE LEVEL/"REALM")
-	UE_LOG(LogTemp, Warning, TEXT("Calling Interact override on LevelPortal"));
-
+	if (!DestinationRealm.IsNone())
+	{
+		GameInstance->ChangeRealm(DestinationRealm);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DestinationRealm has not been set for this actor"));
+	}
 }
 

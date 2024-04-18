@@ -7,6 +7,9 @@
 #include "Interfaces/InteractionInterface.h"
 #include "LevelPortal.generated.h"
 
+// Forward Declarations
+class UTreasureGameInstance;
+
 UCLASS()
 class CRYSTANIMALS_API ALevelPortal : public AActor, public IInteractionInterface
 {
@@ -25,6 +28,12 @@ protected:
 
 	UPROPERTY(EditInstanceOnly, Category = "Portal")
 	FInteractableData InstanceInteractableData;
+
+	UPROPERTY(EditInstanceOnly, Category = "Portal")
+	FName DestinationRealm;
+
+	UPROPERTY()
+	TObjectPtr<UTreasureGameInstance> GameInstance;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

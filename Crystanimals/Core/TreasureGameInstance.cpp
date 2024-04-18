@@ -3,6 +3,7 @@
 
 #include "Core/TreasureGameInstance.h"
 #include "Player/AnimalCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 void UTreasureGameInstance::OnStart()
 {
@@ -25,4 +26,9 @@ void UTreasureGameInstance::OnStart()
 	bIsTrapdoorOpen = false;
 
 	MouseSens = 1.0f;
+}
+
+void UTreasureGameInstance::ChangeRealm(FName RealmName)
+{
+	UGameplayStatics::OpenLevel(this, RealmName);
 }

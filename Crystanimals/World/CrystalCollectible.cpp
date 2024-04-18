@@ -23,6 +23,11 @@ void ACrystalCollectible::BeginPlay()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("CrystalCollectible unable to get reference to GameInstance"));
 
+	if (CrystalID.IsEmpty())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("CrystalID has not been set for this actor!!!"));
+	}
+
 	// Checks the array in GameInstance whether the crystal should exist or not (has it already been picked up)
 	if (!GameInstance->ExistingCrystals.Contains(CrystalID))
 	{
