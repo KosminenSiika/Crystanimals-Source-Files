@@ -35,7 +35,7 @@ void AAnimalCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	HUD = Cast<AAnimalHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
-	checkf(HUD, TEXT("Unable to get reference to HUD"));
+	checkf(HUD, TEXT("AnimalCharacter unable to get reference to HUD"));
 
 	SwitchAnimal(EAnimal::Dog);
 	
@@ -122,15 +122,19 @@ bool AAnimalCharacter::OpenCloseMainMenu()
 	}
 }
 
-void AAnimalCharacter::OpenCloseAnimalSelectionMenu(bool ShouldOpen)
+// Return value tells the AnimalPlayerController whether or not 
+// it should show the mouse cursor and enable click events
+bool AAnimalCharacter::OpenCloseAnimalSelectionMenu()
 {
-	if (ShouldOpen)
+	if (HUD->bIsAnimalSelectionMenuVisible)
 	{
-		HUD->DisplayAnimalSelectionMenu();
+		HUD->HideAnimalSelectionMenu();
+		return false;
 	}
 	else
 	{
-		HUD->HideAnimalSelectionMenu();
+		HUD->DisplayAnimalSelectionMenu();
+		return true;
 	}
 }
 

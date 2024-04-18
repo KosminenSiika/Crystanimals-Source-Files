@@ -47,7 +47,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
-	void HandleCloseAnimalSelectionMenu();
+	void HandleOpenCloseAnimalSelectionMenu();
 
 protected:
 	virtual void OnPossess(APawn* aPawn) override;
@@ -60,7 +60,6 @@ protected:
 	void HandleJump();
 	void HandleInteract();
 	void HandleOpenCloseMainMenu();
-	void HandleOpenAnimalSelectionMenu();
 
 private:
 	// Used to store a reference to the InputComponent cast to an EnhancedInputComponent.

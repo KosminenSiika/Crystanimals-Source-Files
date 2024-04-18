@@ -58,7 +58,7 @@ public:
 	bool OpenCloseMainMenu();
 
 	UFUNCTION()
-	void OpenCloseAnimalSelectionMenu(bool ShouldOpen);
+	bool OpenCloseAnimalSelectionMenu();
 
 	UFUNCTION()
 	void SetRunning(bool IsRunning);

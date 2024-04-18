@@ -24,48 +24,46 @@ void UAnimalButtonWidget::NativeConstruct()
 
 void UAnimalButtonWidget::SwitchToAnimal()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Pressed AnimalButton"))
-
 	if (PlayerCharacter)
 	{
 		if (DesiredAnimal.ToString() == FString("Dog"))
 		{
-			PlayerController->HandleCloseAnimalSelectionMenu();
+			PlayerController->HandleOpenCloseAnimalSelectionMenu();
 			PlayerCharacter->SwitchAnimal(EAnimal::Dog);
 			return;
 		}
 
 		if (DesiredAnimal.ToString() == FString("Cat"))
 		{
-			PlayerController->HandleCloseAnimalSelectionMenu();
+			PlayerController->HandleOpenCloseAnimalSelectionMenu();
 			PlayerCharacter->SwitchAnimal(EAnimal::Cat);
 			return;
 		}
 
 		if (DesiredAnimal.ToString() == FString("Otter"))
 		{
-			PlayerController->HandleCloseAnimalSelectionMenu();
+			PlayerController->HandleOpenCloseAnimalSelectionMenu();
 			PlayerCharacter->SwitchAnimal(EAnimal::Otter);
 			return;
 		}
 
 		if (DesiredAnimal.ToString() == FString("FlyingSquirrel"))
 		{
-			PlayerController->HandleCloseAnimalSelectionMenu();
+			PlayerController->HandleOpenCloseAnimalSelectionMenu();
 			PlayerCharacter->SwitchAnimal(EAnimal::FlyingSquirrel);
 			return;
 		}
 
 		if (DesiredAnimal.ToString() == FString("Jerboa"))
 		{
-			PlayerController->HandleCloseAnimalSelectionMenu();
+			PlayerController->HandleOpenCloseAnimalSelectionMenu();
 			PlayerCharacter->SwitchAnimal(EAnimal::Jerboa);
 			return;
 		}
 
 		if (DesiredAnimal.ToString() == FString("Bird"))
 		{
-			PlayerController->HandleCloseAnimalSelectionMenu();
+			PlayerController->HandleOpenCloseAnimalSelectionMenu();
 			PlayerCharacter->SwitchAnimal(EAnimal::Bird);
 			return;
 		}

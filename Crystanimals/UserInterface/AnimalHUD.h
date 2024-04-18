@@ -46,6 +46,7 @@ public:
 	TSubclassOf<UStaticWidgetBase> NotEnoughSpaceWidgetClass;
 
 	bool bIsMainMenuVisible;
+	bool bIsAnimalSelectionMenuVisible;
 
 	AAnimalHUD();
 
