@@ -47,6 +47,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
+	UPROPERTY()
+	float MouseSens;
+
 	void HandleOpenCloseAnimalSelectionMenu();
 
 protected:

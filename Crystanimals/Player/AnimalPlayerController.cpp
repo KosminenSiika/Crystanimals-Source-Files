@@ -10,6 +10,9 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 {
 	Super::OnPossess(aPawn);
 
+	// TODO: CHANGE TO GET SENS FROM GAMEINSTANCE
+	MouseSens = 1.0f;
+
 	// Store a reference to the Player's Pawn.
 	PlayerCharacter = Cast<AAnimalCharacter>(aPawn);
 	checkf(PlayerCharacter, TEXT("AAnimalController derived classes should only possess AAnimalCharacter derived pawns"));
@@ -81,8 +84,8 @@ void AAnimalPlayerController::HandleLook(const FInputActionValue& InputActionVal
 	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
 
 	// Add yaw and pitch input to controller
-	AddYawInput(LookAxisVector.X);
-	AddPitchInput(LookAxisVector.Y);
+	AddYawInput(LookAxisVector.X * MouseSens);
+	AddPitchInput(LookAxisVector.Y * MouseSens);
 }
 
 void AAnimalPlayerController::HandleMove(const FInputActionValue& InputActionValue)

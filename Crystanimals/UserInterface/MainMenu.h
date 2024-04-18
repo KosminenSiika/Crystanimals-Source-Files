@@ -8,6 +8,8 @@
 
 // Forward Declarations
 class UButton;
+class UEditableTextBox;
+class AAnimalPlayerController;
 
 /**
  * 
@@ -24,10 +26,18 @@ private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> ExitButton;
 
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UEditableTextBox> MouseSensBox;
+
+	UPROPERTY()
+	TObjectPtr<AAnimalPlayerController> PlayerController;
+
 	UFUNCTION()
 	void ResetGameProgress();
 	UFUNCTION()
 	void ExitGame();
+	UFUNCTION()
+	void ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType);
 	
 	virtual void NativeConstruct() override;
 };
