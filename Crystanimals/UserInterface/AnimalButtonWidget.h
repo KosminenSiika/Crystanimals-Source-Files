@@ -12,6 +12,7 @@ class UBorder;
 class UTextBlock;
 class AAnimalCharacter;
 class AAnimalPlayerController;
+enum class EAnimal : uint8;
 
 /**
  * 
@@ -23,7 +24,7 @@ class CRYSTANIMALS_API UAnimalButtonWidget : public UUserWidget
 	
 public:
 	UPROPERTY(EditInstanceOnly, Category = "Animal")
-	FText DesiredAnimal;
+	EAnimal DesiredAnimal;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UTextBlock> AnimalName;

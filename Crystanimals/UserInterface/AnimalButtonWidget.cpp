@@ -24,51 +24,10 @@ void UAnimalButtonWidget::NativeConstruct()
 
 void UAnimalButtonWidget::SwitchToAnimal()
 {
-	if (PlayerCharacter)
+	if (PlayerCharacter && PlayerController)
 	{
-		if (DesiredAnimal.ToString() == FString("Dog"))
-		{
-			PlayerController->HandleOpenCloseAnimalSelectionMenu();
-			PlayerCharacter->SwitchAnimal(EAnimal::Dog);
-			return;
-		}
-
-		if (DesiredAnimal.ToString() == FString("Cat"))
-		{
-			PlayerController->HandleOpenCloseAnimalSelectionMenu();
-			PlayerCharacter->SwitchAnimal(EAnimal::Cat);
-			return;
-		}
-
-		if (DesiredAnimal.ToString() == FString("Otter"))
-		{
-			PlayerController->HandleOpenCloseAnimalSelectionMenu();
-			PlayerCharacter->SwitchAnimal(EAnimal::Otter);
-			return;
-		}
-
-		if (DesiredAnimal.ToString() == FString("FlyingSquirrel"))
-		{
-			PlayerController->HandleOpenCloseAnimalSelectionMenu();
-			PlayerCharacter->SwitchAnimal(EAnimal::FlyingSquirrel);
-			return;
-		}
-
-		if (DesiredAnimal.ToString() == FString("Jerboa"))
-		{
-			PlayerController->HandleOpenCloseAnimalSelectionMenu();
-			PlayerCharacter->SwitchAnimal(EAnimal::Jerboa);
-			return;
-		}
-
-		if (DesiredAnimal.ToString() == FString("Bird"))
-		{
-			PlayerController->HandleOpenCloseAnimalSelectionMenu();
-			PlayerCharacter->SwitchAnimal(EAnimal::Bird);
-			return;
-		}
-
-		UE_LOG(LogTemp, Warning, TEXT("AnimalButton didn't switch to any animal, check DesiredAnimal spellings"))
+		PlayerController->HandleOpenCloseAnimalSelectionMenu();
+		PlayerCharacter->SwitchAnimal(DesiredAnimal);
 	}
 }
 
