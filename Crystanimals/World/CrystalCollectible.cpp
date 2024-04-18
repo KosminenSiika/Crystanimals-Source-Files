@@ -2,6 +2,7 @@
 
 
 #include "World/CrystalCollectible.h"
+#include "Core/TreasureGameInstance.h"
 
 // Sets default values
 ACrystalCollectible::ACrystalCollectible()
@@ -18,6 +19,15 @@ ACrystalCollectible::ACrystalCollectible()
 void ACrystalCollectible::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("CrystalCollectible unable to get reference to GameInstance"));
+
+	// Checks the array in GameInstance whether the crystal should exist or not (has it already been picked up)
+	if (!GameInstance->ExistingCrystals.Contains(CrystalID))
+	{
+		this->Destroy();
+	}
 	
 	InteractableData = InstanceInteractableData;
 }
@@ -31,7 +41,9 @@ void ACrystalCollectible::Tick(float DeltaTime)
 
 void ACrystalCollectible::Interact()
 {
-	// TODO: REPLACE THIS WITH ACTUAL FUNCTIONALITY (DISABLE COLLISION, MAKE INVISIBLE, UPDATE SCORE, SAVE GAME)
-	UE_LOG(LogTemp, Warning, TEXT("Calling Interact override on CrystalCollectible"));
+	GameInstance->ExistingCrystals.Remove(CrystalID);
+	GameInstance->Score++;
+	GameInstance->OnScoreUpdated.Broadcast();
 
+	this->Destroy();
 }

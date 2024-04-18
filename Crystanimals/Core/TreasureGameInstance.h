@@ -8,9 +8,9 @@
 
 // Forward Declarations
 enum class EAnimal : uint8;
-/**
- * 
- */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FScoreUpdated);
+
 UCLASS()
 class CRYSTANIMALS_API UTreasureGameInstance : public UGameInstance
 {
@@ -31,6 +31,8 @@ public:
 
 	UPROPERTY()
 	float MouseSens;
+
+	FScoreUpdated OnScoreUpdated;
 
 private:
 	virtual void OnStart() override;

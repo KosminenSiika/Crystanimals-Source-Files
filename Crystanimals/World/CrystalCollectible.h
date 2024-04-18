@@ -7,6 +7,9 @@
 #include "Interfaces/InteractionInterface.h"
 #include "CrystalCollectible.generated.h"
 
+// Forward Declarations
+class UTreasureGameInstance;
+
 UCLASS()
 class CRYSTANIMALS_API ACrystalCollectible : public AActor, public IInteractionInterface
 {
@@ -23,8 +26,14 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Crystal")
 	TObjectPtr<UStaticMeshComponent> Mesh;
 
-	UPROPERTY(EditInstanceOnly, Category = "Crystal")
+	UPROPERTY(EditDefaultsOnly, Category = "Crystal")
 	FInteractableData InstanceInteractableData;
+
+	UPROPERTY(EditInstanceOnly, Category = "Crystal")
+	FString CrystalID;
+
+	UPROPERTY()
+	TObjectPtr<UTreasureGameInstance> GameInstance;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
