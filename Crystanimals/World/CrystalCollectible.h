@@ -24,7 +24,7 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Crystal")
-	TObjectPtr<UStaticMeshComponent> Mesh;
+	TObjectPtr<UStaticMeshComponent> Mesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Crystal")
 	FInteractableData InstanceInteractableData;
@@ -33,7 +33,7 @@ protected:
 	FString CrystalID;
 
 	UPROPERTY()
-	TObjectPtr<UTreasureGameInstance> GameInstance;
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

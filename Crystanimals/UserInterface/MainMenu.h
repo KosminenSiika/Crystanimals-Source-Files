@@ -21,16 +21,16 @@ class CRYSTANIMALS_API UMainMenu : public UUserWidget
 
 private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> ResetButton;
+	TObjectPtr<UButton> ResetButton = nullptr;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> ExitButton;
+	TObjectPtr<UButton> ExitButton = nullptr;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UEditableTextBox> MouseSensBox;
+	TObjectPtr<UEditableTextBox> MouseSensBox = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UTreasureGameInstance> GameInstance;
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
 	UFUNCTION()
 	void ResetGameProgress();

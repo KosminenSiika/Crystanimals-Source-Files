@@ -74,23 +74,23 @@ protected:
 
 private:	
 	UPROPERTY(VisibleAnywhere, Category="Player|Camera")
-	TObjectPtr<UCameraComponent> FirstPersonCamera;
+	TObjectPtr<UCameraComponent> FirstPersonCamera = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player|Collision")
-	TObjectPtr<UCapsuleComponent> Hitbox;
+	TObjectPtr<UCapsuleComponent> Hitbox = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player|Collision")
-	TObjectPtr<UCapsuleComponent> CollisionTestVolume;
+	TObjectPtr<UCapsuleComponent> CollisionTestVolume = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UTreasureGameInstance> GameInstance;
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<AAnimalHUD> HUD;
+	TObjectPtr<AAnimalHUD> HUD = nullptr;
 
 	// Interaction
 	UPROPERTY(VisibleAnywhere, Category="Player|Interaction")
-	TScriptInterface<IInteractionInterface> TargetInteractable;
+	TScriptInterface<IInteractionInterface> TargetInteractable = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
 	float InteractionCheckFrequency;

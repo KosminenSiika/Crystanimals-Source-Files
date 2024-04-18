@@ -12,7 +12,7 @@ void UAnimalSelectionMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	// REPLACE WITH CALL FROM HUD UPON ONSCOREUPDATED
+	// REPLACE WITH SCORE FROM GAMEINSTANCE WHEN ONSCOREUPDATED BROADCASTS
 	UpdateButtons(80);
 
 	// The editor absolutely did not let me set values in the graphical widget interface, 

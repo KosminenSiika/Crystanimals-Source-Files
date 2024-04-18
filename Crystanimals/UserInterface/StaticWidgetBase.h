@@ -14,4 +14,7 @@ class CRYSTANIMALS_API UStaticWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 	
+	// This class literally exists for no other reason than to have a nice short list of widgets
+	// to choose from in the editor when assigning the widget blueprints to the AnimalHUD :D
+
 };

@@ -25,25 +25,25 @@ public:
 
 	// These are defined in the editor as WidgetBlueprints with actual graphics
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UMainMenu> MainMenuClass;
+	TSubclassOf<UMainMenu> MainMenuClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UAnimalSelectionMenu> AnimalSelectionMenuClass;
+	TSubclassOf<UAnimalSelectionMenu> AnimalSelectionMenuClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UInteractionWidget> InteractionWidgetClass;
+	TSubclassOf<UInteractionWidget> InteractionWidgetClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UStaticWidgetBase> OutOfBoundsWidgetClass;
+	TSubclassOf<UStaticWidgetBase> OutOfBoundsWidgetClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UStaticWidgetBase> CrosshairClass;
+	TSubclassOf<UStaticWidgetBase> CrosshairClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UStaticWidgetBase> NewUnlocksWidgetClass;
+	TSubclassOf<UStaticWidgetBase> NewUnlocksWidgetClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UStaticWidgetBase> NotEnoughSpaceWidgetClass;
+	TSubclassOf<UStaticWidgetBase> NotEnoughSpaceWidgetClass = nullptr;
 
 	bool bIsMainMenuVisible;
 	bool bIsAnimalSelectionMenuVisible;
@@ -93,24 +93,24 @@ protected:
 
 private:
 	UPROPERTY()
-	TObjectPtr<UMainMenu> MainMenuWidget;
+	TObjectPtr<UMainMenu> MainMenuWidget = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UAnimalSelectionMenu> AnimalSelectionMenuWidget;
+	TObjectPtr<UAnimalSelectionMenu> AnimalSelectionMenuWidget = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UInteractionWidget> InteractionWidget;
+	TObjectPtr<UInteractionWidget> InteractionWidget = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UStaticWidgetBase> OutOfBoundsWidget;
+	TObjectPtr<UStaticWidgetBase> OutOfBoundsWidget = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UStaticWidgetBase> Crosshair;
+	TObjectPtr<UStaticWidgetBase> Crosshair = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UStaticWidgetBase> NewUnlocksWidget;
+	TObjectPtr<UStaticWidgetBase> NewUnlocksWidget = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UStaticWidgetBase> NotEnoughSpaceWidget;
+	TObjectPtr<UStaticWidgetBase> NotEnoughSpaceWidget = nullptr;
 	
 };

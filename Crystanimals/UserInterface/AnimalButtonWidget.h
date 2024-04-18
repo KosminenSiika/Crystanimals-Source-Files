@@ -27,23 +27,23 @@ public:
 	EAnimal DesiredAnimal;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UTextBlock> AnimalName;
+	TObjectPtr<UTextBlock> AnimalName = nullptr;
 
 	UFUNCTION()
 	void SetGreyMaskVisibility(bool ShouldBeVisible);
 
 private:
 	UPROPERTY()
-	TObjectPtr<AAnimalPlayerController> PlayerController;
+	TObjectPtr<AAnimalPlayerController> PlayerController = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<AAnimalCharacter> PlayerCharacter;
+	TObjectPtr<AAnimalCharacter> PlayerCharacter = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UButton> AnimalButton;
+	TObjectPtr<UButton> AnimalButton = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UBorder> GreyMask;
+	TObjectPtr<UBorder> GreyMask = nullptr;
 
 	UFUNCTION()
 	void SwitchToAnimal();

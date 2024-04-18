@@ -24,9 +24,9 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UTextBlock> NameText;
+	TObjectPtr<UTextBlock> NameText = nullptr;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
-	TObjectPtr<UTextBlock> ActionText;
+	TObjectPtr<UTextBlock> ActionText = nullptr;
 
 };

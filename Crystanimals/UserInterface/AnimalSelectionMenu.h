@@ -23,22 +23,22 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UAnimalButtonWidget> DogButton;
+	TObjectPtr<UAnimalButtonWidget> DogButton = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UAnimalButtonWidget> CatButton;
+	TObjectPtr<UAnimalButtonWidget> CatButton = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UAnimalButtonWidget> OtterButton;
+	TObjectPtr<UAnimalButtonWidget> OtterButton = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UAnimalButtonWidget> FlyingSquirrelButton;
+	TObjectPtr<UAnimalButtonWidget> FlyingSquirrelButton = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UAnimalButtonWidget> JerboaButton;
+	TObjectPtr<UAnimalButtonWidget> JerboaButton = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	TObjectPtr<UAnimalButtonWidget> BirdButton;
+	TObjectPtr<UAnimalButtonWidget> BirdButton = nullptr;
 
 	void ToggleButtonHittable(UAnimalButtonWidget* Button, bool IsHittable);
 

@@ -37,10 +37,10 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
-	TObjectPtr<UShapeComponent> CollisionVolume;
+	TObjectPtr<UShapeComponent> CollisionVolume = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<AAnimalHUD> HUD;
+	TObjectPtr<AAnimalHUD> HUD = nullptr;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

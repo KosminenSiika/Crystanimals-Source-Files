@@ -21,7 +21,7 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Shop")
-	TObjectPtr<UStaticMeshComponent> Mesh;
+	TObjectPtr<UStaticMeshComponent> Mesh = nullptr;
 
 	UPROPERTY(EditInstanceOnly, Category = "Shop")
 	FInteractableData InstanceInteractableData;

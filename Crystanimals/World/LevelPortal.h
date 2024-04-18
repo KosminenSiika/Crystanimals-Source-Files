@@ -24,7 +24,7 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Portal")
-	TObjectPtr<UStaticMeshComponent> Mesh;
+	TObjectPtr<UStaticMeshComponent> Mesh = nullptr;
 
 	UPROPERTY(EditInstanceOnly, Category = "Portal")
 	FInteractableData InstanceInteractableData;
@@ -33,7 +33,7 @@ protected:
 	FName DestinationRealm;
 
 	UPROPERTY()
-	TObjectPtr<UTreasureGameInstance> GameInstance;
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
