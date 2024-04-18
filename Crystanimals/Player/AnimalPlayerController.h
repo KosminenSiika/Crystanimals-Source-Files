@@ -11,6 +11,7 @@ class UInputAction;
 class UInputMappingContext;
 class AAnimalCharacter;
 class UEnhancedInputComponent;
+class UTreasureGameInstance;
 struct FInputActionValue;
 
 UCLASS()
@@ -47,12 +48,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
-	UPROPERTY()
-	float MouseSens;
-
 	void HandleOpenCloseAnimalSelectionMenu();
 
 protected:
+	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* aPawn) override;
 	virtual void OnUnPossess() override;
 
@@ -72,5 +71,8 @@ private:
 	// Used to store a reference to the controlled pawn.
 	UPROPERTY()
 	TObjectPtr<AAnimalCharacter> PlayerCharacter = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 	
 };

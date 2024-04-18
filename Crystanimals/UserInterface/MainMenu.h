@@ -9,7 +9,7 @@
 // Forward Declarations
 class UButton;
 class UEditableTextBox;
-class AAnimalPlayerController;
+class UTreasureGameInstance;
 
 /**
  * 
@@ -30,7 +30,7 @@ private:
 	TObjectPtr<UEditableTextBox> MouseSensBox;
 
 	UPROPERTY()
-	TObjectPtr<AAnimalPlayerController> PlayerController;
+	TObjectPtr<UTreasureGameInstance> GameInstance;
 
 	UFUNCTION()
 	void ResetGameProgress();

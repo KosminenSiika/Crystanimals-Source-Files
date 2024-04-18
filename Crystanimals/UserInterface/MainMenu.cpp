@@ -5,14 +5,14 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
-#include "Player/AnimalPlayerController.h"
+#include "Core/TreasureGameInstance.h"
 
 void UMainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	PlayerController = Cast<AAnimalPlayerController>(GetWorld()->GetFirstPlayerController());
-	checkf(PlayerController, TEXT("MainMenu could not get reference to the PlayerController"));
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("MainMenu unable to get reference to GameInstance"));
 
 	if (ResetButton)
 	{
@@ -26,6 +26,7 @@ void UMainMenu::NativeConstruct()
 
 	if (MouseSensBox)
 	{
+		MouseSensBox->SetText(FText::FromString(FString::SanitizeFloat(GameInstance->MouseSens)));
 		MouseSensBox->OnTextCommitted.AddDynamic(this, &UMainMenu::ChangeMouseSens);
 	}
 }
@@ -47,7 +48,7 @@ void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType
 {
 	if (MouseSensBox->GetText().ToString().IsNumeric())
 	{
-		PlayerController->MouseSens = FCString::Atof(*(MouseSensBox->GetText().ToString()));
+		GameInstance->MouseSens = FCString::Atof(*(MouseSensBox->GetText().ToString()));
 	}
 	else
 	{

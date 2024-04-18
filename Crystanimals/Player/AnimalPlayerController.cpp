@@ -5,13 +5,19 @@
 #include "AnimalCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Core/TreasureGameInstance.h"
+
+void AAnimalPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("AnimalPlayerController unable to get reference to GameInstance"));
+}
 
 void AAnimalPlayerController::OnPossess(APawn* aPawn)
 {
 	Super::OnPossess(aPawn);
-
-	// TODO: CHANGE TO GET SENS FROM GAMEINSTANCE
-	MouseSens = 1.0f;
 
 	// Store a reference to the Player's Pawn.
 	PlayerCharacter = Cast<AAnimalCharacter>(aPawn);
@@ -84,8 +90,8 @@ void AAnimalPlayerController::HandleLook(const FInputActionValue& InputActionVal
 	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
 
 	// Add yaw and pitch input to controller
-	AddYawInput(LookAxisVector.X * MouseSens);
-	AddPitchInput(LookAxisVector.Y * MouseSens);
+	AddYawInput(LookAxisVector.X * GameInstance->MouseSens);
+	AddPitchInput(LookAxisVector.Y * GameInstance->MouseSens);
 }
 
 void AAnimalPlayerController::HandleMove(const FInputActionValue& InputActionValue)
