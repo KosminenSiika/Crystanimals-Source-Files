@@ -33,7 +33,7 @@ public:
 	TObjectPtr<UInputAction> ActionJump = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
-	TObjectPtr<UInputAction> ActionHoldSprint = nullptr;
+	TObjectPtr<UInputAction> ActionHoldSprintGlide = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Interaction")
 	TObjectPtr<UInputAction> ActionInteract = nullptr;
@@ -57,8 +57,8 @@ protected:
 
 	void HandleLook(const FInputActionValue& InputActionValue);
 	void HandleMove(const FInputActionValue& InputActionValue);
-	void HandleHoldSprint();
-	void HandleStopHoldingSprint();
+	void HandleHoldSprintGlide();
+	void HandleStopHoldingSprintGlide();
 	void HandleJump();
 	void HandleInteract();
 	void HandleOpenCloseMainMenu();

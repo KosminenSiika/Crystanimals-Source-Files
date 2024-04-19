@@ -43,6 +43,12 @@ class CRYSTANIMALS_API AAnimalCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
+	UPROPERTY()
+	bool CanGlide;
+
+	UPROPERTY()
+	bool bIsGliding = false;
+
 	// Sets default values for this character's properties
 	AAnimalCharacter();
 
@@ -62,7 +68,10 @@ public:
 	bool OpenCloseAnimalSelectionMenu();
 
 	UFUNCTION()
-	void SetRunning(bool IsRunning);
+	void SetRunning(bool ShouldRun);
+
+	UFUNCTION()
+	void SetGliding(bool ShouldGlide);
 
 	// Tries to switch the character to the desired animal
 	UFUNCTION()
@@ -73,7 +82,7 @@ protected:
 	virtual void BeginPlay() override;
 
 private:	
-	UPROPERTY(VisibleAnywhere, Category="Player|Camera")
+	UPROPERTY(VisibleAnywhere, Category = "Player|Camera")
 	TObjectPtr<UCameraComponent> FirstPersonCamera = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player|Collision")
@@ -89,7 +98,7 @@ private:
 	TObjectPtr<AAnimalHUD> HUD = nullptr;
 
 	// Interaction
-	UPROPERTY(VisibleAnywhere, Category="Player|Interaction")
+	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
 	TScriptInterface<IInteractionInterface> TargetInteractable = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
@@ -105,14 +114,29 @@ private:
 	UPROPERTY()
 	bool bIsRunning = false;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Player|General")
+	UPROPERTY(EditDefaultsOnly, Category = "Player|Movement")
 	float SprintSpeedModifier;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player|Movement")
+	float AnimalBrakingDecelerationFalling;
 	
 	UPROPERTY()
 	float WalkSpeed;
 
 	UPROPERTY()
 	float SwimSpeed;
+
+	UPROPERTY()
+	float DefaultGravityScale;
+
+	UPROPERTY()
+	float DefaultAirControl;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player|Gliding")
+	float GlidingGravityScale;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player|Gliding")
+	float GlidingAirControl;
 
 
 	// Dog Specific Stats - editable in UE5 editor

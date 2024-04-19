@@ -41,6 +41,10 @@ void AAnimalCharacter::BeginPlay()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalCharacter unable to get reference to GameInstance"));
 
+	DefaultGravityScale = GetCharacterMovement()->GravityScale;
+	DefaultAirControl = GetCharacterMovement()->AirControl;
+	GetCharacterMovement()->BrakingDecelerationFalling = AnimalBrakingDecelerationFalling;
+
 	SwitchAnimal(GameInstance->CurrentAnimal);
 }
 
@@ -55,6 +59,12 @@ void AAnimalCharacter::Tick(float DeltaTime)
 		PerformInteractionCheck();
 	}
 
+	// Forces forward movement when gliding
+	if (bIsGliding)
+	{
+		AddMovementInput(GetActorForwardVector(), 1);
+	}
+
 }
 
 // Called to bind functionality to input
@@ -62,6 +72,32 @@ void AAnimalCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AAnimalCharacter::SetRunning(bool ShouldRun)
+{
+	bIsRunning = ShouldRun;
+
+	GetCharacterMovement()->MaxWalkSpeed = bIsRunning ? SprintSpeedModifier * WalkSpeed : WalkSpeed;
+	GetCharacterMovement()->MaxSwimSpeed = bIsRunning ? SprintSpeedModifier * SwimSpeed : SwimSpeed;
+}
+
+void AAnimalCharacter::SetGliding(bool ShouldGlide)
+{
+	// When bIsGliding is true, WASD movement is disabled in the PlayerController
+	bIsGliding = ShouldGlide;
+
+	if (ShouldGlide)
+	{
+		GetCharacterMovement()->Velocity.Z = 0;
+		GetCharacterMovement()->GravityScale = GlidingGravityScale;
+		GetCharacterMovement()->AirControl = GlidingAirControl;
+	}
+	else
+	{
+		GetCharacterMovement()->GravityScale = DefaultGravityScale;
+		GetCharacterMovement()->AirControl = DefaultAirControl;
+	}
 }
 
 // Check if the Character is looking at an interactable actor
@@ -144,14 +180,6 @@ bool AAnimalCharacter::OpenCloseAnimalSelectionMenu()
 	}
 }
 
-void AAnimalCharacter::SetRunning(bool IsRunning)
-{
-	bIsRunning = IsRunning;
-
-	GetCharacterMovement()->MaxWalkSpeed = bIsRunning ? SprintSpeedModifier * WalkSpeed : WalkSpeed;
-	GetCharacterMovement()->MaxSwimSpeed = bIsRunning ? SprintSpeedModifier * SwimSpeed : SwimSpeed;
-}
-
 bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
 {
 	if (CollisionTestVolume)
@@ -185,7 +213,7 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->MaxSwimSpeed = SwimSpeed;
 	GetCharacterMovement()->JumpZVelocity = 300.0f + (2 * AnimalSize);
-	// CanGlide = false;
+	CanGlide = false;
 	// Flying is implemented as being able to jump "many" (100) times in a row
 	JumpMaxCount = 1;
 	// BreathHoldTime = 10;
@@ -235,7 +263,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 			if (CheckEnoughSpaceForAnimalSwitch(FlyingSquirrelSize))
 			{
 				SetStatsByAnimalSize(FlyingSquirrelSize);
-				// CanGlide = true;
+				CanGlide = true;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
@@ -254,7 +282,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				SetStatsByAnimalSize(BirdSize);
 				GetCharacterMovement()->MaxSwimSpeed = BirdSwimSpeed;
 				GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
-				// CanGlide = true;
+				CanGlide = true;
 				// Flying is implemented as being able to jump "many" (100) times in a row
 				JumpMaxCount = 100;
 				GameInstance->CurrentAnimal = SelectedAnimal;

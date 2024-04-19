@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Core/TreasureGameInstance.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 void AAnimalPlayerController::BeginPlay()
 {
@@ -54,10 +55,10 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleJump);
 	}
 
-	if (ActionHoldSprint)
+	if (ActionHoldSprintGlide)
 	{
-		EnhancedInputComponent->BindAction(ActionHoldSprint, ETriggerEvent::Triggered, this, &AAnimalPlayerController::HandleHoldSprint);
-		EnhancedInputComponent->BindAction(ActionHoldSprint, ETriggerEvent::Completed, this, &AAnimalPlayerController::HandleStopHoldingSprint);
+		EnhancedInputComponent->BindAction(ActionHoldSprintGlide, ETriggerEvent::Triggered, this, &AAnimalPlayerController::HandleHoldSprintGlide);
+		EnhancedInputComponent->BindAction(ActionHoldSprintGlide, ETriggerEvent::Completed, this, &AAnimalPlayerController::HandleStopHoldingSprintGlide);
 	}
 
 	if (ActionInteract)
@@ -107,21 +108,27 @@ void AAnimalPlayerController::HandleMove(const FInputActionValue& InputActionVal
 	}
 }
 
-void AAnimalPlayerController::HandleHoldSprint()
+void AAnimalPlayerController::HandleHoldSprintGlide()
 {
 	// Make the Player's Character Pawn start running
 	if (PlayerCharacter)
 	{
 		PlayerCharacter->SetRunning(true);
+		
+		if (PlayerCharacter->CanGlide && PlayerCharacter->GetCharacterMovement()->IsFalling())
+		{
+			PlayerCharacter->SetGliding(true);
+		}
 	}
 }
 
-void AAnimalPlayerController::HandleStopHoldingSprint()
+void AAnimalPlayerController::HandleStopHoldingSprintGlide()
 {
 	// Make the Player's Character Pawn stop running
 	if (PlayerCharacter)
 	{
 		PlayerCharacter->SetRunning(false);
+		PlayerCharacter->SetGliding(false);
 	}
 }
 
@@ -130,7 +137,11 @@ void AAnimalPlayerController::HandleJump()
 	// Make the Player's Character Pawn jump
 	if (PlayerCharacter)
 	{
-		PlayerCharacter->Jump();
+		if (!PlayerCharacter->bIsGliding)
+		{
+			PlayerCharacter->Jump();
+		}
+		
 	}
 }
 
