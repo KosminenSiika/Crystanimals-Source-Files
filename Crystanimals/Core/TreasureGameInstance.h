@@ -48,9 +48,12 @@ public:
 	UFUNCTION()
 	void ResetGameProgress();
 
+private:
+	UFUNCTION()
+	void LoadDefaultDataValues();
+
 	UFUNCTION()
 	void NotifyGameSaved(const FString& SlotName, const int32 UserIndex, bool bSuccess);
 
-private:
 	virtual void OnStart() override;
 };
