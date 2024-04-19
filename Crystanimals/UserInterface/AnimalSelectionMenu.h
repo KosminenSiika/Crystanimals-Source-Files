@@ -20,7 +20,7 @@ class CRYSTANIMALS_API UAnimalSelectionMenu : public UUserWidget
 	
 public:
 	UFUNCTION()
-	void UpdateButtons(int Score);
+	void UpdateButtons();
 
 private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))

@@ -16,9 +16,9 @@ void UAnimalSelectionMenu::NativeConstruct()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalSelectionMenu unable to get reference to GameInstance"));
 
-	UpdateButtons(GameInstance->Score);
+	UpdateButtons();
 
-	// UPDATEBUTTONS WITH SCORE FROM GAMEINSTANCE WHEN ONUNLOCKSCLAIMED BROADCASTS
+	GameInstance->OnUnlocksClaimed.AddDynamic(this, &UAnimalSelectionMenu::UpdateButtons);
 
 	// The editor absolutely did not let me set values in the graphical widget interface, 
 	// so they just have to be set here...
@@ -50,7 +50,7 @@ void UAnimalSelectionMenu::ToggleButtonHittable(UAnimalButtonWidget* Button, boo
 	}
 }
 
-void UAnimalSelectionMenu::UpdateButtons(int Score)
+void UAnimalSelectionMenu::UpdateButtons()
 {
 	DogButton->SetGreyMaskVisibility(false);
 
@@ -61,23 +61,23 @@ void UAnimalSelectionMenu::UpdateButtons(int Score)
 
 	BirdButton->SetVisibility(ESlateVisibility::Collapsed);
 
-	if (Score >= 10)
+	if (GameInstance->Score >= 10)
 	{
 		ToggleButtonHittable(CatButton, true);
 	}
-	if (Score >= 30)
+	if (GameInstance->Score >= 30)
 	{
 		ToggleButtonHittable(OtterButton, true);
 	}
-	if (Score >= 50)
+	if (GameInstance->Score >= 50)
 	{
 		ToggleButtonHittable(FlyingSquirrelButton, true);
 	}
-	if (Score >= 60)
+	if (GameInstance->Score >= 60)
 	{
 		ToggleButtonHittable(JerboaButton, true);
 	}
-	if (Score >= 80)
+	if (GameInstance->Score >= 80)
 	{
 		ToggleButtonHittable(BirdButton, true);
 	}

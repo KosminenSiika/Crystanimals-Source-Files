@@ -7,6 +7,9 @@
 #include "Interfaces/InteractionInterface.h"
 #include "ProgressionShop.generated.h"
 
+// Forward Declarations
+class UTreasureGameInstance;
+
 UCLASS()
 class CRYSTANIMALS_API AProgressionShop : public AActor, public IInteractionInterface
 {
@@ -25,6 +28,9 @@ protected:
 
 	UPROPERTY(EditInstanceOnly, Category = "Shop")
 	FInteractableData InstanceInteractableData;
+
+	UPROPERTY()
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

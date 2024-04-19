@@ -2,6 +2,7 @@
 
 
 #include "World/ProgressionShop.h"
+#include "Core/TreasureGameInstance.h"
 
 // Sets default values
 AProgressionShop::AProgressionShop()
@@ -19,6 +20,9 @@ void AProgressionShop::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("ProgressionShop unable to get reference to GameInstance"));
+
 	InteractableData = InstanceInteractableData;
 }
 
@@ -31,8 +35,7 @@ void AProgressionShop::Tick(float DeltaTime)
 
 void AProgressionShop::Interact()
 {
-	// TODO: REPLACE THIS WITH ACTUAL FUNCTIONALITY (ENABLE NEW FEATURES BASED ON PROGRESSION)
-	UE_LOG(LogTemp, Warning, TEXT("Calling Interact override on ProgressionShop"));
+	GameInstance->OnUnlocksClaimed.Broadcast();
 
 }
 

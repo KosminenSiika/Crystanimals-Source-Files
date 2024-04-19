@@ -82,9 +82,9 @@ public:
 	void HideCrosshair() const;
 
 	UFUNCTION()
-	void DisplayNewUnlocksWidget() const;
+	void DisplayNewUnlocksWidget();
 	UFUNCTION()
-	void HideNewUnlocksWidget() const;
+	void HideNewUnlocksWidget();
 
 	UFUNCTION()
 	void DisplayNotEnoughSpaceWidget() const;
@@ -119,5 +119,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UScoreWidget> ScoreWidget = nullptr;
+
+
+	UPROPERTY()
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 	
 };

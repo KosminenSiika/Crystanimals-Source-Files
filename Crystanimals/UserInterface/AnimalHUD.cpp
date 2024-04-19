@@ -9,16 +9,22 @@
 #include "UserInterface/ScoreWidget.h"
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "Core/TreasureGameInstance.h"
 
 AAnimalHUD::AAnimalHUD()
 {
-	// GameInstance->OnScoreUpdated
-	// GameInstance->OnUnlocksClaimed			called from ProgressionShop???
 }
 
 void AAnimalHUD::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("AnimalHUD unable to get reference to GameInstance"));
+
+	GameInstance->OnScoreUpdated.AddDynamic(this, &AAnimalHUD::DisplayNewUnlocksWidget);
+
+	GameInstance->OnUnlocksClaimed.AddDynamic(this, &AAnimalHUD::HideNewUnlocksWidget);
 
 	if (MainMenuClass)
 	{
@@ -177,15 +183,18 @@ void AAnimalHUD::HideCrosshair() const
 	}
 }
 
-void AAnimalHUD::DisplayNewUnlocksWidget() const
+void AAnimalHUD::DisplayNewUnlocksWidget()
 {
 	if (NewUnlocksWidget)
 	{
-		NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
+		if (GameInstance->Score % 10 == 0)
+		{
+			NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
+		}
 	}
 }
 
-void AAnimalHUD::HideNewUnlocksWidget() const
+void AAnimalHUD::HideNewUnlocksWidget()
 {
 	if (NewUnlocksWidget)
 	{
