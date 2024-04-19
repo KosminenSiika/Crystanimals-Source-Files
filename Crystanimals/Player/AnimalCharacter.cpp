@@ -105,7 +105,10 @@ void AAnimalCharacter::Interact()
 {
 	if (IsValid(TargetInteractable.GetObject()))
 	{
-		TargetInteractable->Interact();
+		if (HUD->InteractionWidgetIsVisible())
+		{
+			TargetInteractable->Interact();
+		}
 	}
 }
 

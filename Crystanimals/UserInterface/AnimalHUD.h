@@ -70,6 +70,8 @@ public:
 	void HideInteractionWidget() const;
 	UFUNCTION()
 	void UpdateInteractionWidget(const FInteractableData InteractableData) const;
+	UFUNCTION()
+	bool InteractionWidgetIsVisible();
 
 	UFUNCTION()
 	void DisplayOutOfBoundsWidget() const;

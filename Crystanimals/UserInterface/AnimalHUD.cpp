@@ -144,11 +144,19 @@ void AAnimalHUD::HideInteractionWidget() const
 
 void AAnimalHUD::UpdateInteractionWidget(const FInteractableData InteractableData) const
 {
-	if (InteractionWidget)
+	if (InteractionWidget && NewUnlocksWidget)
 	{
 		InteractionWidget->UpdateWidget(InteractableData);
-		DisplayInteractionWidget();
+		if (!InteractableData.bIsShop || NewUnlocksWidget->Visibility == ESlateVisibility::Visible)
+		{
+			DisplayInteractionWidget();
+		}
 	}
+}
+
+bool AAnimalHUD::InteractionWidgetIsVisible()
+{
+	return (InteractionWidget->Visibility == ESlateVisibility::Visible) ? true : false;
 }
 
 void AAnimalHUD::DisplayOutOfBoundsWidget() const
@@ -199,6 +207,7 @@ void AAnimalHUD::HideNewUnlocksWidget()
 	if (NewUnlocksWidget)
 	{
 		NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
+		HideInteractionWidget();
 	}
 }
 

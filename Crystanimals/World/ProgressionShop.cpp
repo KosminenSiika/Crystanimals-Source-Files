@@ -36,6 +36,5 @@ void AProgressionShop::Tick(float DeltaTime)
 void AProgressionShop::Interact()
 {
 	GameInstance->OnUnlocksClaimed.Broadcast();
-
 }
 

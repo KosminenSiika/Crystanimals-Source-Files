@@ -11,13 +11,16 @@ struct FInteractableData
 {
 	GENERATED_USTRUCT_BODY()
 
-	FInteractableData() : Name(FText::GetEmpty()), Action(FText::GetEmpty()) {};
+	FInteractableData() : Name(FText::GetEmpty()), Action(FText::GetEmpty()), bIsShop(false) {};
 
 	UPROPERTY(EditInstanceOnly)  
 	FText Name;
 
 	UPROPERTY(EditInstanceOnly)
 	FText Action;
+
+	UPROPERTY(EditInstanceOnly)
+	bool bIsShop;
 };
 
 // This class does not need to be modified.
