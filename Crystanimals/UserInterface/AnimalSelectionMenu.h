@@ -8,6 +8,7 @@
 
 // Forward Declarations
 class UAnimalButtonWidget;
+class UTreasureGameInstance;
 
 /**
  * 
@@ -39,6 +40,9 @@ private:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UAnimalButtonWidget> BirdButton = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
 	void ToggleButtonHittable(UAnimalButtonWidget* Button, bool IsHittable);
 

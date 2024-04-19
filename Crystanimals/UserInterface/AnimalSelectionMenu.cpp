@@ -6,14 +6,19 @@
 #include "Components/TextBlock.h"
 #include "Player/AnimalCharacter.h"
 #include "UserInterface/AnimalButtonWidget.h"
+#include "Core/TreasureGameInstance.h"
 
 
 void UAnimalSelectionMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	// REPLACE WITH SCORE FROM GAMEINSTANCE WHEN ONSCOREUPDATED BROADCASTS
-	UpdateButtons(80);
+	GameInstance = GetGameInstance<UTreasureGameInstance>();
+	checkf(GameInstance, TEXT("AnimalSelectionMenu unable to get reference to GameInstance"));
+
+	UpdateButtons(GameInstance->Score);
+
+	// UPDATEBUTTONS WITH SCORE FROM GAMEINSTANCE WHEN ONUNLOCKSCLAIMED BROADCASTS
 
 	// The editor absolutely did not let me set values in the graphical widget interface, 
 	// so they just have to be set here...
