@@ -186,7 +186,8 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 	GetCharacterMovement()->MaxSwimSpeed = SwimSpeed;
 	GetCharacterMovement()->JumpZVelocity = 300.0f + (2 * AnimalSize);
 	// CanGlide = false;
-	// CanFly = false;
+	// Flying is implemented as being able to jump "many" (100) times in a row
+	JumpMaxCount = 1;
 	// BreathHoldTime = 10;
 
 	// Change interaction distance based on the size of the animal
@@ -254,7 +255,8 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				GetCharacterMovement()->MaxSwimSpeed = BirdSwimSpeed;
 				GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
 				// CanGlide = true;
-				// CanFly = true;
+				// Flying is implemented as being able to jump "many" (100) times in a row
+				JumpMaxCount = 100;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 			}
 			break;
