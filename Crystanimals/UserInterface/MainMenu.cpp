@@ -2,10 +2,10 @@
 
 
 #include "UserInterface/MainMenu.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
 #include "Core/TreasureGameInstance.h"
+#include "UserInterface/AnimalHUD.h"
 
 void UMainMenu::NativeConstruct()
 {
@@ -34,14 +34,12 @@ void UMainMenu::NativeConstruct()
 
 void UMainMenu::ResetGameProgress()
 {
-	// REPLACE WITH FUNCTIONALITY TO RESET GAME PROGRESS
-	UE_LOG(LogTemp, Warning, TEXT("Clicked on Reset Button"));
+	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("reset game progress");
 }
 
 void UMainMenu::ExitGame()
 {
-	// ADD AN "ARE YOU SURE?" QUERY BEFORE EXITING
-	UKismetSystemLibrary::QuitGame(GetWorld(), GetWorld()->GetFirstPlayerController(), EQuitPreference::Quit, false);
+	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("exit the game");
 }
 
 void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType)

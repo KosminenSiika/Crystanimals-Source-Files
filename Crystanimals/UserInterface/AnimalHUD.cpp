@@ -7,6 +7,7 @@
 #include "UserInterface/InteractionWidget.h"
 #include "UserInterface/StaticWidgetBase.h"
 #include "UserInterface/ScoreWidget.h"
+#include "UserInterface/ConfirmationWidget.h"
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Core/TreasureGameInstance.h"
@@ -81,6 +82,13 @@ void AAnimalHUD::BeginPlay()
 		ScoreWidget->AddToViewport(1);
 		ScoreWidget->SetVisibility(ESlateVisibility::Visible);
 	}
+
+	if (ConfirmationWidgetClass)
+	{
+		ConfirmationWidget = CreateWidget<UConfirmationWidget>(GetWorld(), ConfirmationWidgetClass);
+		ConfirmationWidget->AddToViewport(6);
+		ConfirmationWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void AAnimalHUD::DisplayMainMenu()
@@ -147,7 +155,7 @@ void AAnimalHUD::UpdateInteractionWidget(const FInteractableData InteractableDat
 	if (InteractionWidget && NewUnlocksWidget)
 	{
 		InteractionWidget->UpdateWidget(InteractableData);
-		if (!InteractableData.bIsShop || NewUnlocksWidget->Visibility == ESlateVisibility::Visible)
+		if (!InteractableData.bIsShop || NewUnlocksWidget->GetVisibility() == ESlateVisibility::Visible)
 		{
 			DisplayInteractionWidget();
 		}
@@ -156,7 +164,7 @@ void AAnimalHUD::UpdateInteractionWidget(const FInteractableData InteractableDat
 
 bool AAnimalHUD::InteractionWidgetIsVisible()
 {
-	return (InteractionWidget->Visibility == ESlateVisibility::Visible) ? true : false;
+	return (InteractionWidget->GetVisibility() == ESlateVisibility::Visible) ? true : false;
 }
 
 void AAnimalHUD::DisplayOutOfBoundsWidget() const
@@ -231,6 +239,15 @@ void AAnimalHUD::HideNotEnoughSpaceWidget() const
 	if (NotEnoughSpaceWidget)
 	{
 		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayConfirmationWidget(FString Action)
+{
+	if (ConfirmationWidget)
+	{
+		ConfirmationWidget->SetAction(Action);
+		ConfirmationWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 

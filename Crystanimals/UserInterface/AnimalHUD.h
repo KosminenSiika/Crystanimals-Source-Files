@@ -12,6 +12,7 @@ class UAnimalSelectionMenu;
 class UInteractionWidget;
 class UStaticWidgetBase;
 class UScoreWidget;
+class UConfirmationWidget;
 struct FInteractableData;
 
 /**
@@ -48,6 +49,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UScoreWidget> ScoreWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UConfirmationWidget> ConfirmationWidgetClass = nullptr;
 
 	bool bIsMainMenuVisible;
 	bool bIsAnimalSelectionMenuVisible;
@@ -94,6 +98,9 @@ public:
 	UFUNCTION()
 	void HideNotEnoughSpaceWidget() const;
 
+	UFUNCTION()
+	void DisplayConfirmationWidget(FString Action);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -121,6 +128,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UScoreWidget> ScoreWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UConfirmationWidget> ConfirmationWidget = nullptr;
 
 
 	UPROPERTY()

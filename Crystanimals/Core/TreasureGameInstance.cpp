@@ -43,6 +43,11 @@ void UTreasureGameInstance::SaveGame()
 	}
 }
 
+void UTreasureGameInstance::ExitGame()
+{
+	UKismetSystemLibrary::QuitGame(GetWorld(), GetWorld()->GetFirstPlayerController(), EQuitPreference::Quit, false);
+}
+
 void UTreasureGameInstance::NotifyGameSaved(const FString& SlotName, const int32 UserIndex, bool bSuccess)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Game finished saving"));
@@ -74,11 +79,12 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 
 
 
-void UTreasureGameInstance::ResetGameProgress()
+void UTreasureGameInstance::ResetGame()
 {
 	UGameplayStatics::DeleteGameInSlot("SaveSlot1", 0);
 	LoadDefaultDataValues();
 	UGameplayStatics::OpenLevel(this, "HubRealm");
+	UE_LOG(LogTemp, Warning, TEXT("Game Progress has been reset"));
 }
 
 void UTreasureGameInstance::ChangeRealm(FName RealmName)

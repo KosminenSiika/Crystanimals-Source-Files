@@ -46,7 +46,10 @@ public:
 	void SaveGame();
 
 	UFUNCTION()
-	void ResetGameProgress();
+	void ResetGame();
+
+	UFUNCTION()
+	void ExitGame();
 
 private:
 	UFUNCTION()
