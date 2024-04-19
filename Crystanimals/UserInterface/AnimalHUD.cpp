@@ -6,6 +6,7 @@
 #include "UserInterface/AnimalSelectionMenu.h"
 #include "UserInterface/InteractionWidget.h"
 #include "UserInterface/StaticWidgetBase.h"
+#include "UserInterface/ScoreWidget.h"
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -66,6 +67,13 @@ void AAnimalHUD::BeginPlay()
 		NotEnoughSpaceWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), NotEnoughSpaceWidgetClass);
 		NotEnoughSpaceWidget->AddToViewport();
 		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (ScoreWidgetClass)
+	{
+		ScoreWidget = CreateWidget<UScoreWidget>(GetWorld(), ScoreWidgetClass);
+		ScoreWidget->AddToViewport(1);
+		ScoreWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 

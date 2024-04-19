@@ -11,6 +11,7 @@ class UMainMenu;
 class UAnimalSelectionMenu;
 class UInteractionWidget;
 class UStaticWidgetBase;
+class UScoreWidget;
 struct FInteractableData;
 
 /**
@@ -44,6 +45,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UStaticWidgetBase> NotEnoughSpaceWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UScoreWidget> ScoreWidgetClass = nullptr;
 
 	bool bIsMainMenuVisible;
 	bool bIsAnimalSelectionMenuVisible;
@@ -112,5 +116,8 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UStaticWidgetBase> NotEnoughSpaceWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UScoreWidget> ScoreWidget = nullptr;
 	
 };

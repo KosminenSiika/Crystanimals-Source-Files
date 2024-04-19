@@ -48,8 +48,5 @@ private:
 	UFUNCTION()
 	void SwitchToAnimal();
 
-
-	
-
 	virtual void NativeConstruct() override;
 };
