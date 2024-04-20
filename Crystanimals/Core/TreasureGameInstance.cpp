@@ -50,8 +50,10 @@ void UTreasureGameInstance::ExitGame()
 
 void UTreasureGameInstance::NotifyGameSaved(const FString& SlotName, const int32 UserIndex, bool bSuccess)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Game finished saving"));
-	// HUD->DisplayGameSavedWidget();
+	if (bSuccess)
+	{
+		OnGameSaved.Broadcast();
+	}
 }
 
 void UTreasureGameInstance::LoadDefaultDataValues()

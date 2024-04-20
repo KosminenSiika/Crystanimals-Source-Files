@@ -53,6 +53,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UConfirmationWidget> ConfirmationWidgetClass = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> GameSavedWidgetClass = nullptr;
+
+
 	bool bIsMainMenuVisible;
 	bool bIsAnimalSelectionMenuVisible;
 
@@ -101,6 +105,12 @@ public:
 	UFUNCTION()
 	void DisplayConfirmationWidget(FString Action);
 
+	UFUNCTION()
+	void DisplayGameSavedWidget();
+
+	UFUNCTION()
+	void HideGameSavedWidget() const;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -131,6 +141,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UConfirmationWidget> ConfirmationWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> GameSavedWidget = nullptr;
 
 
 	UPROPERTY()

@@ -37,7 +37,7 @@ void UConfirmationWidget::ConfirmAction()
 		{
 			GameInstance->ExitGame();
 		}
-		if (Action->GetText().ToString() == "reset game progress")
+		if (Action->GetText().ToString() == "reset the whole game")
 		{
 			GameInstance->ResetGame();
 		}

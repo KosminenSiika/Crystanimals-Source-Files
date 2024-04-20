@@ -27,6 +27,8 @@ void AAnimalHUD::BeginPlay()
 
 	GameInstance->OnUnlocksClaimed.AddDynamic(this, &AAnimalHUD::HideNewUnlocksWidget);
 
+	GameInstance->OnGameSaved.AddDynamic(this, &AAnimalHUD::DisplayGameSavedWidget);
+
 	if (MainMenuClass)
 	{
 		MainMenuWidget = CreateWidget<UMainMenu>(GetWorld(), MainMenuClass);
@@ -88,6 +90,13 @@ void AAnimalHUD::BeginPlay()
 		ConfirmationWidget = CreateWidget<UConfirmationWidget>(GetWorld(), ConfirmationWidgetClass);
 		ConfirmationWidget->AddToViewport(6);
 		ConfirmationWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (GameSavedWidgetClass)
+	{
+		GameSavedWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), GameSavedWidgetClass);
+		GameSavedWidget->AddToViewport(1);
+		GameSavedWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
@@ -248,6 +257,29 @@ void AAnimalHUD::DisplayConfirmationWidget(FString Action)
 	{
 		ConfirmationWidget->SetAction(Action);
 		ConfirmationWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::DisplayGameSavedWidget()
+{
+	if (GameSavedWidget)
+	{
+		GameSavedWidget->SetVisibility(ESlateVisibility::Visible);
+
+		FTimerHandle TimerHandle;
+		GetWorldTimerManager().SetTimer(TimerHandle,
+			this,
+			&AAnimalHUD::HideGameSavedWidget,
+			1.5f,
+			false);
+	}
+}
+
+void AAnimalHUD::HideGameSavedWidget() const
+{
+	if (GameSavedWidget)
+	{
+		GameSavedWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 

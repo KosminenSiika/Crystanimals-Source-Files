@@ -34,7 +34,7 @@ void UMainMenu::NativeConstruct()
 
 void UMainMenu::ResetGameProgress()
 {
-	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("reset game progress");
+	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("reset the whole game");
 }
 
 void UMainMenu::ExitGame()
@@ -47,6 +47,7 @@ void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType
 	if (MouseSensBox->GetText().ToString().IsNumeric())
 	{
 		GameInstance->MouseSens = FCString::Atof(*(MouseSensBox->GetText().ToString()));
+		GameInstance->SaveGame();
 	}
 	else
 	{

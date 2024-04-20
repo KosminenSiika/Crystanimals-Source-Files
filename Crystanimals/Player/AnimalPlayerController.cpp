@@ -14,6 +14,8 @@ void AAnimalPlayerController::BeginPlay()
 
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalPlayerController unable to get reference to GameInstance"));
+
+	SetInputMode(FInputModeGameOnly());
 }
 
 void AAnimalPlayerController::OnPossess(APawn* aPawn)
