@@ -115,11 +115,13 @@ void AAnimalPlayerController::HandleHoldSprintGlide()
 	// Make the Player's Character Pawn start running
 	if (PlayerCharacter)
 	{
-		PlayerCharacter->SetRunning(true);
-		
 		if (PlayerCharacter->CanGlide && PlayerCharacter->GetCharacterMovement()->IsFalling())
 		{
 			PlayerCharacter->SetGliding(true);
+		}
+		else 
+		{
+			PlayerCharacter->SetRunning(true);
 		}
 	}
 }
@@ -139,11 +141,7 @@ void AAnimalPlayerController::HandleJump()
 	// Make the Player's Character Pawn jump
 	if (PlayerCharacter)
 	{
-		if (!PlayerCharacter->bIsGliding)
-		{
-			PlayerCharacter->Jump();
-		}
-		
+		PlayerCharacter->Jump();
 	}
 }
 

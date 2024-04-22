@@ -118,6 +118,12 @@ private:
 	float SprintSpeedModifier;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Movement")
+	float GlideSpeedModifier;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player|Movement")
+	float GlideDescentRate;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player|Movement")
 	float AnimalBrakingDecelerationFalling;
 	
 	UPROPERTY()

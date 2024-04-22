@@ -84,14 +84,15 @@ void AAnimalCharacter::SetRunning(bool ShouldRun)
 
 void AAnimalCharacter::SetGliding(bool ShouldGlide)
 {
-	// When bIsGliding is true, WASD movement is disabled in the PlayerController
 	bIsGliding = ShouldGlide;
 
 	if (ShouldGlide)
 	{
-		GetCharacterMovement()->Velocity.Z = 0;
+		GetCharacterMovement()->MaxWalkSpeed = GlideSpeedModifier * WalkSpeed;
 		GetCharacterMovement()->GravityScale = GlidingGravityScale;
 		GetCharacterMovement()->AirControl = GlidingAirControl;
+		// Smooths out the transition from falling to gliding
+		GetCharacterMovement()->Velocity.Z = FMath::FInterpTo<float>(GetCharacterMovement()->Velocity.Z, -GlideDescentRate, 0.1f, 0.2f);
 	}
 	else
 	{
