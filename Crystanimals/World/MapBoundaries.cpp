@@ -4,6 +4,7 @@
 #include "MapBoundaries.h"
 #include "Components/BoxComponent.h"
 #include "UserInterface/AnimalHUD.h"
+#include "Player/AnimalCharacter.h"
 
 // Sets default values
 AMapBoundaries::AMapBoundaries()
@@ -45,7 +46,10 @@ void AMapBoundaries::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 {
 	if (HUD)
 	{
-		HUD->DisplayOutOfBoundsWidget();
+		if (OtherActor == GetWorld()->GetFirstPlayerController()->GetPawn())
+		{
+			HUD->DisplayOutOfBoundsWidget();
+		}
 	}
 }
 
