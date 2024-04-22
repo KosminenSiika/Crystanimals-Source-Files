@@ -37,7 +37,7 @@ void AMapBoundaries::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 {
 	if (HUD)
 	{
-		HUD->DisplayOutOfBoundsWidget();
+		HUD->HideOutOfBoundsWidget();
 	}
 }
 
@@ -45,7 +45,7 @@ void AMapBoundaries::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 {
 	if (HUD)
 	{
-		HUD->HideOutOfBoundsWidget();
+		HUD->DisplayOutOfBoundsWidget();
 	}
 }
 

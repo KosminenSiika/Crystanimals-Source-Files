@@ -8,6 +8,8 @@
 #include "DrawDebugHelpers.h"
 #include "UserInterface/AnimalHUD.h"
 #include "Core/TreasureGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "World/MapBoundaries.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
@@ -195,6 +197,7 @@ bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
 		TArray OverlappingActors = TArray<AActor*>();
 		CollisionTestVolume->GetOverlappingActors(OverlappingActors);
 		OverlappingActors.Remove(this);
+		OverlappingActors.Remove(UGameplayStatics::GetActorOfClass(GetWorld(), AMapBoundaries::StaticClass()));
 
 		if (OverlappingActors.IsEmpty())
 		{
