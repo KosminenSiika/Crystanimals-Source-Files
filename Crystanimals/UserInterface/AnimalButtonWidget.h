@@ -10,7 +10,6 @@
 class UButton;
 class UBorder;
 class UTextBlock;
-class AAnimalCharacter;
 class AAnimalPlayerController;
 enum class EAnimal : uint8;
 
@@ -35,9 +34,6 @@ public:
 private:
 	UPROPERTY()
 	TObjectPtr<AAnimalPlayerController> PlayerController = nullptr;
-
-	UPROPERTY()
-	TObjectPtr<AAnimalCharacter> PlayerCharacter = nullptr;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> AnimalButton = nullptr;

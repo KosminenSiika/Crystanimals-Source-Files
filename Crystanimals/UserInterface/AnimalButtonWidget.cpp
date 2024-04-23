@@ -12,9 +12,7 @@ void UAnimalButtonWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	PlayerController = Cast<AAnimalPlayerController>(GetWorld()->GetFirstPlayerController());
-	checkf(PlayerController, TEXT("AnimalSelectionMenu could not get a reference to the PlayerController"));
-	PlayerCharacter = Cast<AAnimalCharacter>(PlayerController->GetPawn());
-	checkf(PlayerCharacter, TEXT("AnimalSelectionMenu could not get a reference to the PlayerCharacter"));
+	checkf(PlayerController, TEXT("AnimalButtonWidget could not get a reference to the PlayerController"));
 
 	if (AnimalButton)
 	{
@@ -24,10 +22,10 @@ void UAnimalButtonWidget::NativeConstruct()
 
 void UAnimalButtonWidget::SwitchToAnimal()
 {
-	if (PlayerCharacter && PlayerController)
+	if (PlayerController)
 	{
 		PlayerController->HandleOpenCloseAnimalSelectionMenu();
-		PlayerCharacter->SwitchAnimal(DesiredAnimal);
+		PlayerController->GetPawn<AAnimalCharacter>()->SwitchAnimal(DesiredAnimal);
 	}
 }
 
