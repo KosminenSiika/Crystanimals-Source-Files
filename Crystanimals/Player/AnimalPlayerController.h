@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
 	TObjectPtr<UInputAction> ActionHoldSprintGlide = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
+	TObjectPtr<UInputAction> ActionSwimUp = nullptr;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Interaction")
 	TObjectPtr<UInputAction> ActionInteract = nullptr;
 
@@ -45,7 +48,7 @@ public:
 	TObjectPtr<UInputAction> ActionOpenCloseAnimalSelectionMenu = nullptr;
 
 	// The Input Mapping Context to use.
-	UPROPERTY(EditDefaultsOnly, Category = "Player Input|Character Movement")
+	UPROPERTY(EditDefaultsOnly, Category = "Player Input")
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
 	void HandleOpenCloseAnimalSelectionMenu();
@@ -60,6 +63,7 @@ protected:
 	void HandleHoldSprintGlide();
 	void HandleStopHoldingSprintGlide();
 	void HandleJump();
+	void HandleSwimUp();
 	void HandleInteract();
 	void HandleOpenCloseMainMenu();
 

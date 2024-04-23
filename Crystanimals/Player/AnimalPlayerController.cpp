@@ -7,6 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Core/TreasureGameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Camera/CameraComponent.h"
 
 void AAnimalPlayerController::BeginPlay()
 {
@@ -77,6 +78,11 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 	{
 		EnhancedInputComponent->BindAction(ActionOpenCloseAnimalSelectionMenu, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleOpenCloseAnimalSelectionMenu);
 	}
+
+	if (ActionSwimUp)
+	{
+		EnhancedInputComponent->BindAction(ActionSwimUp, ETriggerEvent::Triggered, this, &AAnimalPlayerController::HandleSwimUp);
+	}
 }
 
 void AAnimalPlayerController::OnUnPossess()
@@ -105,8 +111,16 @@ void AAnimalPlayerController::HandleMove(const FInputActionValue& InputActionVal
 	// Add movement to the Player's Character Pawn.
 	if (PlayerCharacter)
 	{
-		PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorForwardVector(), MovementVector.Y);
-		PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorRightVector(), MovementVector.X);
+		if (PlayerCharacter->GetCharacterMovement()->IsSwimming())
+		{
+			PlayerCharacter->AddMovementInput(PlayerCharacter->GetControlRotation().Vector(), MovementVector.Y);
+			PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorRightVector(), MovementVector.X);
+		}
+		else
+		{
+			PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorForwardVector(), MovementVector.Y);
+			PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorRightVector(), MovementVector.X);
+		}
 	}
 }
 
@@ -142,6 +156,14 @@ void AAnimalPlayerController::HandleJump()
 	if (PlayerCharacter)
 	{
 		PlayerCharacter->Jump();
+	}
+}
+
+void AAnimalPlayerController::HandleSwimUp()
+{
+	if (PlayerCharacter->GetCharacterMovement()->IsSwimming())
+	{
+		PlayerCharacter->AddMovementInput(FVector::UpVector, 1.0f);
 	}
 }
 
