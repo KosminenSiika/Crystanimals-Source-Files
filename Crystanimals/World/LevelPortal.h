@@ -39,6 +39,8 @@ protected:
 	virtual void BeginPlay() override;
 
 private:	
+	void ChangeRealm();
+
 	virtual void Interact() override;
 
 };

@@ -108,6 +108,7 @@ void AAnimalHUD::DisplayMainMenu()
 		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 		HideAnimalSelectionMenu();
 		HideCrosshair();
+		HideScoreWidget();
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
 	}
 }
@@ -119,6 +120,7 @@ void AAnimalHUD::HideMainMenu()
 		bIsMainMenuVisible = false;
 		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 		DisplayCrosshair();
+		DisplayScoreWidget();
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 	}
 }
@@ -234,8 +236,8 @@ void AAnimalHUD::DisplayNotEnoughSpaceWidget() const
 	{
 		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Visible);
 
-		FTimerHandle TimerHandle;
-		GetWorldTimerManager().SetTimer(TimerHandle,
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
 			this,
 			&AAnimalHUD::HideNotEnoughSpaceWidget,
 			1.5f,
@@ -248,6 +250,22 @@ void AAnimalHUD::HideNotEnoughSpaceWidget() const
 	if (NotEnoughSpaceWidget)
 	{
 		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayScoreWidget() const
+{
+	if (ScoreWidget)
+	{
+		ScoreWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::HideScoreWidget() const
+{
+	if (ScoreWidget)
+	{
+		ScoreWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 

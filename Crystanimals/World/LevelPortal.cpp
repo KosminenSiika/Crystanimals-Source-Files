@@ -3,6 +3,7 @@
 
 #include "World/LevelPortal.h"
 #include "Core/TreasureGameInstance.h"
+#include "Player/AnimalPlayerController.h"
 
 // Sets default values
 ALevelPortal::ALevelPortal()
@@ -37,11 +38,23 @@ void ALevelPortal::Interact()
 {
 	if (!DestinationRealm.IsNone())
 	{
-		GameInstance->ChangeRealm(DestinationRealm);
+		GetWorld()->GetFirstPlayerController<AAnimalPlayerController>()->FadeToBlack();
+
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&ALevelPortal::ChangeRealm,
+			1.1f,
+			false);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("DestinationRealm has not been set for this actor"));
 	}
+}
+
+void ALevelPortal::ChangeRealm()
+{
+	GameInstance->ChangeRealm(DestinationRealm);
 }
 

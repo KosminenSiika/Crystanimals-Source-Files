@@ -53,6 +53,12 @@ public:
 
 	void HandleOpenCloseAnimalSelectionMenu();
 
+	UFUNCTION()
+	void FadeToBlack();
+
+	UFUNCTION()
+	void FadeOutOfBlack();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* aPawn) override;

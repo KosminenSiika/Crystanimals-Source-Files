@@ -8,6 +8,7 @@
 #include "Core/TreasureGameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
+#include "UserInterface/AnimalHUD.h"
 
 void AAnimalPlayerController::BeginPlay()
 {
@@ -17,6 +18,15 @@ void AAnimalPlayerController::BeginPlay()
 	checkf(GameInstance, TEXT("AnimalPlayerController unable to get reference to GameInstance"));
 
 	SetInputMode(FInputModeGameOnly());
+
+	PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, false);
+
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle,
+		this,
+		&AAnimalPlayerController::FadeOutOfBlack,
+		1.0f,
+		false);
 }
 
 void AAnimalPlayerController::OnPossess(APawn* aPawn)
@@ -220,4 +230,21 @@ void AAnimalPlayerController::HandleOpenCloseAnimalSelectionMenu()
 			SetInputMode(FInputModeGameOnly());
 		}
 	}
+}
+
+void AAnimalPlayerController::FadeToBlack()
+{
+	PlayerCameraManager->StartCameraFade(0.0f, 1.0f, 1.0f, FLinearColor::Black, true, true);
+
+	AAnimalHUD* HUD = GetHUD<AAnimalHUD>();
+	checkf(HUD, TEXT("Unable to get reference to HUD"));
+
+	HUD->HideScoreWidget();
+	HUD->HideInteractionWidget();
+	HUD->HideCrosshair();
+}
+
+void AAnimalPlayerController::FadeOutOfBlack()
+{
+	PlayerCameraManager->StartCameraFade(1.0f, 0.0f, 2.0f, FLinearColor::Black, true);
 }

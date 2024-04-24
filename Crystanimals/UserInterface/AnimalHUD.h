@@ -103,6 +103,12 @@ public:
 	void HideNotEnoughSpaceWidget() const;
 
 	UFUNCTION()
+	void DisplayScoreWidget() const;
+
+	UFUNCTION()
+	void HideScoreWidget() const;
+
+	UFUNCTION()
 	void DisplayConfirmationWidget(FString Action);
 
 	UFUNCTION()
