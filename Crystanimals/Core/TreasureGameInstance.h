@@ -29,6 +29,9 @@ public:
 	EAnimal CurrentAnimal;
 
 	UPROPERTY()
+	bool bNewUnlocksNotClaimed;
+
+	UPROPERTY()
 	bool bIsTrapdoorOpen;
 
 	UPROPERTY()
@@ -62,5 +65,5 @@ private:
 	UFUNCTION()
 	void NotifyGameSaved(const FString& SlotName, const int32 UserIndex, bool bSuccess);
 
-	virtual void OnStart() override;
+	virtual void Init() override;
 };

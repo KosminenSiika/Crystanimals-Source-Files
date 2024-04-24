@@ -61,24 +61,46 @@ void UAnimalSelectionMenu::UpdateButtons()
 
 	BirdButton->SetVisibility(ESlateVisibility::Collapsed);
 
-	if (GameInstance->Score >= 10)
+	if (GameInstance->bNewUnlocksNotClaimed)
 	{
-		ToggleButtonHittable(CatButton, true);
+		if (GameInstance->Score >= 10+10)
+		{
+			ToggleButtonHittable(CatButton, true);
+		}
+		if (GameInstance->Score >= 30+10)
+		{
+			ToggleButtonHittable(OtterButton, true);
+		}
+		if (GameInstance->Score >= 50+10)
+		{
+			ToggleButtonHittable(FlyingSquirrelButton, true);
+		}
+		if (GameInstance->Score >= 60+10)
+		{
+			ToggleButtonHittable(JerboaButton, true);
+		}
 	}
-	if (GameInstance->Score >= 30)
+	else
 	{
-		ToggleButtonHittable(OtterButton, true);
-	}
-	if (GameInstance->Score >= 50)
-	{
-		ToggleButtonHittable(FlyingSquirrelButton, true);
-	}
-	if (GameInstance->Score >= 60)
-	{
-		ToggleButtonHittable(JerboaButton, true);
-	}
-	if (GameInstance->Score >= 80)
-	{
-		ToggleButtonHittable(BirdButton, true);
+		if (GameInstance->Score >= 10)
+		{
+			ToggleButtonHittable(CatButton, true);
+		}
+		if (GameInstance->Score >= 30)
+		{
+			ToggleButtonHittable(OtterButton, true);
+		}
+		if (GameInstance->Score >= 50)
+		{
+			ToggleButtonHittable(FlyingSquirrelButton, true);
+		}
+		if (GameInstance->Score >= 60)
+		{
+			ToggleButtonHittable(JerboaButton, true);
+		}
+		if (GameInstance->Score >= 80)
+		{
+			ToggleButtonHittable(BirdButton, true);
+		}
 	}
 }

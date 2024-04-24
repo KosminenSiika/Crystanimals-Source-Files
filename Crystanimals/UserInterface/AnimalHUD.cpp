@@ -68,7 +68,14 @@ void AAnimalHUD::BeginPlay()
 	{
 		NewUnlocksWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), NewUnlocksWidgetClass);
 		NewUnlocksWidget->AddToViewport();
-		NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
+		if (GameInstance->bNewUnlocksNotClaimed)
+		{
+			NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+		else 
+		{
+			NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
+		}
 	}
 
 	if (NotEnoughSpaceWidgetClass)
@@ -216,6 +223,7 @@ void AAnimalHUD::DisplayNewUnlocksWidget()
 	{
 		if (GameInstance->Score % 10 == 0)
 		{
+			GameInstance->bNewUnlocksNotClaimed = true;
 			NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
 		}
 	}

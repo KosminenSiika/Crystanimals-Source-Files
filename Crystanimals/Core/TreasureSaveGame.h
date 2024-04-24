@@ -35,6 +35,9 @@ public:
 	EAnimal CurrentAnimal;
 
 	UPROPERTY()
+	bool bNewUnlocksNotClaimed;
+
+	UPROPERTY()
 	bool bIsTrapdoorOpen;
 
 	UPROPERTY()

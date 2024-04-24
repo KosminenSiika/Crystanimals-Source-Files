@@ -6,7 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Core/TreasureSaveGame.h"
 
-void UTreasureGameInstance::OnStart()
+void UTreasureGameInstance::Init()
 {
 	if (UGameplayStatics::DoesSaveGameExist("SaveSlot1", 0))
 	{
@@ -15,6 +15,7 @@ void UTreasureGameInstance::OnStart()
 			this->ExistingCrystals = LoadedGame->ExistingCrystals;
 			this->Score = LoadedGame->Score;
 			this->CurrentAnimal = LoadedGame->CurrentAnimal;
+			this->bNewUnlocksNotClaimed = LoadedGame->bNewUnlocksNotClaimed;
 			this->bIsTrapdoorOpen = LoadedGame->bIsTrapdoorOpen;
 			this->MouseSens = LoadedGame->MouseSens;
 		}
@@ -36,6 +37,7 @@ void UTreasureGameInstance::SaveGame()
 		SaveGameInstance->ExistingCrystals = this->ExistingCrystals;
 		SaveGameInstance->Score = this->Score;
 		SaveGameInstance->CurrentAnimal = this->CurrentAnimal;
+		SaveGameInstance->bNewUnlocksNotClaimed = this->bNewUnlocksNotClaimed;
 		SaveGameInstance->bIsTrapdoorOpen = this->bIsTrapdoorOpen;
 		SaveGameInstance->MouseSens = this->MouseSens;
 
@@ -70,9 +72,11 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 		"C71", "C72", "C73", "C74", "C75", "C76", "C77", "C78", "C79", "C80"
 	};
 
-	Score = 80;
+	Score = 58;
 
 	CurrentAnimal = EAnimal::Dog;
+
+	bNewUnlocksNotClaimed = false;
 
 	bIsTrapdoorOpen = false;
 

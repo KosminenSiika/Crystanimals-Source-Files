@@ -35,6 +35,7 @@ void AProgressionShop::Tick(float DeltaTime)
 
 void AProgressionShop::Interact()
 {
+	GameInstance->bNewUnlocksNotClaimed = false;
 	GameInstance->OnUnlocksClaimed.Broadcast();
 	GameInstance->SaveGame();
 }
