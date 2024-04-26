@@ -25,6 +25,7 @@ void UTreasureGameInstance::Init()
 		LoadDefaultDataValues();
 		UE_LOG(LogTemp, Warning, TEXT("No save file found, default TreasureGameInstance values loaded"));
 	}
+	CurrentRealm = "HubRealm";
 }
 
 void UTreasureGameInstance::SaveGame()
@@ -95,5 +96,6 @@ void UTreasureGameInstance::ResetGame()
 
 void UTreasureGameInstance::ChangeRealm(FName RealmName)
 {
+	CurrentRealm = RealmName;
 	UGameplayStatics::OpenLevel(this, RealmName);
 }

@@ -29,6 +29,9 @@ public:
 	EAnimal CurrentAnimal;
 
 	UPROPERTY()
+	FName CurrentRealm;
+
+	UPROPERTY()
 	bool bNewUnlocksNotClaimed;
 
 	UPROPERTY()
