@@ -12,6 +12,7 @@ enum class EAnimal : uint8;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FScoreUpdated);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUnlocksClaimed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameSaved);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAnimalSwitched);
 
 UCLASS()
 class CRYSTANIMALS_API UTreasureGameInstance : public UGameInstance
@@ -48,6 +49,9 @@ public:
 
 	UPROPERTY()
 	FGameSaved OnGameSaved;
+
+	UPROPERTY()
+	FAnimalSwitched OnAnimalSwitched;
 
 	UFUNCTION()
 	void ChangeRealm(FName RealmName);

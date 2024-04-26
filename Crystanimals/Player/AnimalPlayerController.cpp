@@ -241,6 +241,7 @@ void AAnimalPlayerController::FadeToBlack()
 
 	HUD->HideScoreWidget();
 	HUD->HideInteractionWidget();
+	HUD->HideNewUnlocksWidget();
 	HUD->HideCrosshair();
 }
 

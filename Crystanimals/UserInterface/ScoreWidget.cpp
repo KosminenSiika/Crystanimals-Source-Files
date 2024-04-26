@@ -3,7 +3,9 @@
 
 #include "UserInterface/ScoreWidget.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
 #include "Core/TreasureGameInstance.h"
+#include "Player/AnimalCharacter.h"
 
 void UScoreWidget::NativeConstruct()
 {
@@ -15,6 +17,7 @@ void UScoreWidget::NativeConstruct()
 	UpdateScoreText();
 
 	GameInstance->OnScoreUpdated.AddDynamic(this, &UScoreWidget::UpdateScoreText);
+	GameInstance->OnAnimalSwitched.AddDynamic(this, &UScoreWidget::UpdateAnimalIcon);
 }
 
 void UScoreWidget::UpdateScoreText()
@@ -25,4 +28,53 @@ void UScoreWidget::UpdateScoreText()
 	}
 }
 
+void UScoreWidget::UpdateAnimalIcon()
+{
+	if (CurrentAnimalIcon)
+	{
+		switch (GameInstance->CurrentAnimal)
+		{
+			case EAnimal::Cat:
+				if (CatImage)
+				{
+					CurrentAnimalIcon->SetBrushFromTexture(CatImage);
+				}
+				break;
 
+			case EAnimal::Otter:
+				if (OtterImage)
+				{
+					CurrentAnimalIcon->SetBrushFromTexture(OtterImage);
+				}
+				break;
+
+			case EAnimal::FlyingSquirrel:
+				if (FlyingSquirrelImage)
+				{
+					CurrentAnimalIcon->SetBrushFromTexture(FlyingSquirrelImage);
+				}
+				break;
+
+			case EAnimal::Jerboa:
+				if (JerboaImage)
+				{
+					CurrentAnimalIcon->SetBrushFromTexture(JerboaImage);
+				}
+				break;
+
+			case EAnimal::Bird:
+				if (BirdImage)
+				{
+					CurrentAnimalIcon->SetBrushFromTexture(BirdImage);
+				}
+				break;
+
+			default:
+				if (DogImage)
+				{
+					CurrentAnimalIcon->SetBrushFromTexture(DogImage);
+				}
+				break;
+		}
+	}
+}

@@ -251,6 +251,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				SetStatsByAnimalSize(CatSize);
 				GetCharacterMovement()->JumpZVelocity = CatJumpHeight;
 				GameInstance->CurrentAnimal = SelectedAnimal;
+				GameInstance->OnAnimalSwitched.Broadcast();
 			}
 			break;
 
@@ -263,6 +264,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				GetCharacterMovement()->JumpZVelocity = OtterJumpHeight;
 				// BreathHoldTime = OtterBreathHoldTime;
 				GameInstance->CurrentAnimal = SelectedAnimal;
+				GameInstance->OnAnimalSwitched.Broadcast();
 			}
 			break;
 
@@ -272,6 +274,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				SetStatsByAnimalSize(FlyingSquirrelSize);
 				CanGlide = true;
 				GameInstance->CurrentAnimal = SelectedAnimal;
+				GameInstance->OnAnimalSwitched.Broadcast();
 			}
 			break;
 
@@ -280,6 +283,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 			{
 				SetStatsByAnimalSize(JerboaSize);
 				GameInstance->CurrentAnimal = SelectedAnimal;
+				GameInstance->OnAnimalSwitched.Broadcast();
 			}
 			break;
 
@@ -293,6 +297,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				// Flying is implemented as being able to jump "many" (100) times in a row
 				JumpMaxCount = 100;
 				GameInstance->CurrentAnimal = SelectedAnimal;
+				GameInstance->OnAnimalSwitched.Broadcast();
 			}
 			break;
 
@@ -301,6 +306,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 			{
 				SetStatsByAnimalSize(DogSize);
 				GameInstance->CurrentAnimal = SelectedAnimal;
+				GameInstance->OnAnimalSwitched.Broadcast();
 			}
 			break;
 	}
