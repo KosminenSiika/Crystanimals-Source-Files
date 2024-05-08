@@ -3,14 +3,15 @@
 
 #include "AnimalCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PhysicsVolume.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
 #include "DrawDebugHelpers.h"
-#include "UserInterface/AnimalHUD.h"
+#include "Player/AnimalPlayerController.h"
 #include "Core/TreasureGameInstance.h"
-#include "Kismet/GameplayStatics.h"
+#include "UserInterface/AnimalHUD.h"
 #include "World/MapBoundaries.h"
-#include "GameFramework/PhysicsVolume.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
@@ -31,6 +32,13 @@ AAnimalCharacter::AAnimalCharacter()
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCamera->SetupAttachment(Hitbox);
 	FirstPersonCamera->bUsePawnControlRotation = true;
+
+	// Create CollisionVolume used for checking breathing underwater and attact it to the camera
+	CameraCollisionVolume = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CameraCollisionVolume"));
+	CameraCollisionVolume->SetupAttachment(FirstPersonCamera);
+	CameraCollisionVolume->SetCapsuleSize(0.1f, 0.1f);
+	CameraCollisionVolume->OnComponentBeginOverlap.AddDynamic(this, &AAnimalCharacter::StartHoldingBreath);
+	CameraCollisionVolume->OnComponentEndOverlap.AddDynamic(this, &AAnimalCharacter::StopHoldingBreath);
 }
 
 // Called when the game starts or when spawned
@@ -102,6 +110,66 @@ void AAnimalCharacter::SetGliding(bool ShouldGlide)
 		GetCharacterMovement()->GravityScale = DefaultGravityScale;
 		GetCharacterMovement()->AirControl = DefaultAirControl;
 	}
+}
+
+void AAnimalCharacter::StartHoldingBreath(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("StartHoldingBreath called"));
+	if (OtherActor->GetClass() == APhysicsVolume::StaticClass())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("StartHoldingBreath if statement successful"));
+		// HUD->UpdateBreathHoldWidget(BreathHoldMaxDuration, BreathHoldMaxDuration);
+		GetWorldTimerManager().SetTimer(BreathHoldTimer,
+			this,
+			&AAnimalCharacter::UpdateBreathHoldTimer,
+			1.0f,
+			true);
+		BreathHoldStartTime = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("BreathHoldTimer started"));
+	}
+}
+
+void AAnimalCharacter::StopHoldingBreath(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor->GetClass() == APhysicsVolume::StaticClass())
+	{
+		// HUD->HideBreathHoldWidget();
+		GetWorldTimerManager().ClearTimer(BreathHoldTimer);
+		UE_LOG(LogTemp, Warning, TEXT("BreathHoldTimer cleared"));
+	}
+}
+
+void AAnimalCharacter::UpdateBreathHoldTimer()
+{
+	float ElapsedTime = GetWorld()->TimeSince(BreathHoldStartTime);
+
+	if (ElapsedTime >= BreathHoldMaxDuration) 
+	{
+		// HUD->UpdateBreathHoldWidget(0.0f, BreathHoldMaxDuration);
+		GetWorldTimerManager().ClearTimer(BreathHoldTimer);
+
+		GetController<AAnimalPlayerController>()->FadeToBlack();
+
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalCharacter::ChangeRealm,
+			1.1f,
+			false);
+
+		UE_LOG(LogTemp, Warning, TEXT("Death, timer cleared"));
+	}
+	else
+	{
+		// HUD->UpdateBreathHoldWidget(BreathHoldMaxDuration - ElapsedTime, BreathHoldMaxDuration);
+		UE_LOG(LogTemp, Warning, TEXT("Breath left: %.0f / %.0f"), BreathHoldMaxDuration - ElapsedTime, BreathHoldMaxDuration);
+	}
+
+}
+
+void AAnimalCharacter::ChangeRealm()
+{
+	GameInstance->ChangeRealm(GameInstance->CurrentRealm);
 }
 
 // Check if the Character is looking at an interactable actor
@@ -223,7 +291,7 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 	CanGlide = false;
 	// Flying is implemented as being able to jump "many" (100) times in a row
 	JumpMaxCount = 1;
-	// BreathHoldTime = 10;
+	BreathHoldMaxDuration = 10.0f;
 
 	// Change interaction distance based on the size of the animal
 	InteractionCheckDistance = 65.0f + AnimalSize;
@@ -262,7 +330,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				SwimSpeed = OtterSwimSpeed;
 				GetCharacterMovement()->MaxSwimSpeed = OtterSwimSpeed;
 				GetCharacterMovement()->JumpZVelocity = OtterJumpHeight;
-				// BreathHoldTime = OtterBreathHoldTime;
+				BreathHoldMaxDuration = OtterBreathHoldMaxDuration;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
 			}

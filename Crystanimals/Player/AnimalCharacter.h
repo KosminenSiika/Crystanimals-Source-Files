@@ -85,6 +85,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Player|Camera")
 	TObjectPtr<UCameraComponent> FirstPersonCamera = nullptr;
 
+	UPROPERTY(VisibleAnywhere, Category = "Player|Camera")
+	TObjectPtr<UCapsuleComponent> CameraCollisionVolume = nullptr;
+
 	UPROPERTY(VisibleAnywhere, Category = "Player|Collision")
 	TObjectPtr<UCapsuleComponent> Hitbox = nullptr;
 
@@ -96,6 +99,15 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<AAnimalHUD> HUD = nullptr;
+
+	UPROPERTY()
+	FTimerHandle BreathHoldTimer;
+
+	UPROPERTY()
+	float BreathHoldMaxDuration;
+
+	UPROPERTY()
+	float BreathHoldStartTime;
 
 	// Interaction
 	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
@@ -169,7 +181,7 @@ private:
 	float OtterJumpHeight;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Otter")
-	float OtterBreathHoldTime;
+	float OtterBreathHoldMaxDuration;
 
 
 	// FlyingSquirrel Specific Stats - editable in UE5 editor
@@ -203,4 +215,24 @@ private:
 
 	UFUNCTION()
 	void PerformInteractionCheck();
+
+	UFUNCTION()
+	void StartHoldingBreath(UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void StopHoldingBreath(UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex);
+
+	UFUNCTION()
+	void UpdateBreathHoldTimer();
+
+	UFUNCTION()
+	void ChangeRealm();
 };
