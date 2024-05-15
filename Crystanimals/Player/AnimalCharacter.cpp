@@ -114,18 +114,17 @@ void AAnimalCharacter::SetGliding(bool ShouldGlide)
 
 void AAnimalCharacter::StartHoldingBreath(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("StartHoldingBreath called"));
 	if (OtherActor->GetClass() == APhysicsVolume::StaticClass())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("StartHoldingBreath if statement successful"));
-		// HUD->UpdateBreathHoldWidget(BreathHoldMaxDuration, BreathHoldMaxDuration);
+		HUD->UpdateOxygenBarWidget(BreathHoldMaxDuration, BreathHoldMaxDuration);
+
 		GetWorldTimerManager().SetTimer(BreathHoldTimer,
 			this,
-			&AAnimalCharacter::UpdateBreathHoldTimer,
+			&AAnimalCharacter::BreathHoldTimerUpdate,
 			1.0f,
 			true);
+
 		BreathHoldStartTime = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("BreathHoldTimer started"));
 	}
 }
 
@@ -133,19 +132,18 @@ void AAnimalCharacter::StopHoldingBreath(UPrimitiveComponent* OverlappedComponen
 {
 	if (OtherActor->GetClass() == APhysicsVolume::StaticClass())
 	{
-		// HUD->HideBreathHoldWidget();
+		HUD->HideOxygenBarWidget();
 		GetWorldTimerManager().ClearTimer(BreathHoldTimer);
-		UE_LOG(LogTemp, Warning, TEXT("BreathHoldTimer cleared"));
 	}
 }
 
-void AAnimalCharacter::UpdateBreathHoldTimer()
+void AAnimalCharacter::BreathHoldTimerUpdate()
 {
 	float ElapsedTime = GetWorld()->TimeSince(BreathHoldStartTime);
 
 	if (ElapsedTime >= BreathHoldMaxDuration) 
 	{
-		// HUD->UpdateBreathHoldWidget(0.0f, BreathHoldMaxDuration);
+		HUD->UpdateOxygenBarWidget(0.0f, BreathHoldMaxDuration);
 		GetWorldTimerManager().ClearTimer(BreathHoldTimer);
 
 		GetController<AAnimalPlayerController>()->FadeToBlack();
@@ -156,13 +154,10 @@ void AAnimalCharacter::UpdateBreathHoldTimer()
 			&AAnimalCharacter::ChangeRealm,
 			1.1f,
 			false);
-
-		UE_LOG(LogTemp, Warning, TEXT("Death, timer cleared"));
 	}
 	else
 	{
-		// HUD->UpdateBreathHoldWidget(BreathHoldMaxDuration - ElapsedTime, BreathHoldMaxDuration);
-		UE_LOG(LogTemp, Warning, TEXT("Breath left: %.0f / %.0f"), BreathHoldMaxDuration - ElapsedTime, BreathHoldMaxDuration);
+		HUD->UpdateOxygenBarWidget(BreathHoldMaxDuration - ElapsedTime, BreathHoldMaxDuration);
 	}
 
 }

@@ -17,9 +17,7 @@ UCLASS()
 class CRYSTANIMALS_API UScoreWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
-	UFUNCTION()
-	void UpdateAnimalIcon();
+	
 
 private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
@@ -52,6 +50,9 @@ private:
 
 	UFUNCTION()
 	void UpdateScoreText();
+
+	UFUNCTION()
+	void UpdateAnimalIcon();
 
 	virtual void NativeConstruct() override;
 	

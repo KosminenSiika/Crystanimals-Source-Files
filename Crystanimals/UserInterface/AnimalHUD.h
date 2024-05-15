@@ -13,6 +13,7 @@ class UInteractionWidget;
 class UStaticWidgetBase;
 class UScoreWidget;
 class UConfirmationWidget;
+class UStatBarWidget;
 struct FInteractableData;
 
 /**
@@ -55,6 +56,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UStaticWidgetBase> GameSavedWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStatBarWidget> OxygenBarWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStatBarWidget> OverheatBarWidgetClass = nullptr;
 
 
 	bool bIsMainMenuVisible;
@@ -117,6 +124,18 @@ public:
 	UFUNCTION()
 	void HideGameSavedWidget() const;
 
+	UFUNCTION()
+	void UpdateOxygenBarWidget(float CurrentValue, float MaxValue) const;
+
+	UFUNCTION()
+	void HideOxygenBarWidget() const;
+
+	UFUNCTION()
+	void UpdateOverheatBarWidget(float CurrentValue, float MaxValue) const;
+
+	UFUNCTION()
+	void HideOverheatBarWidget() const;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -150,6 +169,12 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UStaticWidgetBase> GameSavedWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UStatBarWidget> OxygenBarWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UStatBarWidget> OverheatBarWidget = nullptr;
 
 
 	UPROPERTY()

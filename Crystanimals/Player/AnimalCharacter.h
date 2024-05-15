@@ -231,7 +231,7 @@ private:
 		int32 OtherBodyIndex);
 
 	UFUNCTION()
-	void UpdateBreathHoldTimer();
+	void BreathHoldTimerUpdate();
 
 	UFUNCTION()
 	void ChangeRealm();

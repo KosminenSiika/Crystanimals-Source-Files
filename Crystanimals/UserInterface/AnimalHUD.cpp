@@ -8,6 +8,7 @@
 #include "UserInterface/StaticWidgetBase.h"
 #include "UserInterface/ScoreWidget.h"
 #include "UserInterface/ConfirmationWidget.h"
+#include "UserInterface/StatBarWidget.h"
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Core/TreasureGameInstance.h"
@@ -105,6 +106,20 @@ void AAnimalHUD::BeginPlay()
 		GameSavedWidget->AddToViewport(1);
 		GameSavedWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
+
+	if (OxygenBarWidgetClass)
+	{
+		OxygenBarWidget = CreateWidget<UStatBarWidget>(GetWorld(), OxygenBarWidgetClass);
+		OxygenBarWidget->AddToViewport(1);
+		OxygenBarWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (OverheatBarWidgetClass)
+	{
+		OverheatBarWidget = CreateWidget<UStatBarWidget>(GetWorld(), OverheatBarWidgetClass);
+		OverheatBarWidget->AddToViewport(1);
+		OverheatBarWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void AAnimalHUD::DisplayMainMenu()
@@ -115,7 +130,6 @@ void AAnimalHUD::DisplayMainMenu()
 		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 		HideAnimalSelectionMenu();
 		HideCrosshair();
-		HideScoreWidget();
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
 	}
 }
@@ -127,7 +141,6 @@ void AAnimalHUD::HideMainMenu()
 		bIsMainMenuVisible = false;
 		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 		DisplayCrosshair();
-		DisplayScoreWidget();
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 	}
 }
@@ -309,4 +322,33 @@ void AAnimalHUD::HideGameSavedWidget() const
 	}
 }
 
+void AAnimalHUD::UpdateOxygenBarWidget(float CurrentValue, float MaxValue) const
+{
+	if (OxygenBarWidget)
+	{
+		OxygenBarWidget->UpdateStatBar(CurrentValue, MaxValue);
+		
+		if (OxygenBarWidget->GetVisibility() != ESlateVisibility::Visible)
+		{
+			OxygenBarWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+}
 
+void AAnimalHUD::HideOxygenBarWidget() const
+{
+	if (OxygenBarWidget)
+	{
+		OxygenBarWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::UpdateOverheatBarWidget(float CurrentValue, float MaxValue) const
+{
+	
+}
+
+void AAnimalHUD::HideOverheatBarWidget() const
+{
+
+}
