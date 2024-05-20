@@ -61,7 +61,7 @@ public:
 	TSubclassOf<UStatBarWidget> OxygenBarWidgetClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UStatBarWidget> OverheatBarWidgetClass = nullptr;
+	TSubclassOf<UStatBarWidget> ExhaustionBarWidgetClass = nullptr;
 
 
 	bool bIsMainMenuVisible;
@@ -131,10 +131,10 @@ public:
 	void HideOxygenBarWidget() const;
 
 	UFUNCTION()
-	void UpdateOverheatBarWidget(float CurrentValue, float MaxValue) const;
+	void UpdateExhaustionBarWidget(float CurrentValue, float MaxValue) const;
 
 	UFUNCTION()
-	void HideOverheatBarWidget() const;
+	void HideExhaustionBarWidget() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -174,7 +174,7 @@ private:
 	TObjectPtr<UStatBarWidget> OxygenBarWidget = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UStatBarWidget> OverheatBarWidget = nullptr;
+	TObjectPtr<UStatBarWidget> ExhaustionBarWidget = nullptr;
 
 
 	UPROPERTY()

@@ -73,7 +73,7 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 		"C71", "C72", "C73", "C74", "C75", "C76", "C77", "C78", "C79", "C80"
 	};
 
-	Score = 58;
+	Score = 80;
 
 	CurrentAnimal = EAnimal::Dog;
 

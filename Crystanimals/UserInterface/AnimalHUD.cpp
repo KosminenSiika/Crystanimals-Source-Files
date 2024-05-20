@@ -114,11 +114,11 @@ void AAnimalHUD::BeginPlay()
 		OxygenBarWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
-	if (OverheatBarWidgetClass)
+	if (ExhaustionBarWidgetClass)
 	{
-		OverheatBarWidget = CreateWidget<UStatBarWidget>(GetWorld(), OverheatBarWidgetClass);
-		OverheatBarWidget->AddToViewport(1);
-		OverheatBarWidget->SetVisibility(ESlateVisibility::Collapsed);
+		ExhaustionBarWidget = CreateWidget<UStatBarWidget>(GetWorld(), ExhaustionBarWidgetClass);
+		ExhaustionBarWidget->AddToViewport(1);
+		ExhaustionBarWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
@@ -343,12 +343,12 @@ void AAnimalHUD::HideOxygenBarWidget() const
 	}
 }
 
-void AAnimalHUD::UpdateOverheatBarWidget(float CurrentValue, float MaxValue) const
+void AAnimalHUD::UpdateExhaustionBarWidget(float CurrentValue, float MaxValue) const
 {
 	
 }
 
-void AAnimalHUD::HideOverheatBarWidget() const
+void AAnimalHUD::HideExhaustionBarWidget() const
 {
 
 }
