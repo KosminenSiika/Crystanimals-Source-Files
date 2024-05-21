@@ -211,10 +211,18 @@ void AAnimalCharacter::UpdateResistances()
 {
 	if (GameInstance->Score >= 40)
 	{
+		if (!GameInstance->bHasHeatResistance)
+		{
+			HUD->DisplayNowUnlockedWidget("Heat Resistance");
+		}
 		GameInstance->bHasHeatResistance = true;
 	}
 	if (GameInstance->Score >= 70)
 	{
+		if (!GameInstance->bHasColdResistance)
+		{
+			HUD->DisplayNowUnlockedWidget("Cold Resistance");
+		}
 		GameInstance->bHasColdResistance = true;
 	}
 }

@@ -14,6 +14,7 @@ class UStaticWidgetBase;
 class UScoreWidget;
 class UConfirmationWidget;
 class UStatBarWidget;
+class UEditableNotificationWidget;
 struct FInteractableData;
 
 /**
@@ -62,6 +63,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UStatBarWidget> ExhaustionBarWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UEditableNotificationWidget> NowUnlockedWidgetClass = nullptr;
 
 
 	bool bIsMainMenuVisible;
@@ -133,6 +137,12 @@ public:
 	UFUNCTION()
 	void UpdateExhaustionBarWidget(float CurrentValue, float MaxValue) const;
 
+	UFUNCTION()
+	void DisplayNowUnlockedWidget(FString TextToDisplay) const;
+
+	UFUNCTION()
+	void HideNowUnlockedWidget() const;
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -173,6 +183,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UStatBarWidget> ExhaustionBarWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UEditableNotificationWidget> NowUnlockedWidget = nullptr;
 
 
 	UPROPERTY()

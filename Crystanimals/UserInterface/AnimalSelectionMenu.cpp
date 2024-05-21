@@ -4,7 +4,7 @@
 #include "UserInterface/AnimalSelectionMenu.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-#include "Player/AnimalCharacter.h"
+#include "UserInterface/AnimalHUD.h"
 #include "UserInterface/AnimalButtonWidget.h"
 #include "Core/TreasureGameInstance.h"
 
@@ -16,9 +16,9 @@ void UAnimalSelectionMenu::NativeConstruct()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalSelectionMenu unable to get reference to GameInstance"));
 
-	// bNotClaimingUnlocks = true;
+	bClaimingUnlocks = false;
 	UpdateButtons();
-	// bNotClaimingUnlocks = false;
+	bClaimingUnlocks = true;
 
 	GameInstance->OnUnlocksClaimed.AddDynamic(this, &UAnimalSelectionMenu::UpdateButtons);
 
@@ -35,7 +35,7 @@ void UAnimalSelectionMenu::NativeConstruct()
 	JerboaButton->AnimalName->SetText(FText::FromString("Jerboa"));
 	JerboaButton->SetToolTipText(FText::FromString("Is tiny, so can fit in places others cannot"));
 	BirdButton->AnimalName->SetText(FText::FromString("Bird"));
-	BirdButton->SetToolTipText(FText::FromString("Can FLY! The sky is the limit"));
+	BirdButton->SetToolTipText(FText::FromString("Can FLY! The sky is the limit (spacebar to flap wings)"));
 }
 
 void UAnimalSelectionMenu::ToggleButtonHittable(UAnimalButtonWidget* Button, bool IsHittable)
@@ -88,22 +88,47 @@ void UAnimalSelectionMenu::UpdateButtons()
 		// This block is executed when there are no new unlocks AND when claiming new unlocks
 		if (GameInstance->Score >= 10)
 		{
+			if (bClaimingUnlocks && GameInstance->Score < 20)
+			{
+				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Cat");
+			}
+
 			ToggleButtonHittable(CatButton, true);
 		}
 		if (GameInstance->Score >= 30)
 		{
+			if (bClaimingUnlocks && GameInstance->Score < 40)
+			{
+				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Otter");
+			}
+
 			ToggleButtonHittable(OtterButton, true);
 		}
 		if (GameInstance->Score >= 50)
 		{
+			if (bClaimingUnlocks && GameInstance->Score < 60)
+			{
+				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Flying Squirrel");
+			}
+
 			ToggleButtonHittable(FlyingSquirrelButton, true);
 		}
 		if (GameInstance->Score >= 60)
 		{
+			if (bClaimingUnlocks && GameInstance->Score < 70)
+			{
+				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Jerboa");
+			}
+
 			ToggleButtonHittable(JerboaButton, true);
 		}
 		if (GameInstance->Score >= 80)
 		{
+			if (bClaimingUnlocks)
+			{
+				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Secret Animal - Bird");
+			}
+
 			ToggleButtonHittable(BirdButton, true);
 		}
 	}

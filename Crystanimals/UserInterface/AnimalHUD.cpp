@@ -9,6 +9,7 @@
 #include "UserInterface/ScoreWidget.h"
 #include "UserInterface/ConfirmationWidget.h"
 #include "UserInterface/StatBarWidget.h"
+#include "UserInterface/EditableNotificationWidget.h"
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Core/TreasureGameInstance.h"
@@ -119,6 +120,13 @@ void AAnimalHUD::BeginPlay()
 		ExhaustionBarWidget = CreateWidget<UStatBarWidget>(GetWorld(), ExhaustionBarWidgetClass);
 		ExhaustionBarWidget->AddToViewport(1);
 		ExhaustionBarWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (NowUnlockedWidgetClass)
+	{
+		NowUnlockedWidget = CreateWidget<UEditableNotificationWidget>(GetWorld(), NowUnlockedWidgetClass);
+		NowUnlockedWidget->AddToViewport(1);
+		NowUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
@@ -305,8 +313,8 @@ void AAnimalHUD::DisplayGameSavedWidget()
 	{
 		GameSavedWidget->SetVisibility(ESlateVisibility::Visible);
 
-		FTimerHandle TimerHandle;
-		GetWorldTimerManager().SetTimer(TimerHandle,
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
 			this,
 			&AAnimalHUD::HideGameSavedWidget,
 			1.5f,
@@ -353,5 +361,30 @@ void AAnimalHUD::UpdateExhaustionBarWidget(float CurrentValue, float MaxValue) c
 		{
 			ExhaustionBarWidget->SetVisibility(ESlateVisibility::Visible);
 		}
+	}
+}
+
+void AAnimalHUD::DisplayNowUnlockedWidget(FString TextToDisplay) const
+{
+	if (NowUnlockedWidget)
+	{
+		NowUnlockedWidget->UpdateNotificationText(TextToDisplay);
+
+		NowUnlockedWidget->SetVisibility(ESlateVisibility::Visible);
+
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalHUD::HideNowUnlockedWidget,
+			2.5f,
+			false);
+	}
+}
+
+void AAnimalHUD::HideNowUnlockedWidget() const
+{
+	if (NowUnlockedWidget)
+	{
+		NowUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

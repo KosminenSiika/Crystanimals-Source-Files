@@ -23,6 +23,9 @@ public:
 	void UpdateButtons();
 
 private:
+	UPROPERTY()
+	bool bClaimingUnlocks;
+
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UAnimalButtonWidget> DogButton = nullptr;
 
