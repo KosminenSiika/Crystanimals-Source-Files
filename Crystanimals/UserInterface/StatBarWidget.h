@@ -20,7 +20,7 @@ class CRYSTANIMALS_API UStatBarWidget : public UUserWidget
 	
 public:
 	UFUNCTION()
-	void UpdateStatBar(float CurrentValue, float MaxValue);
+	void UpdateStatBar(float CurrentValue, float MaxValue, bool ShowValues);
 
 private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))

@@ -5,11 +5,14 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 
-void UStatBarWidget::UpdateStatBar(float CurrentValue, float MaxValue)
+void UStatBarWidget::UpdateStatBar(float CurrentValue, float MaxValue, bool ShowValues)
 {
-	CurrentValueText->SetText(FText::FromString(FString::FromInt(ceil(CurrentValue))));
+	if (ShowValues)
+	{
+		CurrentValueText->SetText(FText::FromString(FString::FromInt(ceil(CurrentValue))));
 
-	MaxValueText->SetText(FText::FromString(FString::FromInt(ceil(MaxValue))));
-
+		MaxValueText->SetText(FText::FromString(FString::FromInt(ceil(MaxValue))));
+	}
+	
 	StatBar->SetPercent(CurrentValue / MaxValue);
 }

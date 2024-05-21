@@ -59,6 +59,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
+	void StartExhaustionTimer();
+
+	UFUNCTION()
 	void Interact();
 
 	UFUNCTION()
@@ -100,6 +103,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<AAnimalHUD> HUD = nullptr;
 
+	// Timers
 	UPROPERTY()
 	FTimerHandle BreathHoldTimer;
 
@@ -108,6 +112,15 @@ private:
 
 	UPROPERTY()
 	float BreathHoldStartTime;
+
+	UPROPERTY()
+	FTimerHandle ExhaustionTimer;
+
+	UPROPERTY()
+	float ExhaustionTimeLimit;
+
+	UPROPERTY()
+	float ExhaustionStartTime;
 
 	// Interaction
 	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
@@ -238,5 +251,8 @@ private:
 	void BreathHoldTimerUpdate();
 
 	UFUNCTION()
-	void ChangeRealm();
+	void ExhaustionTimerUpdate();
+
+	UFUNCTION()
+	void RestartRealm();
 };

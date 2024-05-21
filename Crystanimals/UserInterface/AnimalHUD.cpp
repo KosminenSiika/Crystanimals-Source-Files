@@ -326,7 +326,7 @@ void AAnimalHUD::UpdateOxygenBarWidget(float CurrentValue, float MaxValue) const
 {
 	if (OxygenBarWidget)
 	{
-		OxygenBarWidget->UpdateStatBar(CurrentValue, MaxValue);
+		OxygenBarWidget->UpdateStatBar(CurrentValue, MaxValue, true);
 		
 		if (OxygenBarWidget->GetVisibility() != ESlateVisibility::Visible)
 		{
@@ -345,10 +345,13 @@ void AAnimalHUD::HideOxygenBarWidget() const
 
 void AAnimalHUD::UpdateExhaustionBarWidget(float CurrentValue, float MaxValue) const
 {
-	
-}
+	if (ExhaustionBarWidget)
+	{
+		ExhaustionBarWidget->UpdateStatBar(CurrentValue, MaxValue, false);
 
-void AAnimalHUD::HideExhaustionBarWidget() const
-{
-
+		if (ExhaustionBarWidget->GetVisibility() != ESlateVisibility::Visible)
+		{
+			ExhaustionBarWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
 }

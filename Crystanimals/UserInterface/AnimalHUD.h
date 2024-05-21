@@ -133,8 +133,6 @@ public:
 	UFUNCTION()
 	void UpdateExhaustionBarWidget(float CurrentValue, float MaxValue) const;
 
-	UFUNCTION()
-	void HideExhaustionBarWidget() const;
 
 protected:
 	virtual void BeginPlay() override;

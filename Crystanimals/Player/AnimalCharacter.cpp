@@ -123,7 +123,7 @@ void AAnimalCharacter::StartHoldingBreath(UPrimitiveComponent* OverlappedCompone
 		GetWorldTimerManager().SetTimer(BreathHoldTimer,
 			this,
 			&AAnimalCharacter::BreathHoldTimerUpdate,
-			1.0f,
+			0.05f,
 			true);
 
 		BreathHoldStartTime = GetWorld()->GetTimeSeconds();
@@ -143,7 +143,7 @@ void AAnimalCharacter::BreathHoldTimerUpdate()
 {
 	float ElapsedTime = GetWorld()->TimeSince(BreathHoldStartTime);
 
-	if (ElapsedTime >= BreathHoldMaxDuration) 
+	if (ElapsedTime >= BreathHoldMaxDuration)
 	{
 		HUD->UpdateOxygenBarWidget(0.0f, BreathHoldMaxDuration);
 		GetWorldTimerManager().ClearTimer(BreathHoldTimer);
@@ -153,7 +153,7 @@ void AAnimalCharacter::BreathHoldTimerUpdate()
 		FTimerHandle TempTimer;
 		GetWorldTimerManager().SetTimer(TempTimer,
 			this,
-			&AAnimalCharacter::ChangeRealm,
+			&AAnimalCharacter::RestartRealm,
 			1.1f,
 			false);
 	}
@@ -161,10 +161,48 @@ void AAnimalCharacter::BreathHoldTimerUpdate()
 	{
 		HUD->UpdateOxygenBarWidget(BreathHoldMaxDuration - ElapsedTime, BreathHoldMaxDuration);
 	}
-
 }
 
-void AAnimalCharacter::ChangeRealm()
+void AAnimalCharacter::StartExhaustionTimer()
+{
+	ExhaustionTimeLimit = GameInstance->bHasHeatResistance ? 300.0f : 30.0f;
+
+	HUD->UpdateExhaustionBarWidget(0.0f, ExhaustionTimeLimit);
+
+	GetWorldTimerManager().SetTimer(ExhaustionTimer,
+		this,
+		&AAnimalCharacter::ExhaustionTimerUpdate,
+		0.05f,
+		true);
+
+	ExhaustionStartTime = GetWorld()->GetTimeSeconds();
+}
+
+void AAnimalCharacter::ExhaustionTimerUpdate()
+{
+	float ElapsedTime = GetWorld()->TimeSince(ExhaustionStartTime);
+
+	if (ElapsedTime >= ExhaustionTimeLimit)
+	{
+		HUD->UpdateExhaustionBarWidget(ExhaustionTimeLimit, ExhaustionTimeLimit);
+		GetWorldTimerManager().ClearTimer(ExhaustionTimer);
+
+		GetController<AAnimalPlayerController>()->FadeToBlack();
+
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalCharacter::RestartRealm,
+			1.1f,
+			false);
+	}
+	else
+	{
+		HUD->UpdateExhaustionBarWidget(ElapsedTime, ExhaustionTimeLimit);
+	}
+}
+
+void AAnimalCharacter::RestartRealm()
 {
 	GameInstance->ChangeRealm(GameInstance->CurrentRealm);
 }

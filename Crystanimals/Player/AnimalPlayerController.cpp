@@ -248,4 +248,9 @@ void AAnimalPlayerController::FadeToBlack()
 void AAnimalPlayerController::FadeOutOfBlack()
 {
 	PlayerCameraManager->StartCameraFade(1.0f, 0.0f, 2.0f, FLinearColor::Black, true);
+
+	if (GameInstance->CurrentRealm == "DesertRealm")
+	{
+		PlayerCharacter->StartExhaustionTimer();
+	}
 }
