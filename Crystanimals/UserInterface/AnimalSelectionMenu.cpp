@@ -16,7 +16,9 @@ void UAnimalSelectionMenu::NativeConstruct()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalSelectionMenu unable to get reference to GameInstance"));
 
+	// bNotClaimingUnlocks = true;
 	UpdateButtons();
+	// bNotClaimingUnlocks = false;
 
 	GameInstance->OnUnlocksClaimed.AddDynamic(this, &UAnimalSelectionMenu::UpdateButtons);
 
@@ -63,6 +65,7 @@ void UAnimalSelectionMenu::UpdateButtons()
 
 	if (GameInstance->bNewUnlocksNotClaimed)
 	{
+		// This block is executed when there are new unlocks that have not been claimed
 		if (GameInstance->Score >= 10+10)
 		{
 			ToggleButtonHittable(CatButton, true);
@@ -82,6 +85,7 @@ void UAnimalSelectionMenu::UpdateButtons()
 	}
 	else
 	{
+		// This block is executed when there are no new unlocks AND when claiming new unlocks
 		if (GameInstance->Score >= 10)
 		{
 			ToggleButtonHittable(CatButton, true);

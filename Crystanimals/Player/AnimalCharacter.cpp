@@ -52,6 +52,8 @@ void AAnimalCharacter::BeginPlay()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalCharacter unable to get reference to GameInstance"));
 
+	GameInstance->OnUnlocksClaimed.AddDynamic(this, &AAnimalCharacter::UpdateResistances);
+
 	DefaultGravityScale = GetCharacterMovement()->GravityScale;
 	DefaultAirControl = GetCharacterMovement()->AirControl;
 	GetCharacterMovement()->BrakingDecelerationFalling = AnimalBrakingDecelerationFalling;
@@ -165,6 +167,18 @@ void AAnimalCharacter::BreathHoldTimerUpdate()
 void AAnimalCharacter::ChangeRealm()
 {
 	GameInstance->ChangeRealm(GameInstance->CurrentRealm);
+}
+
+void AAnimalCharacter::UpdateResistances()
+{
+	if (GameInstance->Score >= 40)
+	{
+		GameInstance->bHasHeatResistance = true;
+	}
+	if (GameInstance->Score >= 70)
+	{
+		GameInstance->bHasColdResistance = true;
+	}
 }
 
 // Check if the Character is looking at an interactable actor

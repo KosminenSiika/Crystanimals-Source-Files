@@ -15,6 +15,8 @@ void UTreasureGameInstance::Init()
 			this->ExistingCrystals = LoadedGame->ExistingCrystals;
 			this->Score = LoadedGame->Score;
 			this->CurrentAnimal = LoadedGame->CurrentAnimal;
+			this->bHasHeatResistance = LoadedGame->bHasHeatResistance;
+			this->bHasColdResistance = LoadedGame->bHasColdResistance;
 			this->bNewUnlocksNotClaimed = LoadedGame->bNewUnlocksNotClaimed;
 			this->bIsTrapdoorOpen = LoadedGame->bIsTrapdoorOpen;
 			this->MouseSens = LoadedGame->MouseSens;
@@ -38,6 +40,8 @@ void UTreasureGameInstance::SaveGame()
 		SaveGameInstance->ExistingCrystals = this->ExistingCrystals;
 		SaveGameInstance->Score = this->Score;
 		SaveGameInstance->CurrentAnimal = this->CurrentAnimal;
+		SaveGameInstance->bHasHeatResistance = this->bHasHeatResistance;
+		SaveGameInstance->bHasColdResistance = this->bHasColdResistance;
 		SaveGameInstance->bNewUnlocksNotClaimed = this->bNewUnlocksNotClaimed;
 		SaveGameInstance->bIsTrapdoorOpen = this->bIsTrapdoorOpen;
 		SaveGameInstance->MouseSens = this->MouseSens;
@@ -73,9 +77,13 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 		"C71", "C72", "C73", "C74", "C75", "C76", "C77", "C78", "C79", "C80"
 	};
 
-	Score = 80;
+	Score = 59;
 
 	CurrentAnimal = EAnimal::Dog;
+
+	bHasHeatResistance = false;
+
+	bHasColdResistance = false;
 
 	bNewUnlocksNotClaimed = false;
 

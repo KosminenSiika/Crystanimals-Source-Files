@@ -33,6 +33,12 @@ public:
 	FName CurrentRealm;
 
 	UPROPERTY()
+	bool bHasHeatResistance;
+
+	UPROPERTY()
+	bool bHasColdResistance;
+
+	UPROPERTY()
 	bool bNewUnlocksNotClaimed;
 
 	UPROPERTY()

@@ -35,6 +35,12 @@ public:
 	EAnimal CurrentAnimal;
 
 	UPROPERTY()
+	bool bHasHeatResistance;
+
+	UPROPERTY()
+	bool bHasColdResistance;
+
+	UPROPERTY()
 	bool bNewUnlocksNotClaimed;
 
 	UPROPERTY()
