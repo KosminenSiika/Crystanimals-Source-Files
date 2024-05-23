@@ -48,6 +48,9 @@ public:
 	float MouseSens;
 
 	UPROPERTY()
+	bool bShouldSaveAfterRealmChange;
+
+	UPROPERTY()
 	FScoreUpdated OnScoreUpdated;
 
 	UPROPERTY()
@@ -64,6 +67,9 @@ public:
 
 	UFUNCTION()
 	void SaveGame();
+
+	UFUNCTION()
+	void LoadSaveGame();
 
 	UFUNCTION()
 	void ResetGame();

@@ -10,22 +10,11 @@ void UTreasureGameInstance::Init()
 {
 	if (UGameplayStatics::DoesSaveGameExist("SaveSlot1", 0))
 	{
-		if (UTreasureSaveGame* LoadedGame = Cast<UTreasureSaveGame>(UGameplayStatics::LoadGameFromSlot("SaveSlot1", 0)))
-		{
-			this->ExistingCrystals = LoadedGame->ExistingCrystals;
-			this->Score = LoadedGame->Score;
-			this->CurrentAnimal = LoadedGame->CurrentAnimal;
-			this->bHasHeatResistance = LoadedGame->bHasHeatResistance;
-			this->bHasColdResistance = LoadedGame->bHasColdResistance;
-			this->bNewUnlocksNotClaimed = LoadedGame->bNewUnlocksNotClaimed;
-			this->bIsTrapdoorOpen = LoadedGame->bIsTrapdoorOpen;
-			this->MouseSens = LoadedGame->MouseSens;
-		}
+		LoadSaveGame();
 	}
 	else
 	{
 		LoadDefaultDataValues();
-		UE_LOG(LogTemp, Warning, TEXT("No save file found, default TreasureGameInstance values loaded"));
 	}
 	CurrentRealm = "HubRealm";
 }
@@ -40,6 +29,7 @@ void UTreasureGameInstance::SaveGame()
 		SaveGameInstance->ExistingCrystals = this->ExistingCrystals;
 		SaveGameInstance->Score = this->Score;
 		SaveGameInstance->CurrentAnimal = this->CurrentAnimal;
+		SaveGameInstance->CurrentRealm = this->CurrentRealm;
 		SaveGameInstance->bHasHeatResistance = this->bHasHeatResistance;
 		SaveGameInstance->bHasColdResistance = this->bHasColdResistance;
 		SaveGameInstance->bNewUnlocksNotClaimed = this->bNewUnlocksNotClaimed;
@@ -48,6 +38,23 @@ void UTreasureGameInstance::SaveGame()
 
 		UGameplayStatics::AsyncSaveGameToSlot(SaveGameInstance, "SaveSlot1", 0, SavedDelegate);
 	}
+}
+
+void UTreasureGameInstance::LoadSaveGame()
+{
+	if (UTreasureSaveGame* LoadedGame = Cast<UTreasureSaveGame>(UGameplayStatics::LoadGameFromSlot("SaveSlot1", 0)))
+	{
+		this->ExistingCrystals = LoadedGame->ExistingCrystals;
+		this->Score = LoadedGame->Score;
+		this->CurrentAnimal = LoadedGame->CurrentAnimal;
+		this->CurrentRealm = LoadedGame->CurrentRealm;
+		this->bHasHeatResistance = LoadedGame->bHasHeatResistance;
+		this->bHasColdResistance = LoadedGame->bHasColdResistance;
+		this->bNewUnlocksNotClaimed = LoadedGame->bNewUnlocksNotClaimed;
+		this->bIsTrapdoorOpen = LoadedGame->bIsTrapdoorOpen;
+		this->MouseSens = LoadedGame->MouseSens;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Loaded last save"));
 }
 
 void UTreasureGameInstance::ExitGame()
@@ -76,23 +83,17 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 		"C61", "C62", "C63", "C64", "C65", "C66", "C67", "C68", "C69", "C70",
 		"C71", "C72", "C73", "C74", "C75", "C76", "C77", "C78", "C79", "C80"
 	};
-
-	Score = 59;
-
+	Score = 80;
 	CurrentAnimal = EAnimal::Dog;
-
 	bHasHeatResistance = false;
-
 	bHasColdResistance = false;
-
 	bNewUnlocksNotClaimed = false;
-
 	bIsTrapdoorOpen = false;
-
 	MouseSens = 1.0f;
+	bShouldSaveAfterRealmChange = false;
+
+	UE_LOG(LogTemp, Warning, TEXT("No save file found, default TreasureGameInstance values loaded"));
 }
-
-
 
 void UTreasureGameInstance::ResetGame()
 {

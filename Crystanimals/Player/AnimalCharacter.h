@@ -254,5 +254,5 @@ private:
 	void ExhaustionTimerUpdate();
 
 	UFUNCTION()
-	void RestartRealm();
+	void LoadLastSaveGame();
 };

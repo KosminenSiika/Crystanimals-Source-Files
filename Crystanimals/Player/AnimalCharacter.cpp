@@ -153,7 +153,7 @@ void AAnimalCharacter::BreathHoldTimerUpdate()
 		FTimerHandle TempTimer;
 		GetWorldTimerManager().SetTimer(TempTimer,
 			this,
-			&AAnimalCharacter::RestartRealm,
+			&AAnimalCharacter::LoadLastSaveGame,
 			1.1f,
 			false);
 	}
@@ -165,7 +165,7 @@ void AAnimalCharacter::BreathHoldTimerUpdate()
 
 void AAnimalCharacter::StartExhaustionTimer()
 {
-	ExhaustionTimeLimit = GameInstance->bHasHeatResistance ? 300.0f : 30.0f;
+	ExhaustionTimeLimit = GameInstance->bHasHeatResistance ? 240.0f : 30.0f;
 
 	HUD->UpdateExhaustionBarWidget(0.0f, ExhaustionTimeLimit);
 
@@ -192,7 +192,7 @@ void AAnimalCharacter::ExhaustionTimerUpdate()
 		FTimerHandle TempTimer;
 		GetWorldTimerManager().SetTimer(TempTimer,
 			this,
-			&AAnimalCharacter::RestartRealm,
+			&AAnimalCharacter::LoadLastSaveGame,
 			1.1f,
 			false);
 	}
@@ -202,8 +202,10 @@ void AAnimalCharacter::ExhaustionTimerUpdate()
 	}
 }
 
-void AAnimalCharacter::RestartRealm()
+void AAnimalCharacter::LoadLastSaveGame()
 {
+	GameInstance->LoadSaveGame();
+	GameInstance->bShouldSaveAfterRealmChange = false;
 	GameInstance->ChangeRealm(GameInstance->CurrentRealm);
 }
 

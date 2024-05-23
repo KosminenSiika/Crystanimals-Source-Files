@@ -35,6 +35,9 @@ public:
 	EAnimal CurrentAnimal;
 
 	UPROPERTY()
+	FName CurrentRealm;
+
+	UPROPERTY()
 	bool bHasHeatResistance;
 
 	UPROPERTY()

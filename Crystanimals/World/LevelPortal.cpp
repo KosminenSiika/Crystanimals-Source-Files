@@ -55,6 +55,7 @@ void ALevelPortal::Interact()
 
 void ALevelPortal::ChangeRealm()
 {
+	GameInstance->bShouldSaveAfterRealmChange = true;
 	GameInstance->ChangeRealm(DestinationRealm);
 }
 

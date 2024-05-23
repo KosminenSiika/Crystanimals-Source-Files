@@ -49,7 +49,6 @@ void ACrystalCollectible::Interact()
 	GameInstance->ExistingCrystals.Remove(CrystalID);
 	GameInstance->Score++;
 	GameInstance->OnScoreUpdated.Broadcast();
-	GameInstance->SaveGame();
 
 	this->Destroy();
 }

@@ -47,7 +47,6 @@ void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType
 	if (MouseSensBox->GetText().ToString().IsNumeric())
 	{
 		GameInstance->MouseSens = FCString::Atof(*(MouseSensBox->GetText().ToString()));
-		GameInstance->SaveGame();
 	}
 	else
 	{
