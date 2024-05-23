@@ -10,6 +10,7 @@
 class UInputAction;
 class UInputMappingContext;
 class AAnimalCharacter;
+class AAnimalHUD;
 class UEnhancedInputComponent;
 class UTreasureGameInstance;
 struct FInputActionValue;
@@ -81,6 +82,9 @@ private:
 	// Used to store a reference to the controlled pawn.
 	UPROPERTY()
 	TObjectPtr<AAnimalCharacter> PlayerCharacter = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<AAnimalHUD> HUD = nullptr;
 
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;

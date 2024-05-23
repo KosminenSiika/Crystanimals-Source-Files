@@ -17,6 +17,9 @@ void AAnimalPlayerController::BeginPlay()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalPlayerController unable to get reference to GameInstance"));
 
+	HUD = GetHUD<AAnimalHUD>();
+	checkf(HUD, TEXT("Unable to get reference to HUD"));
+
 	SetInputMode(FInputModeGameOnly());
 
 	PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, false);
@@ -236,9 +239,6 @@ void AAnimalPlayerController::FadeToBlack()
 {
 	PlayerCameraManager->StartCameraFade(0.0f, 1.0f, 1.0f, FLinearColor::Black, true, true);
 
-	AAnimalHUD* HUD = GetHUD<AAnimalHUD>();
-	checkf(HUD, TEXT("Unable to get reference to HUD"));
-
 	HUD->HideScoreWidget();
 	HUD->HideInteractionWidget();
 	HUD->HideNewUnlocksWidget();
@@ -257,5 +257,13 @@ void AAnimalPlayerController::FadeOutOfBlack()
 	if (GameInstance->CurrentRealm == "DesertRealm")
 	{
 		PlayerCharacter->StartExhaustionTimer();
+	}
+
+	HUD->DisplayScoreWidget();
+	HUD->DisplayCrosshair();
+
+	if (GameInstance->bNewUnlocksNotClaimed)
+	{
+		HUD->DisplayNewUnlocksWidget();
 	}
 }

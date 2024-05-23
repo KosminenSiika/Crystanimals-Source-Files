@@ -102,6 +102,9 @@ public:
 	UFUNCTION()
 	void HideCrosshair() const;
 
+
+	UFUNCTION()
+	void UpdateNewUnlocks();
 	UFUNCTION()
 	void DisplayNewUnlocksWidget();
 	UFUNCTION()
@@ -109,13 +112,11 @@ public:
 
 	UFUNCTION()
 	void DisplayNotEnoughSpaceWidget() const;
-
 	UFUNCTION()
 	void HideNotEnoughSpaceWidget() const;
 
 	UFUNCTION()
 	void DisplayScoreWidget() const;
-
 	UFUNCTION()
 	void HideScoreWidget() const;
 
@@ -124,13 +125,11 @@ public:
 
 	UFUNCTION()
 	void DisplayGameSavedWidget();
-
 	UFUNCTION()
 	void HideGameSavedWidget() const;
 
 	UFUNCTION()
 	void UpdateOxygenBarWidget(float CurrentValue, float MaxValue) const;
-
 	UFUNCTION()
 	void HideOxygenBarWidget() const;
 
@@ -139,7 +138,6 @@ public:
 
 	UFUNCTION()
 	void DisplayNowUnlockedWidget(FString TextToDisplay) const;
-
 	UFUNCTION()
 	void HideNowUnlockedWidget() const;
 

@@ -25,7 +25,7 @@ void AAnimalHUD::BeginPlay()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalHUD unable to get reference to GameInstance"));
 
-	GameInstance->OnScoreUpdated.AddDynamic(this, &AAnimalHUD::DisplayNewUnlocksWidget);
+	GameInstance->OnScoreUpdated.AddDynamic(this, &AAnimalHUD::UpdateNewUnlocks);
 
 	GameInstance->OnUnlocksClaimed.AddDynamic(this, &AAnimalHUD::HideNewUnlocksWidget);
 
@@ -63,21 +63,14 @@ void AAnimalHUD::BeginPlay()
 	{
 		Crosshair = CreateWidget<UStaticWidgetBase>(GetWorld(), CrosshairClass);
 		Crosshair->AddToViewport(0);
-		Crosshair->SetVisibility(ESlateVisibility::Visible);
+		Crosshair->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	if (NewUnlocksWidgetClass)
 	{
 		NewUnlocksWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), NewUnlocksWidgetClass);
 		NewUnlocksWidget->AddToViewport();
-		if (GameInstance->bNewUnlocksNotClaimed)
-		{
-			NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
-		}
-		else 
-		{
-			NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
-		}
+		NewUnlocksWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	if (NotEnoughSpaceWidgetClass)
@@ -91,7 +84,7 @@ void AAnimalHUD::BeginPlay()
 	{
 		ScoreWidget = CreateWidget<UScoreWidget>(GetWorld(), ScoreWidgetClass);
 		ScoreWidget->AddToViewport(1);
-		ScoreWidget->SetVisibility(ESlateVisibility::Visible);
+		ScoreWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	if (ConfirmationWidgetClass)
@@ -238,15 +231,20 @@ void AAnimalHUD::HideCrosshair() const
 	}
 }
 
+void AAnimalHUD::UpdateNewUnlocks()
+{
+	if (GameInstance->Score % 10 == 0)
+	{
+		GameInstance->bNewUnlocksNotClaimed = true;
+		DisplayNewUnlocksWidget();
+	}
+}
+
 void AAnimalHUD::DisplayNewUnlocksWidget()
 {
 	if (NewUnlocksWidget)
 	{
-		if (GameInstance->Score % 10 == 0)
-		{
-			GameInstance->bNewUnlocksNotClaimed = true;
-			NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
-		}
+		NewUnlocksWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 
