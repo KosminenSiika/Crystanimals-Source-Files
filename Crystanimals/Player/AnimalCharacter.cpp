@@ -148,14 +148,7 @@ void AAnimalCharacter::BreathHoldTimerUpdate()
 		HUD->UpdateOxygenBarWidget(0.0f, BreathHoldMaxDuration);
 		GetWorldTimerManager().ClearTimer(BreathHoldTimer);
 
-		GetController<AAnimalPlayerController>()->FadeToBlack();
-
-		FTimerHandle TempTimer;
-		GetWorldTimerManager().SetTimer(TempTimer,
-			this,
-			&AAnimalCharacter::LoadLastSaveGame,
-			1.1f,
-			false);
+		Perish();
 	}
 	else
 	{
@@ -187,19 +180,29 @@ void AAnimalCharacter::ExhaustionTimerUpdate()
 		HUD->UpdateExhaustionBarWidget(ExhaustionTimeLimit, ExhaustionTimeLimit);
 		GetWorldTimerManager().ClearTimer(ExhaustionTimer);
 
-		GetController<AAnimalPlayerController>()->FadeToBlack();
-
-		FTimerHandle TempTimer;
-		GetWorldTimerManager().SetTimer(TempTimer,
-			this,
-			&AAnimalCharacter::LoadLastSaveGame,
-			1.1f,
-			false);
+		Perish();
 	}
 	else
 	{
 		HUD->UpdateExhaustionBarWidget(ElapsedTime, ExhaustionTimeLimit);
 	}
+}
+
+void AAnimalCharacter::FellOutOfWorld(const UDamageType& dmgType)
+{
+	Perish();
+}
+
+void AAnimalCharacter::Perish()
+{
+	GetController<AAnimalPlayerController>()->FadeToBlack();
+
+	FTimerHandle TempTimer;
+	GetWorldTimerManager().SetTimer(TempTimer,
+		this,
+		&AAnimalCharacter::LoadLastSaveGame,
+		1.1f,
+		false);
 }
 
 void AAnimalCharacter::LoadLastSaveGame()

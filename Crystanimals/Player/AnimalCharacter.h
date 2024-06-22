@@ -80,6 +80,9 @@ public:
 	UFUNCTION()
 	void SwitchAnimal(EAnimal SelectedAnimal);
 
+	// Function is overridden to be able to use KillZVolume
+	virtual void FellOutOfWorld(const class UDamageType& dmgType) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -252,6 +255,9 @@ private:
 
 	UFUNCTION()
 	void ExhaustionTimerUpdate();
+
+	UFUNCTION()
+	void Perish();
 
 	UFUNCTION()
 	void LoadLastSaveGame();
