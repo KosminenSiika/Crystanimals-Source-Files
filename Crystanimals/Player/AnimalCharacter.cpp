@@ -50,6 +50,9 @@ void AAnimalCharacter::BeginPlay()
 	HUD = GetWorld()->GetFirstPlayerController()->GetHUD<AAnimalHUD>();
 	checkf(HUD, TEXT("AnimalCharacter unable to get reference to HUD"));
 
+	PlayerController = GetController<AAnimalPlayerController>();
+	checkf(PlayerController, TEXT("AnimalCharacter unable to get reference to PlayerController"));
+
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalCharacter unable to get reference to GameInstance"));
 
@@ -194,6 +197,39 @@ void AAnimalCharacter::ExhaustionTimerUpdate()
 	}
 }
 
+void AAnimalCharacter::StartFreezingTimer()
+{
+	FreezingTimeLimit = GameInstance->bHasColdResistance ? 10.0f : 3.0f;
+
+	GetWorldTimerManager().SetTimer(FreezingTimer,
+		this,
+		&AAnimalCharacter::FreezingTimerUpdate,
+		0.05f,
+		true);
+
+	FreezingStartTime = GetWorld()->GetTimeSeconds();
+}
+
+void AAnimalCharacter::FreezingTimerUpdate()
+{
+	float ElapsedTime = GetWorld()->TimeSince(FreezingStartTime);
+
+	if (ElapsedTime >= FreezingTimeLimit)
+	{
+		GetWorldTimerManager().ClearTimer(FreezingTimer);
+		Perish();
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("CurrentAlpha: %.2f"), ElapsedTime / FreezingTimeLimit);
+	PlayerController->SetFreezeFade(ElapsedTime / FreezingTimeLimit);
+}
+
+void AAnimalCharacter::StopFreezingTimer()
+{
+	PlayerController->FreezeFadeOut(GetWorld()->TimeSince(FreezingStartTime) / FreezingTimeLimit);
+	GetWorldTimerManager().ClearTimer(FreezingTimer);
+}
+
 void AAnimalCharacter::FellOutOfWorld(const UDamageType& dmgType)
 {
 	Perish();
@@ -201,7 +237,7 @@ void AAnimalCharacter::FellOutOfWorld(const UDamageType& dmgType)
 
 void AAnimalCharacter::Perish()
 {
-	GetController<AAnimalPlayerController>()->FadeToBlack();
+	PlayerController->FadeToBlack();
 
 	FTimerHandle TempTimer;
 	GetWorldTimerManager().SetTimer(TempTimer,
@@ -245,7 +281,7 @@ void AAnimalCharacter::PerformFloorCheck()
 	FVector TraceStart = Hitbox->GetComponentLocation();
 	FVector TraceEnd = TraceStart - FVector(0, 0, Hitbox->GetScaledCapsuleHalfHeight() + 10.0f);
 
-	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 1.0f);
+	// DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 1.0f);
 
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
@@ -256,9 +292,17 @@ void AAnimalCharacter::PerformFloorCheck()
 	{
 		if (TraceHit.GetActor()->GetClass()->IsChildOf(ABlueIce::StaticClass()))
 		{
+			if (!bIsOnBlueIce)
+			{
+				StartFreezingTimer();
+			}
 			bIsOnBlueIce = true;
 			return;
 		}
+	}
+	if (bIsOnBlueIce)
+	{
+		StopFreezingTimer();
 	}
 	bIsOnBlueIce = false;
 }

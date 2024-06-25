@@ -55,6 +55,12 @@ public:
 	void HandleOpenCloseAnimalSelectionMenu();
 
 	UFUNCTION()
+	void SetFreezeFade(float CurrentAlpha);
+
+	UFUNCTION()
+	void FreezeFadeOut(float CurrentAlpha);
+
+	UFUNCTION()
 	void FadeToBlack();
 
 	UFUNCTION()

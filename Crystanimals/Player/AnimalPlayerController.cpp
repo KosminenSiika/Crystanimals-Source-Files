@@ -168,7 +168,10 @@ void AAnimalPlayerController::HandleJump()
 	// Make the Player's Character Pawn jump
 	if (PlayerCharacter)
 	{
-		PlayerCharacter->Jump();
+		if (!PlayerCharacter->bIsOnBlueIce)
+		{
+			PlayerCharacter->Jump();
+		}
 	}
 }
 
@@ -233,6 +236,16 @@ void AAnimalPlayerController::HandleOpenCloseAnimalSelectionMenu()
 			SetInputMode(FInputModeGameOnly());
 		}
 	}
+}
+
+void AAnimalPlayerController::SetFreezeFade(float CurrentAlpha)
+{
+	PlayerCameraManager->SetManualCameraFade(CurrentAlpha, FLinearColor::Blue, true);
+}
+
+void AAnimalPlayerController::FreezeFadeOut(float CurrentAlpha)
+{
+	PlayerCameraManager->StartCameraFade(CurrentAlpha, 0.0f, 1.0f, FLinearColor::Blue, true, false);
 }
 
 void AAnimalPlayerController::FadeToBlack()

@@ -10,6 +10,7 @@
 // Forward Declarations
 class UCameraComponent;
 class AAnimalHUD;
+class AAnimalPlayerController;
 class UTreasureGameInstance;
 
 UENUM()
@@ -109,6 +110,9 @@ private:
 	UPROPERTY()
 	TObjectPtr<AAnimalHUD> HUD = nullptr;
 
+	UPROPERTY()
+	TObjectPtr<AAnimalPlayerController> PlayerController = nullptr;
+
 
 	UPROPERTY()
 	float LastFloorCheckTime;
@@ -132,6 +136,15 @@ private:
 
 	UPROPERTY()
 	float ExhaustionStartTime;
+
+	UPROPERTY()
+	FTimerHandle FreezingTimer;
+
+	UPROPERTY()
+	float FreezingTimeLimit;
+
+	UPROPERTY()
+	float FreezingStartTime;
 
 	// Interaction
 	UPROPERTY(VisibleAnywhere, Category = "Player|Interaction")
@@ -266,6 +279,15 @@ private:
 
 	UFUNCTION()
 	void ExhaustionTimerUpdate();
+
+	UFUNCTION()
+	void StartFreezingTimer();
+
+	UFUNCTION() 
+	void FreezingTimerUpdate();
+
+	UFUNCTION()
+	void StopFreezingTimer();
 
 	UFUNCTION()
 	void Perish();
