@@ -12,6 +12,7 @@
 #include "Core/TreasureGameInstance.h"
 #include "UserInterface/AnimalHUD.h"
 #include "World/MapBoundaries.h"
+#include "World/BlueIce.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
@@ -65,6 +66,11 @@ void AAnimalCharacter::BeginPlay()
 void AAnimalCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (GetWorld()->TimeSince(LastFloorCheckTime) > 0.1f)
+	{
+		PerformFloorCheck();
+	}
 
 	// No need to call PerformInteractionCheck every frame, InteractionCheckFrequency set in constructor
 	if (GetWorld()->TimeSince(InteractionData.LastInteractionCheckTime) > InteractionCheckFrequency)
@@ -230,6 +236,31 @@ void AAnimalCharacter::UpdateResistances()
 		}
 		GameInstance->bHasColdResistance = true;
 	}
+}
+
+void AAnimalCharacter::PerformFloorCheck()
+{
+	LastFloorCheckTime = GetWorld()->GetTimeSeconds();
+
+	FVector TraceStart = Hitbox->GetComponentLocation();
+	FVector TraceEnd = TraceStart - FVector(0, 0, Hitbox->GetScaledCapsuleHalfHeight() + 10.0f);
+
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1.0f, 0, 1.0f);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+
+	FHitResult TraceHit;
+
+	if (GetWorld()->LineTraceSingleByChannel(TraceHit, TraceStart, TraceEnd, ECC_Visibility, QueryParams))
+	{
+		if (TraceHit.GetActor()->GetClass()->IsChildOf(ABlueIce::StaticClass()))
+		{
+			bIsOnBlueIce = true;
+			return;
+		}
+	}
+	bIsOnBlueIce = false;
 }
 
 // Check if the Character is looking at an interactable actor

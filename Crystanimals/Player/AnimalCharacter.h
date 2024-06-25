@@ -49,6 +49,9 @@ public:
 	UPROPERTY()
 	bool bIsGliding = false;
 
+	UPROPERTY()
+	bool bIsOnBlueIce = false;
+
 	// Sets default values for this character's properties
 	AAnimalCharacter();
 
@@ -105,6 +108,11 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<AAnimalHUD> HUD = nullptr;
+
+
+	UPROPERTY()
+	float LastFloorCheckTime;
+
 
 	// Timers
 	UPROPERTY()
@@ -232,6 +240,9 @@ private:
 	// Returns true if switching is possible, otherwise returns false
 	UFUNCTION()
 	bool CheckEnoughSpaceForAnimalSwitch(float AnimalSize);
+
+	UFUNCTION()
+	void PerformFloorCheck();
 
 	UFUNCTION()
 	void PerformInteractionCheck();
