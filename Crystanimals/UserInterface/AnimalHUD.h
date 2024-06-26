@@ -15,6 +15,7 @@ class UScoreWidget;
 class UConfirmationWidget;
 class UStatBarWidget;
 class UEditableNotificationWidget;
+class UFreezeOverlayWidget;
 struct FInteractableData;
 
 /**
@@ -66,6 +67,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UEditableNotificationWidget> NowUnlockedWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UFreezeOverlayWidget> FreezeOverlayWidgetClass = nullptr;
 
 
 	bool bIsMainMenuVisible;
@@ -141,6 +145,11 @@ public:
 	UFUNCTION()
 	void HideNowUnlockedWidget() const;
 
+	UFUNCTION()
+	void SetFreezeOverlayOpacity(float InOpacity) const;
+	UFUNCTION()
+	void FadeFreezeOverlayOpacityToZero(float InOpacity) const;
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -184,6 +193,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UEditableNotificationWidget> NowUnlockedWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UFreezeOverlayWidget> FreezeOverlayWidget = nullptr;
 
 
 	UPROPERTY()

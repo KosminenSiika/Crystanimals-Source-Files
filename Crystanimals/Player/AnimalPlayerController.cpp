@@ -238,19 +238,11 @@ void AAnimalPlayerController::HandleOpenCloseAnimalSelectionMenu()
 	}
 }
 
-void AAnimalPlayerController::SetFreezeFade(float CurrentAlpha)
-{
-	PlayerCameraManager->SetManualCameraFade(CurrentAlpha, FLinearColor::Blue, true);
-}
-
-void AAnimalPlayerController::FreezeFadeOut(float CurrentAlpha)
-{
-	PlayerCameraManager->StartCameraFade(CurrentAlpha, 0.0f, 1.0f, FLinearColor::Blue, true, false);
-}
-
 void AAnimalPlayerController::FadeToBlack()
 {
 	PlayerCameraManager->StartCameraFade(0.0f, 1.0f, 1.0f, FLinearColor::Black, true, true);
+
+	DisableInput(this);
 
 	HUD->HideScoreWidget();
 	HUD->HideInteractionWidget();

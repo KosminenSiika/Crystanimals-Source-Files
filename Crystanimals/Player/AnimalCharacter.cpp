@@ -221,13 +221,13 @@ void AAnimalCharacter::FreezingTimerUpdate()
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("CurrentAlpha: %.2f"), ElapsedTime / FreezingTimeLimit);
-	PlayerController->SetFreezeFade(ElapsedTime / FreezingTimeLimit);
+	HUD->SetFreezeOverlayOpacity(ElapsedTime / FreezingTimeLimit);
 }
 
 void AAnimalCharacter::StopFreezingTimer()
 {
-	PlayerController->FreezeFadeOut(GetWorld()->TimeSince(FreezingStartTime) / FreezingTimeLimit);
 	GetWorldTimerManager().ClearTimer(FreezingTimer);
+	HUD->FadeFreezeOverlayOpacityToZero(GetWorld()->TimeSince(FreezingStartTime) / FreezingTimeLimit);
 }
 
 void AAnimalCharacter::FellOutOfWorld(const UDamageType& dmgType)

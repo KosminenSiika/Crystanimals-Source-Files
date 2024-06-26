@@ -10,6 +10,7 @@
 #include "UserInterface/ConfirmationWidget.h"
 #include "UserInterface/StatBarWidget.h"
 #include "UserInterface/EditableNotificationWidget.h"
+#include "UserInterface/FreezeOverlayWidget.h"
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Core/TreasureGameInstance.h"
@@ -120,6 +121,13 @@ void AAnimalHUD::BeginPlay()
 		NowUnlockedWidget = CreateWidget<UEditableNotificationWidget>(GetWorld(), NowUnlockedWidgetClass);
 		NowUnlockedWidget->AddToViewport(1);
 		NowUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (FreezeOverlayWidgetClass)
+	{
+		FreezeOverlayWidget = CreateWidget<UFreezeOverlayWidget>(GetWorld(), FreezeOverlayWidgetClass);
+		FreezeOverlayWidget->AddToViewport(3);
+		FreezeOverlayWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
 }
 
@@ -385,4 +393,14 @@ void AAnimalHUD::HideNowUnlockedWidget() const
 	{
 		NowUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
+}
+
+void AAnimalHUD::SetFreezeOverlayOpacity(float InOpacity) const
+{
+	FreezeOverlayWidget->SetOverlayOpacity(InOpacity);
+}
+
+void AAnimalHUD::FadeFreezeOverlayOpacityToZero(float InOpacity) const
+{
+	FreezeOverlayWidget->FadeOpacityToZero(InOpacity);
 }
