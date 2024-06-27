@@ -26,7 +26,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Crystal")
 	TObjectPtr<UStaticMeshComponent> Mesh = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Crystal")
+	UPROPERTY(EditInstanceOnly, Category = "Crystal")
 	FInteractableData InstanceInteractableData;
 
 	UPROPERTY(EditInstanceOnly, Category = "Crystal")

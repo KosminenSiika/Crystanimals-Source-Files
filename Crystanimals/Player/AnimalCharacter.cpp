@@ -199,7 +199,7 @@ void AAnimalCharacter::ExhaustionTimerUpdate()
 
 void AAnimalCharacter::StartFreezingTimer()
 {
-	FreezingTimeLimit = GameInstance->bHasColdResistance ? 10.0f : 3.0f;
+	FreezingTimeLimit = GameInstance->bHasColdResistance ? 10.0f : 2.5f;
 
 	GetWorldTimerManager().SetTimer(FreezingTimer,
 		this,
