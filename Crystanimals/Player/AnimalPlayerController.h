@@ -60,6 +60,8 @@ public:
 	UFUNCTION()
 	void FadeOutOfBlack();
 
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* aPawn) override;
@@ -89,4 +91,12 @@ private:
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 	
+	// Reference to the class configured inside the editor
+	UPROPERTY(EditDefaultsOnly, Category = "CameraShake")
+	TSubclassOf<UCameraShakeBase> ViewBobShakeClass = nullptr;
+
+	// Reference to the actual ShakeInstance 
+	UPROPERTY()
+	TObjectPtr<UCameraShakeBase> ViewBobShakeInstance = nullptr;
+
 };
