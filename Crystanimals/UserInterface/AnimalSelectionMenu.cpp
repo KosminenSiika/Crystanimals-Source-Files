@@ -25,15 +25,15 @@ void UAnimalSelectionMenu::NativeConstruct()
 	// The editor absolutely did not let me set values in the graphical widget interface, 
 	// so they just have to be set here...
 	DogButton->AnimalName->SetText(FText::FromString("Dog"));
-	DogButton->SetToolTipText(FText::FromString("Just a cute dog"));
+	DogButton->SetToolTipText(FText::FromString("Just a cute dog, the fastest runner"));
 	CatButton->AnimalName->SetText(FText::FromString("Cat"));
-	CatButton->SetToolTipText(FText::FromString("Can jump really high"));
+	CatButton->SetToolTipText(FText::FromString("Jumps really high"));
 	OtterButton->AnimalName->SetText(FText::FromString("Otter"));
 	OtterButton->SetToolTipText(FText::FromString("Can hold breath for longer and swim a lot faster"));
 	FlyingSquirrelButton->AnimalName->SetText(FText::FromString("Flying Squirrel"));
-	FlyingSquirrelButton->SetToolTipText(FText::FromString("Can glide down from high places"));
+	FlyingSquirrelButton->SetToolTipText(FText::FromString("Can gently glide long distances"));
 	JerboaButton->AnimalName->SetText(FText::FromString("Jerboa"));
-	JerboaButton->SetToolTipText(FText::FromString("Is tiny, so can fit in places others cannot"));
+	JerboaButton->SetToolTipText(FText::FromString("Is tiny, fits in very small places"));
 	BirdButton->AnimalName->SetText(FText::FromString("Bird"));
 	BirdButton->SetToolTipText(FText::FromString("Can FLY! The sky is the limit (spacebar to flap wings)"));
 }
