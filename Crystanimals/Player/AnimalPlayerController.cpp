@@ -34,20 +34,23 @@ void AAnimalPlayerController::BeginPlay()
 
 void AAnimalPlayerController::Tick(float DeltaTime)
 {
-	if (PlayerCharacter->GetCharacterMovement()->IsMovingOnGround())
+	if (PlayerCharacter)
 	{
-		if (ViewBobShakeClass)
+		if (PlayerCharacter->GetCharacterMovement()->IsMovingOnGround())
 		{
-			ViewBobShakeInstance = PlayerCameraManager->StartCameraShake(ViewBobShakeClass, PlayerCharacter->GetVelocity().Length() / 275.0f);
+			if (ViewBobShakeClass)
+			{
+				ViewBobShakeInstance = PlayerCameraManager->StartCameraShake(ViewBobShakeClass, PlayerCharacter->GetVelocity().Length() / 275.0f);
+			}
 		}
-	}
-	else
-	{
-		if (ViewBobShakeInstance)
+		else
 		{
-			PlayerCameraManager->StopCameraShake(ViewBobShakeInstance, false);
+			if (ViewBobShakeInstance)
+			{
+				PlayerCameraManager->StopCameraShake(ViewBobShakeInstance, false);
+			}
 		}
-	}
+	}	
 }
 
 void AAnimalPlayerController::OnPossess(APawn* aPawn)
