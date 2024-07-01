@@ -241,9 +241,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Player|Bird")
 	float BirdJumpHeight;
 
-	// Updates Resistances (stored in GameInstance) when new unlocks are claimed
+	// Updates unlocks (resistances and key, stored in GameInstance) when new unlocks are claimed
 	UFUNCTION()
-	void UpdateResistances();
+	void UpdateUnlocks();
 
 	// Sets the characters stats and hitbox to that of the desired animal
 	UFUNCTION()

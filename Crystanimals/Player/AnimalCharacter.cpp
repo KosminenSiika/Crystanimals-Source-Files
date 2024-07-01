@@ -13,6 +13,7 @@
 #include "UserInterface/AnimalHUD.h"
 #include "World/MapBoundaries.h"
 #include "World/BlueIce.h"
+#include "World/Trapdoor.h"
 
 // Sets default values
 AAnimalCharacter::AAnimalCharacter()
@@ -56,7 +57,7 @@ void AAnimalCharacter::BeginPlay()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalCharacter unable to get reference to GameInstance"));
 
-	GameInstance->OnUnlocksClaimed.AddDynamic(this, &AAnimalCharacter::UpdateResistances);
+	GameInstance->OnUnlocksClaimed.AddDynamic(this, &AAnimalCharacter::UpdateUnlocks);
 
 	DefaultGravityScale = GetCharacterMovement()->GravityScale;
 	DefaultAirControl = GetCharacterMovement()->AirControl;
@@ -254,23 +255,31 @@ void AAnimalCharacter::LoadLastSaveGame()
 	GameInstance->ChangeRealm(GameInstance->CurrentRealm);
 }
 
-void AAnimalCharacter::UpdateResistances()
+void AAnimalCharacter::UpdateUnlocks()
 {
+	if (GameInstance->Score >= 20)
+	{
+		if (!GameInstance->bHasKey)
+		{
+			HUD->DisplayNowUnlockedWidget("Mysterious Key");
+			GameInstance->bHasKey = true;
+		}
+	}
 	if (GameInstance->Score >= 40)
 	{
 		if (!GameInstance->bHasHeatResistance)
 		{
 			HUD->DisplayNowUnlockedWidget("Heat Resistance");
+			GameInstance->bHasHeatResistance = true;
 		}
-		GameInstance->bHasHeatResistance = true;
 	}
 	if (GameInstance->Score >= 70)
 	{
 		if (!GameInstance->bHasColdResistance)
 		{
 			HUD->DisplayNowUnlockedWidget("Cold Resistance");
+			GameInstance->bHasColdResistance = true;
 		}
-		GameInstance->bHasColdResistance = true;
 	}
 }
 
@@ -328,7 +337,7 @@ void AAnimalCharacter::PerformInteractionCheck()
 		// Check if hit actor implements InteractionInterface
 		if (TraceHit.GetActor()->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
 		{
-			if (TraceHit.GetActor() != InteractionData.CurrentInteractable)
+			if (TraceHit.GetActor() != InteractionData.CurrentInteractable || TraceHit.GetActor()->GetClass()->IsChildOf(ATrapdoor::StaticClass()))
 			{
 				InteractionData.CurrentInteractable = TraceHit.GetActor();
 				TargetInteractable = TraceHit.GetActor();

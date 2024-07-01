@@ -47,6 +47,9 @@ public:
 	bool bNewUnlocksNotClaimed;
 
 	UPROPERTY()
+	bool bHasKey;
+
+	UPROPERTY()
 	bool bIsTrapdoorOpen;
 
 	UPROPERTY()
