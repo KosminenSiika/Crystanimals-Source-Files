@@ -59,11 +59,12 @@ void ATrapdoor::Interact()
 		else
 		{
 			OpenTrapdoor();
+			// "Unlocked with mysterious key" notification widget
 		}
 	}
 	else
 	{
-		// It's locked widget
+		// "It's locked" notification widget
 		UE_LOG(LogTemp, Warning, TEXT("It's locked!"));
 	}
 }

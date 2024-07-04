@@ -24,7 +24,7 @@ void UAnimalButtonWidget::SwitchToAnimal()
 {
 	if (PlayerController)
 	{
-		PlayerController->HandleOpenCloseAnimalSelectionMenu();
+		PlayerController->HandleCloseAnimalSelectionMenu();
 		PlayerController->GetPawn<AAnimalCharacter>()->SwitchAnimal(DesiredAnimal);
 	}
 }

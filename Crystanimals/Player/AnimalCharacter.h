@@ -69,12 +69,6 @@ public:
 	void Interact();
 
 	UFUNCTION()
-	bool OpenCloseMainMenu();
-
-	UFUNCTION()
-	bool OpenCloseAnimalSelectionMenu();
-
-	UFUNCTION()
 	void SetRunning(bool ShouldRun);
 
 	UFUNCTION()

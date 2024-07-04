@@ -110,7 +110,8 @@ void AAnimalPlayerController::OnPossess(APawn* aPawn)
 
 	if (ActionOpenCloseAnimalSelectionMenu)
 	{
-		EnhancedInputComponent->BindAction(ActionOpenCloseAnimalSelectionMenu, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleOpenCloseAnimalSelectionMenu);
+		EnhancedInputComponent->BindAction(ActionOpenCloseAnimalSelectionMenu, ETriggerEvent::Started, this, &AAnimalPlayerController::HandleOpenAnimalSelectionMenu);
+		EnhancedInputComponent->BindAction(ActionOpenCloseAnimalSelectionMenu, ETriggerEvent::Completed, this, &AAnimalPlayerController::HandleCloseAnimalSelectionMenu);
 	}
 
 	if (ActionSwimUp)
@@ -215,13 +216,14 @@ void AAnimalPlayerController::HandleInteract()
 
 void AAnimalPlayerController::HandleOpenCloseMainMenu()
 {
-	if (PlayerCharacter)
+	if (HUD)
 	{
-		if (PlayerCharacter->OpenCloseMainMenu())
+		if (!HUD->bIsMainMenuVisible)
 		{
 			bShowMouseCursor = true;
 			bEnableClickEvents = true;
 			SetInputMode(FInputModeGameAndUI());
+			HUD->DisplayMainMenu();
 
 			int x, y;
 			GetViewportSize(x, y);
@@ -232,29 +234,39 @@ void AAnimalPlayerController::HandleOpenCloseMainMenu()
 			bShowMouseCursor = false;
 			bEnableClickEvents = false;
 			SetInputMode(FInputModeGameOnly());
+			HUD->HideMainMenu();
 		}
 	}
 }
 
-void AAnimalPlayerController::HandleOpenCloseAnimalSelectionMenu()
+void AAnimalPlayerController::HandleOpenAnimalSelectionMenu()
 {
-	if (PlayerCharacter)
+	if (HUD)
 	{
-		if (PlayerCharacter->OpenCloseAnimalSelectionMenu())
+		if (!HUD->bIsAnimalSelectionMenuVisible)
 		{
+			HUD->DisplayAnimalSelectionMenu();
 			bShowMouseCursor = true;
 			bEnableClickEvents = true;
 			SetInputMode(FInputModeGameAndUI());
 
 			int x, y;
 			GetViewportSize(x, y);
-			SetMouseLocation(x / 2.0f, y / 2.0f);
+			SetMouseLocation(x / 2.0f, y / 1.4f);
 		}
-		else
+	}
+}
+
+void AAnimalPlayerController::HandleCloseAnimalSelectionMenu()
+{
+	if (HUD)
+	{
+		if (HUD->bIsAnimalSelectionMenuVisible)
 		{
 			bShowMouseCursor = false;
 			bEnableClickEvents = false;
 			SetInputMode(FInputModeGameOnly());
+			HUD->HideAnimalSelectionMenu();
 		}
 	}
 }
@@ -273,7 +285,7 @@ void AAnimalPlayerController::FadeToBlack()
 
 void AAnimalPlayerController::FadeOutOfBlack()
 {
-	PlayerCameraManager->StartCameraFade(1.0f, 0.0f, 2.0f, FLinearColor::Black, true);
+	PlayerCameraManager->StartCameraFade(1.0f, 0.0f, 2.0f, FLinearColor::Black);
 
 	if (GameInstance->bShouldSaveAfterRealmChange)
 	{

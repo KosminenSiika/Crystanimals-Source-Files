@@ -52,13 +52,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Player Input")
 	TObjectPtr<UInputMappingContext> InputMappingContext = nullptr;
 
-	void HandleOpenCloseAnimalSelectionMenu();
-
 	UFUNCTION()
 	void FadeToBlack();
 
 	UFUNCTION()
 	void FadeOutOfBlack();
+
+	void HandleCloseAnimalSelectionMenu();
 
 	virtual void Tick(float DeltaTime) override;
 
@@ -75,6 +75,7 @@ protected:
 	void HandleSwimUp();
 	void HandleInteract();
 	void HandleOpenCloseMainMenu();
+	void HandleOpenAnimalSelectionMenu();
 
 private:
 	// Used to store a reference to the InputComponent cast to an EnhancedInputComponent.

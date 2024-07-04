@@ -364,38 +364,6 @@ void AAnimalCharacter::Interact()
 	}
 }
 
-// Return value tells the AnimalPlayerController whether or not 
-// it should show the mouse cursor and enable click events
-bool AAnimalCharacter::OpenCloseMainMenu()
-{
-	if (HUD->bIsMainMenuVisible)
-	{
-		HUD->HideMainMenu();
-		return false;
-	}
-	else
-	{
-		HUD->DisplayMainMenu();
-		return true;
-	}
-}
-
-// Return value tells the AnimalPlayerController whether or not 
-// it should show the mouse cursor and enable click events
-bool AAnimalCharacter::OpenCloseAnimalSelectionMenu()
-{
-	if (HUD->bIsAnimalSelectionMenuVisible)
-	{
-		HUD->HideAnimalSelectionMenu();
-		return false;
-	}
-	else
-	{
-		HUD->DisplayAnimalSelectionMenu();
-		return true;
-	}
-}
-
 bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
 {
 	if (CollisionTestVolume)

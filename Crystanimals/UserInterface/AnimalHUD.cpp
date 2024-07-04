@@ -160,7 +160,7 @@ void AAnimalHUD::DisplayAnimalSelectionMenu()
 	{
 		bIsAnimalSelectionMenuVisible = true;
 		AnimalSelectionMenuWidget->SetVisibility(ESlateVisibility::Visible);
-		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		HideCrosshair();
 	}
 }
 
@@ -170,7 +170,7 @@ void AAnimalHUD::HideAnimalSelectionMenu()
 	{
 		bIsAnimalSelectionMenuVisible = false;
 		AnimalSelectionMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
-		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		DisplayCrosshair();
 	}
 }
 
