@@ -24,6 +24,9 @@ void AAnimalPlayerController::BeginPlay()
 
 	SetInputMode(FInputModeGameOnly());
 
+	LastSurfaceCheckTime = 0.0f;
+	LastSwimSoundPlayedTime = 0.0f;
+
 	PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, false);
 
 	FTimerHandle TimerHandle;
@@ -157,6 +160,12 @@ void AAnimalPlayerController::HandleMove(const FInputActionValue& InputActionVal
 		{
 			PlayerCharacter->AddMovementInput(PlayerCharacter->GetControlRotation().Vector(), MovementVector.Y);
 			PlayerCharacter->AddMovementInput(PlayerCharacter->GetActorRightVector(), MovementVector.X);
+
+			if (GetWorld()->TimeSince(LastSwimSoundPlayedTime) >= (PlayerCharacter->IsRunning() ? 0.4f : 0.8f))
+			{
+				LastSwimSoundPlayedTime = GetWorld()->GetTimeSeconds();
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), WaterSwim, PlayerCharacter->GetActorLocation());
+			}
 		}
 		else
 		{
@@ -225,6 +234,12 @@ void AAnimalPlayerController::HandleSwimUp()
 	if (PlayerCharacter->GetCharacterMovement()->IsSwimming())
 	{
 		PlayerCharacter->AddMovementInput(FVector::UpVector, 1.0f);
+
+		if (GetWorld()->TimeSince(LastSwimSoundPlayedTime) >= (PlayerCharacter->IsRunning() ? 0.4f : 0.8f))
+		{
+			LastSwimSoundPlayedTime = GetWorld()->GetTimeSeconds();
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), WaterSwim, PlayerCharacter->GetActorLocation());
+		}
 	}
 }
 

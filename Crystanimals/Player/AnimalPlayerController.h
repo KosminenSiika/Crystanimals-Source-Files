@@ -130,6 +130,9 @@ private:
 	TObjectPtr<UAudioComponent> GlideWindComponent = nullptr;
 
 	UPROPERTY()
+	float LastSwimSoundPlayedTime;
+
+	UPROPERTY()
 	float LastSurfaceCheckTime;
 
 	UFUNCTION()
