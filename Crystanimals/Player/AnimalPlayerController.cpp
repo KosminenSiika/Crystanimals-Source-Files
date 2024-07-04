@@ -27,6 +27,8 @@ void AAnimalPlayerController::BeginPlay()
 	LastSurfaceCheckTime = 0.0f;
 	LastSwimSoundPlayedTime = 0.0f;
 
+	PlayerCameraManager->SetFOV(110.0f);
+
 	PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, false);
 
 	FTimerHandle TimerHandle;
