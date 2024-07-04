@@ -100,4 +100,32 @@ private:
 	UPROPERTY()
 	TObjectPtr<UCameraShakeBase> ViewBobShakeInstance = nullptr;
 
+	// Sound effect references, set in editor
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> GrassFootstep = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> IceFootstep = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> SandFootstep = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> SnowFootstep = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> StoneFootstep = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> WoodFootstep = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> GlideWind = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> WaterSwim = nullptr;
+
+
+	UPROPERTY()
+	TObjectPtr<UAudioComponent> GlideWindComponent = nullptr;
 };

@@ -9,6 +9,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "UserInterface/AnimalHUD.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 void AAnimalPlayerController::BeginPlay()
 {
@@ -167,10 +169,20 @@ void AAnimalPlayerController::HandleHoldSprintGlide()
 		if (PlayerCharacter->CanGlide && PlayerCharacter->GetCharacterMovement()->IsFalling())
 		{
 			PlayerCharacter->SetGliding(true);
+			if (!GlideWindComponent)
+			{
+				GlideWindComponent = UGameplayStatics::SpawnSound2D(GetWorld(), GlideWind);
+			}
 		}
 		else 
 		{
 			PlayerCharacter->SetRunning(true);
+
+			if (GlideWindComponent)
+			{
+				GlideWindComponent->FadeOut(0.5f, 0.0f);
+				GlideWindComponent = nullptr;
+			}
 		}
 	}
 }
@@ -182,6 +194,12 @@ void AAnimalPlayerController::HandleStopHoldingSprintGlide()
 	{
 		PlayerCharacter->SetRunning(false);
 		PlayerCharacter->SetGliding(false);
+
+		if (GlideWindComponent)
+		{
+			GlideWindComponent->FadeOut(0.5f, 0.0f);
+			GlideWindComponent = nullptr;
+		}
 	}
 }
 
