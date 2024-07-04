@@ -69,6 +69,9 @@ public:
 	void Interact();
 
 	UFUNCTION()
+	bool IsRunning();
+
+	UFUNCTION()
 	void SetRunning(bool ShouldRun);
 
 	UFUNCTION()

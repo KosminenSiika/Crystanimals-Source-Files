@@ -40,6 +40,11 @@ void AAnimalPlayerController::Tick(float DeltaTime)
 	{
 		if (PlayerCharacter->GetCharacterMovement()->IsMovingOnGround())
 		{
+			if (PlayerCharacter->GetVelocity().Length() > 0.0f && GetWorld()->TimeSince(LastSurfaceCheckTime) >= (PlayerCharacter->IsRunning() ? 0.25f : 0.5f))
+			{
+				CheckSurfaceAndPlayFootstepSound();
+			}
+
 			if (ViewBobShakeClass)
 			{
 				ViewBobShakeInstance = PlayerCameraManager->StartCameraShake(ViewBobShakeClass, PlayerCharacter->GetVelocity().Length() / 275.0f);
@@ -321,5 +326,50 @@ void AAnimalPlayerController::FadeOutOfBlack()
 	if (GameInstance->bNewUnlocksNotClaimed)
 	{
 		HUD->DisplayNewUnlocksWidget();
+	}
+}
+
+void AAnimalPlayerController::CheckSurfaceAndPlayFootstepSound()
+{
+	LastSurfaceCheckTime = GetWorld()->GetTimeSeconds();
+
+	FVector TraceStart = PlayerCharacter->GetActorLocation();
+	FVector TraceEnd = TraceStart - FVector(0, 0, 100.0f);
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	QueryParams.bReturnPhysicalMaterial = true;
+
+	FHitResult TraceHit;
+
+	if (GetWorld()->LineTraceSingleByChannel(TraceHit, TraceStart, TraceEnd, ECC_Visibility, QueryParams))
+	{
+		if (TraceHit.PhysMaterial.IsValid())
+		{
+			switch (TraceHit.PhysMaterial->SurfaceType)
+			{
+			case SurfaceType1:
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), GrassFootstep, TraceHit.Location);
+				break;
+			case SurfaceType2:
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), StoneFootstep, TraceHit.Location);
+				break;
+			case SurfaceType3:
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), SandFootstep, TraceHit.Location);
+				break;
+			case SurfaceType4:
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), WoodFootstep, TraceHit.Location);
+				break;
+			case SurfaceType5:
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), SnowFootstep, TraceHit.Location);
+				break;
+			case SurfaceType6:
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), IceFootstep, TraceHit.Location);
+				break;
+			default:
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), StoneFootstep, TraceHit.Location);
+				break;
+			}
+		}
 	}
 }

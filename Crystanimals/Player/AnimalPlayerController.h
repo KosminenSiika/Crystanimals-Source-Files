@@ -128,4 +128,10 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> GlideWindComponent = nullptr;
+
+	UPROPERTY()
+	float LastSurfaceCheckTime;
+
+	UFUNCTION()
+	void CheckSurfaceAndPlayFootstepSound();
 };

@@ -105,6 +105,11 @@ void AAnimalCharacter::SetRunning(bool ShouldRun)
 	GetCharacterMovement()->MaxSwimSpeed = bIsRunning ? SprintSpeedModifier * SwimSpeed : SwimSpeed;
 }
 
+bool AAnimalCharacter::IsRunning()
+{
+	return bIsRunning;
+}
+
 void AAnimalCharacter::SetGliding(bool ShouldGlide)
 {
 	bIsGliding = ShouldGlide;
@@ -221,7 +226,6 @@ void AAnimalCharacter::FreezingTimerUpdate()
 		Perish();
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("CurrentAlpha: %.2f"), ElapsedTime / FreezingTimeLimit);
 	HUD->SetFreezeOverlayOpacity(ElapsedTime / FreezingTimeLimit);
 }
 
@@ -309,6 +313,7 @@ void AAnimalCharacter::PerformFloorCheck()
 			return;
 		}
 	}
+
 	if (bIsOnBlueIce)
 	{
 		StopFreezingTimer();
