@@ -120,6 +120,9 @@ private:
 	TObjectPtr<USoundBase> WoodFootstep = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> DirtFootstep = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	TObjectPtr<USoundBase> GlideWind = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
