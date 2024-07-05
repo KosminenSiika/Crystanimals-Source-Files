@@ -77,7 +77,7 @@ void AAnimalCharacter::Tick(float DeltaTime)
 	}
 
 	// No need to call PerformInteractionCheck every frame, InteractionCheckFrequency set in constructor
-	if (GetWorld()->TimeSince(InteractionData.LastInteractionCheckTime) > InteractionCheckFrequency)
+	if (GetWorld()->TimeSince(InteractionData.LastInteractionCheckTime) > InteractionCheckFrequency && !HUD->bIsAnimalSelectionMenuVisible)
 	{
 		PerformInteractionCheck();
 	}
@@ -352,6 +352,11 @@ void AAnimalCharacter::PerformInteractionCheck()
 			return;
 		}
 	}
+	StopInteracting();
+}
+
+void AAnimalCharacter::StopInteracting()
+{
 	HUD->HideInteractionWidget();
 
 	InteractionData.CurrentInteractable = nullptr;

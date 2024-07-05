@@ -14,6 +14,7 @@
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Core/TreasureGameInstance.h"
+#include "Player/AnimalCharacter.h"
 
 AAnimalHUD::AAnimalHUD()
 {
@@ -161,6 +162,7 @@ void AAnimalHUD::DisplayAnimalSelectionMenu()
 		bIsAnimalSelectionMenuVisible = true;
 		AnimalSelectionMenuWidget->SetVisibility(ESlateVisibility::Visible);
 		HideCrosshair();
+		GetWorld()->GetFirstPlayerController()->GetPawn<AAnimalCharacter>()->StopInteracting();
 	}
 }
 

@@ -262,7 +262,7 @@ void AAnimalPlayerController::HandleOpenCloseMainMenu()
 		{
 			bShowMouseCursor = true;
 			bEnableClickEvents = true;
-			SetInputMode(FInputModeGameAndUI());
+			SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false));
 			HUD->DisplayMainMenu();
 
 			int x, y;
@@ -288,7 +288,7 @@ void AAnimalPlayerController::HandleOpenAnimalSelectionMenu()
 			HUD->DisplayAnimalSelectionMenu();
 			bShowMouseCursor = true;
 			bEnableClickEvents = true;
-			SetInputMode(FInputModeGameAndUI());
+			SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false));
 
 			int x, y;
 			GetViewportSize(x, y);

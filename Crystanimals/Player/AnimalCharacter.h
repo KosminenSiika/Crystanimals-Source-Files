@@ -66,6 +66,9 @@ public:
 	void StartExhaustionTimer();
 
 	UFUNCTION()
+	void StopInteracting();
+
+	UFUNCTION()
 	void Interact();
 
 	UFUNCTION()
