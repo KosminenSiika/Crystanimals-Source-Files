@@ -6,6 +6,7 @@
 #include "Components/Border.h"
 #include "Player/AnimalCharacter.h"
 #include "Player/AnimalPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 void UAnimalButtonWidget::NativeConstruct()
 {
@@ -24,6 +25,7 @@ void UAnimalButtonWidget::SwitchToAnimal()
 {
 	if (PlayerController)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 		PlayerController->HandleCloseAnimalSelectionMenu();
 		PlayerController->GetPawn<AAnimalCharacter>()->SwitchAnimal(DesiredAnimal);
 	}

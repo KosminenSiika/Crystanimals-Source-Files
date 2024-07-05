@@ -166,7 +166,7 @@ void AAnimalPlayerController::HandleMove(const FInputActionValue& InputActionVal
 			if (GetWorld()->TimeSince(LastSwimSoundPlayedTime) >= (PlayerCharacter->IsRunning() ? 0.4f : 0.8f))
 			{
 				LastSwimSoundPlayedTime = GetWorld()->GetTimeSeconds();
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), WaterSwim, PlayerCharacter->GetActorLocation());
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), WaterSwimSound, PlayerCharacter->GetActorLocation());
 			}
 		}
 		else
@@ -185,19 +185,19 @@ void AAnimalPlayerController::HandleHoldSprintGlide()
 		if (PlayerCharacter->CanGlide && PlayerCharacter->GetCharacterMovement()->IsFalling())
 		{
 			PlayerCharacter->SetGliding(true);
-			if (!GlideWindComponent)
+			if (!GlideWindSoundComponent)
 			{
-				GlideWindComponent = UGameplayStatics::SpawnSound2D(GetWorld(), GlideWind);
+				GlideWindSoundComponent = UGameplayStatics::SpawnSound2D(GetWorld(), GlideWindSound);
 			}
 		}
 		else 
 		{
 			PlayerCharacter->SetRunning(true);
 
-			if (GlideWindComponent)
+			if (GlideWindSoundComponent)
 			{
-				GlideWindComponent->FadeOut(0.5f, 0.0f);
-				GlideWindComponent = nullptr;
+				GlideWindSoundComponent->FadeOut(0.5f, 0.0f);
+				GlideWindSoundComponent = nullptr;
 			}
 		}
 	}
@@ -211,10 +211,10 @@ void AAnimalPlayerController::HandleStopHoldingSprintGlide()
 		PlayerCharacter->SetRunning(false);
 		PlayerCharacter->SetGliding(false);
 
-		if (GlideWindComponent)
+		if (GlideWindSoundComponent)
 		{
-			GlideWindComponent->FadeOut(0.5f, 0.0f);
-			GlideWindComponent = nullptr;
+			GlideWindSoundComponent->FadeOut(0.5f, 0.0f);
+			GlideWindSoundComponent = nullptr;
 		}
 	}
 }
@@ -240,7 +240,7 @@ void AAnimalPlayerController::HandleSwimUp()
 		if (GetWorld()->TimeSince(LastSwimSoundPlayedTime) >= (PlayerCharacter->IsRunning() ? 0.4f : 0.8f))
 		{
 			LastSwimSoundPlayedTime = GetWorld()->GetTimeSeconds();
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), WaterSwim, PlayerCharacter->GetActorLocation());
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), WaterSwimSound, PlayerCharacter->GetActorLocation());
 		}
 	}
 }
@@ -283,7 +283,7 @@ void AAnimalPlayerController::HandleOpenAnimalSelectionMenu()
 {
 	if (HUD)
 	{
-		if (!HUD->bIsAnimalSelectionMenuVisible)
+		if (!HUD->bIsAnimalSelectionMenuVisible && !HUD->bIsMainMenuVisible)
 		{
 			HUD->DisplayAnimalSelectionMenu();
 			bShowMouseCursor = true;
@@ -366,27 +366,27 @@ void AAnimalPlayerController::CheckSurfaceAndPlayFootstepSound()
 			switch (TraceHit.PhysMaterial->SurfaceType)
 			{
 			case SurfaceType1:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), GrassFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), GrassFootstepSound, TraceHit.Location);
 				break;
 			case SurfaceType2:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), StoneFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), StoneFootstepSound, TraceHit.Location);
 				break;
 			case SurfaceType3:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), SandFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), SandFootstepSound, TraceHit.Location);
 				break;
 			case SurfaceType4:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), WoodFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), WoodFootstepSound, TraceHit.Location);
 				break;
 			case SurfaceType5:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), SnowFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), SnowFootstepSound, TraceHit.Location);
 				break;
 			case SurfaceType6:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), IceFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), IceFootstepSound, TraceHit.Location);
 				break;
 			case SurfaceType7:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), DirtFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), DirtFootstepSound, TraceHit.Location);
 			default:
-				UGameplayStatics::PlaySoundAtLocation(GetWorld(), StoneFootstep, TraceHit.Location);
+				UGameplayStatics::PlaySoundAtLocation(GetWorld(), StoneFootstepSound, TraceHit.Location);
 				break;
 			}
 		}

@@ -29,6 +29,9 @@ protected:
 	UPROPERTY(EditInstanceOnly, Category = "Shop")
 	FInteractableData InstanceInteractableData;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> UnlocksClaimSound = nullptr;
+
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 

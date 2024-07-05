@@ -33,6 +33,9 @@ private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> NoButton = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> ButtonClickSound = nullptr;
+
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 

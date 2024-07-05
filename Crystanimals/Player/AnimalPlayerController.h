@@ -102,35 +102,35 @@ private:
 
 	// Sound effect references, set in editor
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> GrassFootstep = nullptr;
+	TObjectPtr<USoundBase> GrassFootstepSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> IceFootstep = nullptr;
+	TObjectPtr<USoundBase> IceFootstepSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> SandFootstep = nullptr;
+	TObjectPtr<USoundBase> SandFootstepSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> SnowFootstep = nullptr;
+	TObjectPtr<USoundBase> SnowFootstepSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> StoneFootstep = nullptr;
+	TObjectPtr<USoundBase> StoneFootstepSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> WoodFootstep = nullptr;
+	TObjectPtr<USoundBase> WoodFootstepSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> DirtFootstep = nullptr;
+	TObjectPtr<USoundBase> DirtFootstepSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> GlideWind = nullptr;
+	TObjectPtr<USoundBase> GlideWindSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
-	TObjectPtr<USoundBase> WaterSwim = nullptr;
+	TObjectPtr<USoundBase> WaterSwimSound = nullptr;
 
 
 	UPROPERTY()
-	TObjectPtr<UAudioComponent> GlideWindComponent = nullptr;
+	TObjectPtr<UAudioComponent> GlideWindSoundComponent = nullptr;
 
 	UPROPERTY()
 	float LastSwimSoundPlayedTime;

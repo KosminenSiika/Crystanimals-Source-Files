@@ -29,6 +29,9 @@ private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UEditableTextBox> MouseSensBox = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> ButtonClickSound = nullptr;
+
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 

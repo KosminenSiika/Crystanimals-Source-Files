@@ -85,7 +85,7 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 		"C61", "C62", "C63", "C64", "C65", "C66", "C67", "C68", "C69", "C70",
 		"C71", "C72", "C73", "C74", "C75", "C76", "C77", "C78", "C79", "C80"
 	};
-	Score = 80;
+	Score = 39;
 	CurrentAnimal = EAnimal::Dog;
 	bHasHeatResistance = false;
 	bHasColdResistance = false;

@@ -28,6 +28,15 @@ protected:
 
 	UPROPERTY(EditInstanceOnly, Category = "Trapdoor")
 	FInteractableData InstanceInteractableData;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> TrapdoorLockedSound = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> TrapdoorOpenSound = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> TrapdoorCloseSound = nullptr;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -32,6 +32,10 @@ protected:
 	UPROPERTY(EditInstanceOnly, Category = "Crystal")
 	FString CrystalID;
 
+	// Set in editor
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> PickupSound = nullptr;
+
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 

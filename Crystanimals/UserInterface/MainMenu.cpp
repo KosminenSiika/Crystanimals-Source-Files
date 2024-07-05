@@ -6,6 +6,7 @@
 #include "Components/EditableTextBox.h"
 #include "Core/TreasureGameInstance.h"
 #include "UserInterface/AnimalHUD.h"
+#include "Kismet/GameplayStatics.h"
 
 void UMainMenu::NativeConstruct()
 {
@@ -34,11 +35,13 @@ void UMainMenu::NativeConstruct()
 
 void UMainMenu::ResetGameProgress()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("reset the whole game");
 }
 
 void UMainMenu::ExitGame()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("exit the game");
 }
 

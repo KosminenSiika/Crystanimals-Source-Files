@@ -3,6 +3,7 @@
 
 #include "World/Trapdoor.h"
 #include "Core/TreasureGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ATrapdoor::ATrapdoor()
@@ -54,16 +55,19 @@ void ATrapdoor::Interact()
 	{
 		if (GameInstance->bIsTrapdoorOpen)
 		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), TrapdoorCloseSound, GetActorLocation());
 			CloseTrapdoor();
 		}
 		else
 		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), TrapdoorOpenSound, GetActorLocation());
 			OpenTrapdoor();
 			// "Unlocked with mysterious key" notification widget
 		}
 	}
 	else
 	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), TrapdoorLockedSound, GetActorLocation());
 		// "It's locked" notification widget
 		UE_LOG(LogTemp, Warning, TEXT("It's locked!"));
 	}

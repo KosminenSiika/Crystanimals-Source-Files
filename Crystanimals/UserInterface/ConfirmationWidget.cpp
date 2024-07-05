@@ -5,6 +5,7 @@
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
 #include "Core/TreasureGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 void UConfirmationWidget::NativeConstruct()
 {
@@ -33,6 +34,7 @@ void UConfirmationWidget::ConfirmAction()
 {
 	if (Action)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 		if (Action->GetText().ToString() == "exit the game")
 		{
 			GameInstance->ExitGame();
@@ -46,6 +48,7 @@ void UConfirmationWidget::ConfirmAction()
 
 void UConfirmationWidget::CancelAction()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	this->SetVisibility(ESlateVisibility::Collapsed);
 }
 

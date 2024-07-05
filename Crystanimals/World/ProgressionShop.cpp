@@ -3,6 +3,7 @@
 
 #include "World/ProgressionShop.h"
 #include "Core/TreasureGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AProgressionShop::AProgressionShop()
@@ -35,6 +36,7 @@ void AProgressionShop::Tick(float DeltaTime)
 
 void AProgressionShop::Interact()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), UnlocksClaimSound);
 	GameInstance->bNewUnlocksNotClaimed = false;
 	GameInstance->OnUnlocksClaimed.Broadcast();
 	GameInstance->SaveGame();

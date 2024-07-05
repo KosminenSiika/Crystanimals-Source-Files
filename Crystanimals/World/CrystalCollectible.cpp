@@ -3,6 +3,7 @@
 
 #include "World/CrystalCollectible.h"
 #include "Core/TreasureGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ACrystalCollectible::ACrystalCollectible()
@@ -49,6 +50,7 @@ void ACrystalCollectible::Interact()
 	GameInstance->ExistingCrystals.Remove(CrystalID);
 	GameInstance->Score++;
 	GameInstance->OnScoreUpdated.Broadcast();
+	UGameplayStatics::PlaySound2D(GetWorld(), PickupSound);
 
 	this->Destroy();
 }
