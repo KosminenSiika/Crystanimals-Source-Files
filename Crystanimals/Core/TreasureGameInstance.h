@@ -45,6 +45,9 @@ public:
 	bool bHasKey;
 
 	UPROPERTY()
+	bool bIsTrapdoorUnlocked;
+
+	UPROPERTY()
 	bool bIsTrapdoorOpen;
 
 	UPROPERTY()

@@ -51,8 +51,14 @@ void ATrapdoor::CloseTrapdoor()
 
 void ATrapdoor::Interact()
 {
-	if (GameInstance->bHasKey)
+	if (GameInstance->bIsTrapdoorUnlocked || GameInstance->bHasKey)
 	{
+		if (!GameInstance->bIsTrapdoorUnlocked)
+		{
+			// "Unlocked with mysterious key" notification widget
+			GameInstance->bIsTrapdoorUnlocked = true;
+		}
+
 		if (GameInstance->bIsTrapdoorOpen)
 		{
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), TrapdoorCloseSound, GetActorLocation());
@@ -62,7 +68,6 @@ void ATrapdoor::Interact()
 		{
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), TrapdoorOpenSound, GetActorLocation());
 			OpenTrapdoor();
-			// "Unlocked with mysterious key" notification widget
 		}
 	}
 	else

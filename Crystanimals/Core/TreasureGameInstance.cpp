@@ -34,6 +34,7 @@ void UTreasureGameInstance::SaveGame()
 		SaveGameInstance->bHasColdResistance = this->bHasColdResistance;
 		SaveGameInstance->bNewUnlocksNotClaimed = this->bNewUnlocksNotClaimed;
 		SaveGameInstance->bHasKey = this->bHasKey;
+		SaveGameInstance->bIsTrapdoorUnlocked = this->bIsTrapdoorUnlocked;
 		SaveGameInstance->bIsTrapdoorOpen = this->bIsTrapdoorOpen;
 		SaveGameInstance->MouseSens = this->MouseSens;
 
@@ -53,6 +54,7 @@ void UTreasureGameInstance::LoadSaveGame()
 		this->bHasColdResistance = LoadedGame->bHasColdResistance;
 		this->bNewUnlocksNotClaimed = LoadedGame->bNewUnlocksNotClaimed;
 		this->bHasKey = LoadedGame->bHasKey;
+		this->bIsTrapdoorUnlocked = LoadedGame->bIsTrapdoorUnlocked;
 		this->bIsTrapdoorOpen = LoadedGame->bIsTrapdoorOpen;
 		this->MouseSens = LoadedGame->MouseSens;
 	}
@@ -91,6 +93,7 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 	bHasColdResistance = false;
 	bNewUnlocksNotClaimed = false;
 	bHasKey = false;
+	bIsTrapdoorUnlocked = false;
 	bIsTrapdoorOpen = false;
 	MouseSens = 1.0f;
 	bShouldSaveAfterRealmChange = false;
