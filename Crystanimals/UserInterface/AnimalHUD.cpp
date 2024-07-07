@@ -27,7 +27,7 @@ void AAnimalHUD::BeginPlay()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalHUD unable to get reference to GameInstance"));
 
-	GameInstance->OnScoreUpdated.AddDynamic(this, &AAnimalHUD::UpdateNewUnlocks);
+	GameInstance->OnScoreUpdated.AddDynamic(this, &AAnimalHUD::UpdateNewUnlocksWithDelay);
 
 	GameInstance->OnUnlocksClaimed.AddDynamic(this, &AAnimalHUD::HideNewUnlocksWidget);
 
@@ -241,13 +241,23 @@ void AAnimalHUD::HideCrosshair() const
 	}
 }
 
-void AAnimalHUD::UpdateNewUnlocks()
+void AAnimalHUD::UpdateNewUnlocksWithDelay()
 {
 	if (GameInstance->Score % 10 == 0)
 	{
-		GameInstance->bNewUnlocksNotClaimed = true;
-		DisplayNewUnlocksWidget();
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalHUD::UpdateNewUnlocks,
+			0.3f,
+			false);
 	}
+}
+
+void AAnimalHUD::UpdateNewUnlocks()
+{
+	GameInstance->bNewUnlocksNotClaimed = true;
+	DisplayNewUnlocksWidget();
 }
 
 void AAnimalHUD::DisplayNewUnlocksWidget()

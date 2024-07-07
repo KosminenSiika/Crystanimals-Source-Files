@@ -106,7 +106,8 @@ public:
 	UFUNCTION()
 	void HideCrosshair() const;
 
-
+	UFUNCTION()
+	void UpdateNewUnlocksWithDelay();
 	UFUNCTION()
 	void UpdateNewUnlocks();
 	UFUNCTION()
