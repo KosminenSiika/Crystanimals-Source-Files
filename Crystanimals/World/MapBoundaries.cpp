@@ -46,7 +46,7 @@ void AMapBoundaries::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 {
 	if (HUD)
 	{
-		if (OtherActor == GetWorld()->GetFirstPlayerController()->GetPawn())
+		if (OtherComp == GetWorld()->GetFirstPlayerController()->GetPawn()->GetRootComponent())
 		{
 			HUD->DisplayOutOfBoundsWidget();
 		}
