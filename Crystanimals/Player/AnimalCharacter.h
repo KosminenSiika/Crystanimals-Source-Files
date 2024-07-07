@@ -80,9 +80,9 @@ public:
 	UFUNCTION()
 	void SetGliding(bool ShouldGlide);
 
-	// Tries to switch the character to the desired animal
+	// Tries to switch the character to the desired animal, returns true if successful
 	UFUNCTION()
-	void SwitchAnimal(EAnimal SelectedAnimal);
+	bool SwitchAnimal(EAnimal SelectedAnimal);
 
 	// Function is overridden to be able to use KillZVolume
 	virtual void FellOutOfWorld(const class UDamageType& dmgType) override;

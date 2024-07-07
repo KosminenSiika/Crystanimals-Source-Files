@@ -7,8 +7,6 @@
 #include "Player/AnimalCharacter.h"
 #include "Player/AnimalPlayerController.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "UserInterface/AnimalHUD.h"
 
 void UAnimalButtonWidget::NativeConstruct()
 {
@@ -29,14 +27,9 @@ void UAnimalButtonWidget::SwitchToAnimal()
 	{
 		PlayerController->HandleCloseAnimalSelectionMenu();
 
-		if (PlayerController->GetPawn<AAnimalCharacter>()->GetCharacterMovement()->IsFalling())
-		{
-			PlayerController->GetHUD<AAnimalHUD>()->DisplayCannotChangeWhileFallingWidget();
-		}
-		else
+		if (PlayerController->GetPawn<AAnimalCharacter>()->SwitchAnimal(DesiredAnimal))
 		{
 			UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
-			PlayerController->GetPawn<AAnimalCharacter>()->SwitchAnimal(DesiredAnimal);
 		}
 	}
 }

@@ -431,10 +431,12 @@ void AAnimalCharacter::SetStatsByAnimalSize(float AnimalSize)
 	FirstPersonCamera->SetRelativeLocation(FVector(0, 0, AnimalSize / 4));
 }
 
-void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
+bool AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 {
-	switch (SelectedAnimal)
+	if (!GetCharacterMovement()->IsFalling())
 	{
+		switch (SelectedAnimal)
+		{
 		case EAnimal::Cat:
 			if (CheckEnoughSpaceForAnimalSwitch(CatSize))
 			{
@@ -442,6 +444,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				GetCharacterMovement()->JumpZVelocity = CatJumpHeight;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
+				return true;
 			}
 			break;
 
@@ -455,6 +458,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				BreathHoldMaxDuration = OtterBreathHoldMaxDuration;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
+				return true;
 			}
 			break;
 
@@ -465,6 +469,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				CanGlide = true;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
+				return true;
 			}
 			break;
 
@@ -474,6 +479,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				SetStatsByAnimalSize(JerboaSize);
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
+				return true;
 			}
 			break;
 
@@ -488,6 +494,7 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				JumpMaxCount = 100;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
+				return true;
 			}
 			break;
 
@@ -497,8 +504,16 @@ void AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				SetStatsByAnimalSize(DogSize);
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
+				return true;
 			}
 			break;
+		}
+		return false;
+	} 
+	else
+	{
+		HUD->DisplayCannotChangeWhileFallingWidget();
+		return false;
 	}
 }
 
