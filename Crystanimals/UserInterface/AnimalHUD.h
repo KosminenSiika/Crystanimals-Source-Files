@@ -71,6 +71,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UFreezeOverlayWidget> FreezeOverlayWidgetClass = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> CannotChangeWhileFallingWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> TrapdoorLockedWidgetClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UStaticWidgetBase> TrapdoorUnlockedWidgetClass = nullptr;
+
 
 	bool bIsMainMenuVisible;
 	bool bIsAnimalSelectionMenuVisible;
@@ -151,6 +160,24 @@ public:
 	UFUNCTION()
 	void FadeFreezeOverlayOpacityToZero(float InOpacity) const;
 
+	UFUNCTION()
+	void DisplayCannotChangeWhileFallingWidget() const;
+
+	UFUNCTION() 
+	void HideCannotChangeWhileFallingWidget() const;
+
+	UFUNCTION()
+	void DisplayTrapdoorLockedWidget() const;
+
+	UFUNCTION()
+	void HideTrapdoorLockedWidget() const;
+
+	UFUNCTION()
+	void DisplayTrapdoorUnlockedWidget() const;
+
+	UFUNCTION()
+	void HideTrapdoorUnlockedWidget() const;
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -197,6 +224,15 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UFreezeOverlayWidget> FreezeOverlayWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> CannotChangeWhileFallingWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> TrapdoorLockedWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UStaticWidgetBase> TrapdoorUnlockedWidget = nullptr;
 
 
 	UPROPERTY()

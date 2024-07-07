@@ -130,6 +130,27 @@ void AAnimalHUD::BeginPlay()
 		FreezeOverlayWidget->AddToViewport(3);
 		FreezeOverlayWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
+
+	if (CannotChangeWhileFallingWidgetClass)
+	{
+		CannotChangeWhileFallingWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), CannotChangeWhileFallingWidgetClass);
+		CannotChangeWhileFallingWidget->AddToViewport();
+		CannotChangeWhileFallingWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (TrapdoorLockedWidgetClass)
+	{
+		TrapdoorLockedWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), TrapdoorLockedWidgetClass);
+		TrapdoorLockedWidget->AddToViewport();
+		TrapdoorLockedWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (TrapdoorUnlockedWidgetClass)
+	{
+		TrapdoorUnlockedWidget = CreateWidget<UStaticWidgetBase>(GetWorld(), TrapdoorUnlockedWidgetClass);
+		TrapdoorUnlockedWidget->AddToViewport();
+		TrapdoorUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void AAnimalHUD::DisplayMainMenu()
@@ -409,10 +430,85 @@ void AAnimalHUD::HideNowUnlockedWidget() const
 
 void AAnimalHUD::SetFreezeOverlayOpacity(float InOpacity) const
 {
-	FreezeOverlayWidget->SetOverlayOpacity(InOpacity);
+	if (FreezeOverlayWidget)
+	{
+		FreezeOverlayWidget->SetOverlayOpacity(InOpacity);
+	}
 }
 
 void AAnimalHUD::FadeFreezeOverlayOpacityToZero(float InOpacity) const
 {
-	FreezeOverlayWidget->FadeOpacityToZero(InOpacity);
+	if (FreezeOverlayWidget)
+	{
+		FreezeOverlayWidget->FadeOpacityToZero(InOpacity);
+	}
+}
+
+void AAnimalHUD::DisplayCannotChangeWhileFallingWidget() const
+{
+	if (CannotChangeWhileFallingWidget)
+	{
+		CannotChangeWhileFallingWidget->SetVisibility(ESlateVisibility::Visible);
+
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalHUD::HideCannotChangeWhileFallingWidget,
+			1.5f,
+			false);
+	}
+}
+
+void AAnimalHUD::HideCannotChangeWhileFallingWidget() const
+{
+	if (CannotChangeWhileFallingWidget)
+	{
+		CannotChangeWhileFallingWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayTrapdoorLockedWidget() const
+{
+	if (TrapdoorLockedWidget)
+	{
+		TrapdoorLockedWidget->SetVisibility(ESlateVisibility::Visible);
+
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalHUD::HideTrapdoorLockedWidget,
+			1.5f,
+			false);
+	}
+}
+
+void AAnimalHUD::HideTrapdoorLockedWidget() const
+{
+	if (TrapdoorLockedWidget)
+	{
+		TrapdoorLockedWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayTrapdoorUnlockedWidget() const
+{
+	if (TrapdoorUnlockedWidget)
+	{
+		TrapdoorUnlockedWidget->SetVisibility(ESlateVisibility::Visible);
+
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalHUD::HideTrapdoorUnlockedWidget,
+			1.5f,
+			false);
+	}
+}
+
+void AAnimalHUD::HideTrapdoorUnlockedWidget() const
+{
+	if (TrapdoorUnlockedWidget)
+	{
+		TrapdoorUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
