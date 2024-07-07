@@ -235,6 +235,13 @@ private:
 	TObjectPtr<UStaticWidgetBase> TrapdoorUnlockedWidget = nullptr;
 
 
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> PositiveNotificationSound = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> NegativeNotificationSound = nullptr;
+
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 	

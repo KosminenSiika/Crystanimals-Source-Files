@@ -234,6 +234,7 @@ void AAnimalHUD::DisplayOutOfBoundsWidget() const
 {
 	if (OutOfBoundsWidget)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), NegativeNotificationSound);
 		OutOfBoundsWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
@@ -277,6 +278,7 @@ void AAnimalHUD::UpdateNewUnlocksWithDelay()
 
 void AAnimalHUD::UpdateNewUnlocks()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), PositiveNotificationSound);
 	GameInstance->bNewUnlocksNotClaimed = true;
 	DisplayNewUnlocksWidget();
 }
@@ -302,6 +304,7 @@ void AAnimalHUD::DisplayNotEnoughSpaceWidget() const
 {
 	if (NotEnoughSpaceWidget)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), NegativeNotificationSound);
 		NotEnoughSpaceWidget->SetVisibility(ESlateVisibility::Visible);
 
 		FTimerHandle TempTimer;
@@ -448,6 +451,7 @@ void AAnimalHUD::DisplayCannotChangeWhileFallingWidget() const
 {
 	if (CannotChangeWhileFallingWidget)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), NegativeNotificationSound);
 		CannotChangeWhileFallingWidget->SetVisibility(ESlateVisibility::Visible);
 
 		FTimerHandle TempTimer;
@@ -494,6 +498,7 @@ void AAnimalHUD::DisplayTrapdoorUnlockedWidget() const
 {
 	if (TrapdoorUnlockedWidget)
 	{
+		UGameplayStatics::PlaySound2D(GetWorld(), PositiveNotificationSound);
 		TrapdoorUnlockedWidget->SetVisibility(ESlateVisibility::Visible);
 
 		FTimerHandle TempTimer;
