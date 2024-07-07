@@ -47,7 +47,5 @@ private:
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
-	void ToggleButtonHittable(UAnimalButtonWidget* Button, bool IsHittable);
-
 	virtual void NativeConstruct() override;
 };

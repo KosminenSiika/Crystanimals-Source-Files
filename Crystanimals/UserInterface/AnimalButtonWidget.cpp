@@ -34,15 +34,17 @@ void UAnimalButtonWidget::SwitchToAnimal()
 	}
 }
 
-void UAnimalButtonWidget::SetGreyMaskVisibility(bool ShouldBeVisible)
+void UAnimalButtonWidget::ToggleHittable(bool IsHittable)
 {
-	if (ShouldBeVisible)
+	if (IsHittable)
 	{
-		GreyMask->SetVisibility(ESlateVisibility::Visible);
+		AnimalButton->SetVisibility(ESlateVisibility::Visible);
+		GreyMask->SetVisibility(ESlateVisibility::Collapsed);
 	}
 	else
 	{
-		GreyMask->SetVisibility(ESlateVisibility::Collapsed);
+		AnimalButton->SetVisibility(ESlateVisibility::HitTestInvisible);
+		GreyMask->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 

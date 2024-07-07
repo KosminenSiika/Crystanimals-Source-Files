@@ -29,7 +29,7 @@ public:
 	TObjectPtr<UTextBlock> AnimalName = nullptr;
 
 	UFUNCTION()
-	void SetGreyMaskVisibility(bool ShouldBeVisible);
+	void ToggleHittable(bool IsHittable);
 
 private:
 	UPROPERTY()

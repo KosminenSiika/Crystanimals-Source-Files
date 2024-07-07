@@ -16,12 +16,6 @@ void UAnimalSelectionMenu::NativeConstruct()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("AnimalSelectionMenu unable to get reference to GameInstance"));
 
-	bClaimingUnlocks = false;
-	UpdateButtons();
-	bClaimingUnlocks = true;
-
-	GameInstance->OnUnlocksClaimed.AddDynamic(this, &UAnimalSelectionMenu::UpdateButtons);
-
 	// The editor absolutely did not let me set values in the graphical widget interface, 
 	// so they just have to be set here...
 	DogButton->AnimalName->SetText(FText::FromString("Dog"));
@@ -36,30 +30,23 @@ void UAnimalSelectionMenu::NativeConstruct()
 	JerboaButton->SetToolTipText(FText::FromString("Is tiny, fits in very small places"));
 	BirdButton->AnimalName->SetText(FText::FromString("Bird"));
 	BirdButton->SetToolTipText(FText::FromString("Can FLY! The sky is the limit (spacebar to flap wings)"));
-}
 
-void UAnimalSelectionMenu::ToggleButtonHittable(UAnimalButtonWidget* Button, bool IsHittable)
-{
-	if (IsHittable)
-	{
-		Button->SetGreyMaskVisibility(false);
-		Button->SetVisibility(ESlateVisibility::Visible);
-	}
-	else
-	{
-		Button->SetGreyMaskVisibility(true);
-		Button->SetVisibility(ESlateVisibility::HitTestInvisible);
-	}
+
+	bClaimingUnlocks = false;
+	UpdateButtons();
+	bClaimingUnlocks = true;
+
+	GameInstance->OnUnlocksClaimed.AddDynamic(this, &UAnimalSelectionMenu::UpdateButtons);
 }
 
 void UAnimalSelectionMenu::UpdateButtons()
 {
-	DogButton->SetGreyMaskVisibility(false);
+	DogButton->ToggleHittable(true);
 
-	ToggleButtonHittable(CatButton, false);
-	ToggleButtonHittable(OtterButton, false);
-	ToggleButtonHittable(FlyingSquirrelButton, false);
-	ToggleButtonHittable(JerboaButton, false);
+	CatButton->ToggleHittable(false);
+	OtterButton->ToggleHittable(false);
+	FlyingSquirrelButton->ToggleHittable(false);
+	JerboaButton->ToggleHittable(false);
 
 	BirdButton->SetVisibility(ESlateVisibility::Collapsed);
 
@@ -68,19 +55,19 @@ void UAnimalSelectionMenu::UpdateButtons()
 		// This block is executed when there are new unlocks that have not been claimed
 		if (GameInstance->Score >= 10+10)
 		{
-			ToggleButtonHittable(CatButton, true);
+			CatButton->ToggleHittable(true);
 		}
 		if (GameInstance->Score >= 30+10)
 		{
-			ToggleButtonHittable(OtterButton, true);
+			OtterButton->ToggleHittable(true);
 		}
 		if (GameInstance->Score >= 50+10)
 		{
-			ToggleButtonHittable(FlyingSquirrelButton, true);
+			FlyingSquirrelButton->ToggleHittable(true);
 		}
 		if (GameInstance->Score >= 60+10)
 		{
-			ToggleButtonHittable(JerboaButton, true);
+			JerboaButton->ToggleHittable(true);
 		}
 	}
 	else
@@ -93,7 +80,7 @@ void UAnimalSelectionMenu::UpdateButtons()
 				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Cat");
 			}
 
-			ToggleButtonHittable(CatButton, true);
+			CatButton->ToggleHittable(true);
 		}
 		if (GameInstance->Score >= 30)
 		{
@@ -102,7 +89,7 @@ void UAnimalSelectionMenu::UpdateButtons()
 				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Otter");
 			}
 
-			ToggleButtonHittable(OtterButton, true);
+			OtterButton->ToggleHittable(true);
 		}
 		if (GameInstance->Score >= 50)
 		{
@@ -111,7 +98,7 @@ void UAnimalSelectionMenu::UpdateButtons()
 				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Flying Squirrel");
 			}
 
-			ToggleButtonHittable(FlyingSquirrelButton, true);
+			FlyingSquirrelButton->ToggleHittable(true);
 		}
 		if (GameInstance->Score >= 60)
 		{
@@ -120,7 +107,7 @@ void UAnimalSelectionMenu::UpdateButtons()
 				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Jerboa");
 			}
 
-			ToggleButtonHittable(JerboaButton, true);
+			JerboaButton->ToggleHittable(true);
 		}
 		if (GameInstance->Score >= 80)
 		{
@@ -129,7 +116,8 @@ void UAnimalSelectionMenu::UpdateButtons()
 				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Secret Animal - Bird");
 			}
 
-			ToggleButtonHittable(BirdButton, true);
+			BirdButton->SetVisibility(ESlateVisibility::Visible);
+			BirdButton->ToggleHittable(true);
 		}
 	}
 }
