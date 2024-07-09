@@ -378,13 +378,15 @@ bool AAnimalCharacter::CheckEnoughSpaceForAnimalSwitch(float AnimalSize)
 {
 	if (CollisionTestVolume)
 	{
-		CollisionTestVolume->SetCapsuleSize(AnimalSize / 2, AnimalSize / 2, 1);
+		// 0.9428 comes from the Pythagorean theorem: sqrt( 1^2 - (1/3)^2 ) = 0.9428...
+		// It is the radius of the capsule at 2/3 of the way up from the ground
+		CollisionTestVolume->SetCapsuleSize(0.9428 * AnimalSize / 2, AnimalSize / 3, 1);
 
-		// Set the relative location of the CollisionTestVolume to the height difference of the upcoming and current Hitbox
-		// Meaning the relative location will be set where the Hitbox will be after the animal switch
-		CollisionTestVolume->SetRelativeLocation(FVector(0, 0, (AnimalSize / 2) - Hitbox->GetScaledCapsuleHalfHeight()));
+		// Set the location of the CollisionTestVolume 2/3 of the upcoming animal size up from the ground
+		// (Relative location's height - current halfheight = ground level, then add 2/3 of upcoming animal size to that)
+		CollisionTestVolume->SetRelativeLocation(FVector(0, 0, (2 * AnimalSize / 3) - Hitbox->GetScaledCapsuleHalfHeight()));
 
-		// Check if the CollisionTestVolume is colliding with any actors other than the AnimalCharacter itself
+		// Check if the CollisionTestVolume is colliding with any actors other than the AnimalCharacter itself, MapBoundaries or PhysicsVolumes (water)
 		TArray OverlappingActors = TArray<AActor*>();
 		CollisionTestVolume->GetOverlappingActors(OverlappingActors);
 		OverlappingActors.Remove(this);
