@@ -31,8 +31,8 @@ void AAnimalPlayerController::BeginPlay()
 
 	PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, false);
 
-	FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle,
+	FTimerHandle TempTimer;
+	GetWorldTimerManager().SetTimer(TempTimer,
 		this,
 		&AAnimalPlayerController::FadeOutOfBlack,
 		1.0f,
@@ -327,6 +327,16 @@ void AAnimalPlayerController::FadeOutOfBlack()
 {
 	PlayerCameraManager->StartCameraFade(1.0f, 0.0f, 2.0f, FLinearColor::Black);
 
+	if (!UGameplayStatics::DoesSaveGameExist("SaveSlot1", 0))
+	{
+		FTimerHandle TempTimer;
+		GetWorldTimerManager().SetTimer(TempTimer,
+			this,
+			&AAnimalPlayerController::DisplayHowToPlayPage,
+			0.5f,
+			false);
+	}
+
 	if (GameInstance->bShouldSaveAfterRealmChange)
 	{
 		GameInstance->SaveGame();
@@ -344,6 +354,12 @@ void AAnimalPlayerController::FadeOutOfBlack()
 	{
 		HUD->DisplayNewUnlocksWidget();
 	}
+}
+
+void AAnimalPlayerController::DisplayHowToPlayPage()
+{
+	HandleOpenCloseMainMenu();
+	HUD->DisplayHowToPlayPage();
 }
 
 void AAnimalPlayerController::CheckSurfaceAndPlayFootstepSound()

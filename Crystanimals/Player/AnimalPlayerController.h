@@ -58,6 +58,7 @@ public:
 	UFUNCTION()
 	void FadeOutOfBlack();
 
+	void HandleOpenCloseMainMenu();
 	void HandleCloseAnimalSelectionMenu();
 
 	virtual void Tick(float DeltaTime) override;
@@ -74,7 +75,6 @@ protected:
 	void HandleJump();
 	void HandleSwimUp();
 	void HandleInteract();
-	void HandleOpenCloseMainMenu();
 	void HandleOpenAnimalSelectionMenu();
 
 private:
@@ -140,4 +140,7 @@ private:
 
 	UFUNCTION()
 	void CheckSurfaceAndPlayFootstepSound();
+
+	UFUNCTION()
+	void DisplayHowToPlayPage();
 };

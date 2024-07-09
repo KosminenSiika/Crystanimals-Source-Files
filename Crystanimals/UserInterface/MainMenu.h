@@ -10,6 +10,7 @@
 class UButton;
 class UEditableTextBox;
 class UTreasureGameInstance;
+class AAnimalHUD;
 
 /**
  * 
@@ -20,6 +21,12 @@ class CRYSTANIMALS_API UMainMenu : public UUserWidget
 	GENERATED_BODY()
 
 private:
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UButton> HowToPlayButton = nullptr;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UButton> CreditsButton = nullptr;
+
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> ResetButton = nullptr;
 
@@ -35,6 +42,13 @@ private:
 	UPROPERTY()
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
+	UPROPERTY()
+	TObjectPtr<AAnimalHUD> HUD = nullptr;
+
+	UFUNCTION()
+	void OpenHowToPlayPage();
+	UFUNCTION()
+	void OpenCreditsPage();
 	UFUNCTION()
 	void ResetGameProgress();
 	UFUNCTION()

@@ -16,6 +16,8 @@ class UConfirmationWidget;
 class UStatBarWidget;
 class UEditableNotificationWidget;
 class UFreezeOverlayWidget;
+class UMainMenuPage;
+class UTreasureGameInstance;
 struct FInteractableData;
 
 /**
@@ -80,8 +82,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UStaticWidgetBase> TrapdoorUnlockedWidgetClass = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UMainMenuPage> HowToPlayPageClass = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UMainMenuPage> CreditsPageClass = nullptr;
+
+	UPROPERTY()
 	bool bIsMainMenuVisible;
+	UPROPERTY()
 	bool bIsAnimalSelectionMenuVisible;
 
 	AAnimalHUD();
@@ -162,21 +171,26 @@ public:
 
 	UFUNCTION()
 	void DisplayCannotChangeWhileFallingWidget() const;
-
 	UFUNCTION() 
 	void HideCannotChangeWhileFallingWidget() const;
 
 	UFUNCTION()
 	void DisplayTrapdoorLockedWidget() const;
-
 	UFUNCTION()
 	void HideTrapdoorLockedWidget() const;
 
 	UFUNCTION()
 	void DisplayTrapdoorUnlockedWidget() const;
-
 	UFUNCTION()
 	void HideTrapdoorUnlockedWidget() const;
+
+	UFUNCTION()
+	void DisplayHowToPlayPage();
+	UFUNCTION()
+	void DisplayCreditsPage();
+	UFUNCTION()
+	void HideMainMenuPages();
+
 
 
 protected:
@@ -233,6 +247,12 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UStaticWidgetBase> TrapdoorUnlockedWidget = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UMainMenuPage> HowToPlayPage = nullptr;
+	
+	UPROPERTY()
+	TObjectPtr<UMainMenuPage> CreditsPage = nullptr;
 
 
 

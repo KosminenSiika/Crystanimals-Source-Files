@@ -15,6 +15,19 @@ void UMainMenu::NativeConstruct()
 	GameInstance = GetGameInstance<UTreasureGameInstance>();
 	checkf(GameInstance, TEXT("MainMenu unable to get reference to GameInstance"));
 
+	HUD = GetWorld()->GetFirstPlayerController()->GetHUD<AAnimalHUD>();
+	checkf(HUD, TEXT("MainMenu unable to get reference to HUD"));
+
+	if (HowToPlayButton)
+	{
+		HowToPlayButton->OnClicked.AddDynamic(this, &UMainMenu::OpenHowToPlayPage);
+	}
+
+	if (CreditsButton)
+	{
+		CreditsButton->OnClicked.AddDynamic(this, &UMainMenu::OpenCreditsPage);
+	}
+
 	if (ResetButton)
 	{
 		ResetButton->OnClicked.AddDynamic(this, &UMainMenu::ResetGameProgress);
@@ -33,16 +46,28 @@ void UMainMenu::NativeConstruct()
 }
 
 
+void UMainMenu::OpenHowToPlayPage()
+{
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	HUD->DisplayHowToPlayPage();
+}
+
+void UMainMenu::OpenCreditsPage()
+{
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	HUD->DisplayCreditsPage();
+}
+
 void UMainMenu::ResetGameProgress()
 {
 	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
-	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("reset the whole game");
+	HUD->DisplayConfirmationWidget("reset the whole game");
 }
 
 void UMainMenu::ExitGame()
 {
 	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
-	GameInstance->GetFirstLocalPlayerController()->GetHUD<AAnimalHUD>()->DisplayConfirmationWidget("exit the game");
+	HUD->DisplayConfirmationWidget("exit the game");
 }
 
 void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType)

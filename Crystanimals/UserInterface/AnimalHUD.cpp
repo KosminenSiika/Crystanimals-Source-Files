@@ -11,6 +11,7 @@
 #include "UserInterface/StatBarWidget.h"
 #include "UserInterface/EditableNotificationWidget.h"
 #include "UserInterface/FreezeOverlayWidget.h"
+#include "UserInterface/MainMenuPage.h"
 #include "Interfaces/InteractionInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Core/TreasureGameInstance.h"
@@ -151,6 +152,21 @@ void AAnimalHUD::BeginPlay()
 		TrapdoorUnlockedWidget->AddToViewport();
 		TrapdoorUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
+
+	if (HowToPlayPageClass)
+	{
+		HowToPlayPage = CreateWidget<UMainMenuPage>(GetWorld(), HowToPlayPageClass);
+		HowToPlayPage->AddToViewport(5);
+		HowToPlayPage->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
+	if (CreditsPageClass)
+	{
+		CreditsPage = CreateWidget<UMainMenuPage>(GetWorld(), CreditsPageClass);
+		CreditsPage->AddToViewport(5);
+		CreditsPage->SetVisibility(ESlateVisibility::Collapsed);
+	}
+
 }
 
 void AAnimalHUD::DisplayMainMenu()
@@ -158,10 +174,10 @@ void AAnimalHUD::DisplayMainMenu()
 	if (MainMenuWidget)
 	{
 		bIsMainMenuVisible = true;
-		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 		HideAnimalSelectionMenu();
 		HideCrosshair();
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 
@@ -170,9 +186,10 @@ void AAnimalHUD::HideMainMenu()
 	if (MainMenuWidget)
 	{
 		bIsMainMenuVisible = false;
-		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 		DisplayCrosshair();
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		HideMainMenuPages();
+		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
@@ -515,5 +532,33 @@ void AAnimalHUD::HideTrapdoorUnlockedWidget() const
 	if (TrapdoorUnlockedWidget)
 	{
 		TrapdoorUnlockedWidget->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void AAnimalHUD::DisplayHowToPlayPage()
+{
+	if (HowToPlayPage)
+	{
+		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+		HowToPlayPage->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::DisplayCreditsPage()
+{
+	if (CreditsPage)
+	{
+		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
+		CreditsPage->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::HideMainMenuPages()
+{
+	if (HowToPlayPage && CreditsPage)
+	{
+		HowToPlayPage->SetVisibility(ESlateVisibility::Collapsed);
+		CreditsPage->SetVisibility(ESlateVisibility::Collapsed);
+		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
