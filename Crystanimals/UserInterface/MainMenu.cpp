@@ -75,6 +75,7 @@ void UMainMenu::NativeConstruct()
 	{
 		MouseSensBox->SetText(FText::FromString(FString::SanitizeFloat(GameInstance->MouseSens)));
 		MouseSensBox->OnTextCommitted.AddDynamic(this, &UMainMenu::ChangeMouseSens);
+		MouseSensBox->OnTextChanged.AddDynamic(this, &UMainMenu::HandleMouseSensTextChanged);
 	}
 }
 
@@ -130,19 +131,41 @@ void UMainMenu::ChangeSFXVolume(float Value)
 	UGameplayStatics::PushSoundMixModifier(GetWorld(), SFXSoundMix);
 }
 
-void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType)
+void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type CommitType)
 {
-	if (MouseSensBox->GetText().ToString().IsNumeric())
+	if (CommitType == ETextCommit::OnEnter)
 	{
-		GameInstance->MouseSens = FCString::Atof(*(MouseSensBox->GetText().ToString()));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Inputted text wasn't numeric"));
+		GameInstance->MouseSens = FCString::Atof(*(NewText.ToString()));
 		UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 		GameInstance->SaveOnlySettings();
 	}
-	
+	MouseSensBox->SetText(FText::FromString(FString::SanitizeFloat(GameInstance->MouseSens)));
+}
+
+void UMainMenu::HandleMouseSensTextChanged(const FText& Text)
+{
+	if (!Text.ToString().IsNumeric())
+	{
+		FString NewString = "";
+		for (int32 i = 0; i < Text.ToString().Len() ; i++)
+		{
+			if (Text.ToString().Mid(i, 1).IsNumeric())
+			{
+				NewString.AppendChar(Text.ToString()[i]);
+			}
+		}
+		MouseSensBox->SetText(FText::FromString(NewString));
+	}
+
+	if (!Text.ToString().Contains(".") && Text.ToString().Len() > 3)
+	{
+		MouseSensBox->SetText(FText::FromString(Text.ToString().LeftChop(1)));
+	}
+
+	if (Text.ToString().Len() > 5)
+	{
+		MouseSensBox->SetText(FText::FromString(Text.ToString().LeftChop(1)));
+	}
 }
 
 void UMainMenu::MouseCaptureEnded()

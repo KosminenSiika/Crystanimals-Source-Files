@@ -95,7 +95,9 @@ private:
 	UFUNCTION()
 	void ChangeSFXVolume(float Value);
 	UFUNCTION()
-	void ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType);
+	void ChangeMouseSens(const FText& NewText, ETextCommit::Type CommitType);
+	UFUNCTION()
+	void HandleMouseSensTextChanged(const FText& Text);
 	UFUNCTION()
 	void MouseCaptureEnded();
 	
