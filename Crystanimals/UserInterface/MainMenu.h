@@ -9,6 +9,7 @@
 // Forward Declarations
 class UButton;
 class UEditableTextBox;
+class URadialSlider;
 class UTreasureGameInstance;
 class AAnimalHUD;
 
@@ -36,6 +37,35 @@ private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> ExitButton = nullptr;
 
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<URadialSlider> MasterVolumeSlider = nullptr;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<URadialSlider> MusicVolumeSlider = nullptr;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<URadialSlider> SFXVolumeSlider = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundMix> MasterSoundMix = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundMix> MusicSoundMix = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundMix> SFXSoundMix = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundClass> MasterSoundClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundClass> MusicSoundClass = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundClass> SFXSoundClass = nullptr;
+
+
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UEditableTextBox> MouseSensBox = nullptr;
 
@@ -59,7 +89,15 @@ private:
 	UFUNCTION()
 	void ExitGame();
 	UFUNCTION()
+	void ChangeMasterVolume(float Value);
+	UFUNCTION()
+	void ChangeMusicVolume(float Value);
+	UFUNCTION()
+	void ChangeSFXVolume(float Value);
+	UFUNCTION()
 	void ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType);
+	UFUNCTION()
+	void PlayClickSound();
 	
 	virtual void NativeConstruct() override;
 };

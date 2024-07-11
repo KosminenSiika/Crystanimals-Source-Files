@@ -58,6 +58,15 @@ public:
 	UPROPERTY()
 	float MouseSens;
 
+	UPROPERTY()
+	float MasterVolume;
+
+	UPROPERTY()
+	float MusicVolume;
+
+	UPROPERTY()
+	float SFXVolume;
+
 
 	UTreasureSaveGame();
 	

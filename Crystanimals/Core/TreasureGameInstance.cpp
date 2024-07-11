@@ -37,6 +37,9 @@ void UTreasureGameInstance::SaveGame()
 		SaveGameInstance->bIsTrapdoorUnlocked = this->bIsTrapdoorUnlocked;
 		SaveGameInstance->bIsTrapdoorOpen = this->bIsTrapdoorOpen;
 		SaveGameInstance->MouseSens = this->MouseSens;
+		SaveGameInstance->MasterVolume = this->MasterVolume;
+		SaveGameInstance->MusicVolume = this->MusicVolume;
+		SaveGameInstance->SFXVolume = this->SFXVolume;
 
 		UGameplayStatics::AsyncSaveGameToSlot(SaveGameInstance, "SaveSlot1", 0, SavedDelegate);
 	}
@@ -57,6 +60,9 @@ void UTreasureGameInstance::LoadSaveGame()
 		this->bIsTrapdoorUnlocked = LoadedGame->bIsTrapdoorUnlocked;
 		this->bIsTrapdoorOpen = LoadedGame->bIsTrapdoorOpen;
 		this->MouseSens = LoadedGame->MouseSens;
+		this->MasterVolume = LoadedGame->MasterVolume;
+		this->MusicVolume = LoadedGame->MusicVolume;
+		this->SFXVolume = LoadedGame->SFXVolume;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Loaded last save"));
 }
@@ -97,6 +103,9 @@ void UTreasureGameInstance::LoadDefaultDataValues()
 	bIsTrapdoorUnlocked = false;
 	bIsTrapdoorOpen = false;
 	MouseSens = 1.0f;
+	MasterVolume = 1.0f;
+	MusicVolume = 1.0f;
+	SFXVolume = 1.0f;
 	bShouldSaveAfterRealmChange = false;
 
 	UE_LOG(LogTemp, Warning, TEXT("No save file found, default TreasureGameInstance values loaded"));

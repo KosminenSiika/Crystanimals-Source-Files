@@ -4,6 +4,7 @@
 #include "UserInterface/MainMenu.h"
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
+#include "Components/RadialSlider.h"
 #include "Core/TreasureGameInstance.h"
 #include "UserInterface/AnimalHUD.h"
 #include "Kismet/GameplayStatics.h"
@@ -43,6 +44,33 @@ void UMainMenu::NativeConstruct()
 		ExitButton->OnClicked.AddDynamic(this, &UMainMenu::ExitGame);
 	}
 
+	if (MasterVolumeSlider)
+	{
+		MasterVolumeSlider->SetValue(GameInstance->MasterVolume);
+		ChangeMasterVolume(GameInstance->MasterVolume);
+
+		MasterVolumeSlider->OnValueChanged.AddDynamic(this, &UMainMenu::ChangeMasterVolume);
+		MasterVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::PlayClickSound);
+	}
+
+	if (MusicVolumeSlider)
+	{
+		MusicVolumeSlider->SetValue(GameInstance->MusicVolume);
+		ChangeMusicVolume(GameInstance->MusicVolume);
+
+		MusicVolumeSlider->OnValueChanged.AddDynamic(this, &UMainMenu::ChangeMusicVolume);
+		MusicVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::PlayClickSound);
+	}
+
+	if (SFXVolumeSlider)
+	{
+		SFXVolumeSlider->SetValue(GameInstance->SFXVolume);
+		ChangeSFXVolume(GameInstance->SFXVolume);
+
+		SFXVolumeSlider->OnValueChanged.AddDynamic(this, &UMainMenu::ChangeSFXVolume);
+		SFXVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::PlayClickSound);
+	}
+
 	if (MouseSensBox)
 	{
 		MouseSensBox->SetText(FText::FromString(FString::SanitizeFloat(GameInstance->MouseSens)));
@@ -53,32 +81,53 @@ void UMainMenu::NativeConstruct()
 
 void UMainMenu::Perish()
 {
-	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	PlayClickSound();
 	HUD->DisplayConfirmationWidget("unalive yourself");
 }
 
 void UMainMenu::OpenHowToPlayPage()
 {
-	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	PlayClickSound();
 	HUD->DisplayHowToPlayPage();
 }
 
 void UMainMenu::OpenCreditsPage()
 {
-	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	PlayClickSound();
 	HUD->DisplayCreditsPage();
 }
 
 void UMainMenu::ResetGameProgress()
 {
-	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	PlayClickSound();
 	HUD->DisplayConfirmationWidget("reset the whole game");
 }
 
 void UMainMenu::ExitGame()
 {
-	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	PlayClickSound();
 	HUD->DisplayConfirmationWidget("exit the game");
+}
+
+void UMainMenu::ChangeMasterVolume(float Value)
+{
+	GameInstance->MasterVolume = Value;
+	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), MasterSoundMix, MasterSoundClass, Value, 1.0f, 0.0f);
+	UGameplayStatics::PushSoundMixModifier(GetWorld(), MasterSoundMix);
+}
+
+void UMainMenu::ChangeMusicVolume(float Value)
+{
+	GameInstance->MusicVolume = Value;
+	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), MusicSoundMix, MusicSoundClass, Value, 1.0f, 0.0f);
+	UGameplayStatics::PushSoundMixModifier(GetWorld(), MusicSoundMix);
+}
+
+void UMainMenu::ChangeSFXVolume(float Value)
+{
+	GameInstance->SFXVolume = Value;
+	UGameplayStatics::SetSoundMixClassOverride(GetWorld(), SFXSoundMix, SFXSoundClass, Value, 1.0f, 0.0f);
+	UGameplayStatics::PushSoundMixModifier(GetWorld(), SFXSoundMix);
 }
 
 void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType)
@@ -86,11 +135,17 @@ void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType
 	if (MouseSensBox->GetText().ToString().IsNumeric())
 	{
 		GameInstance->MouseSens = FCString::Atof(*(MouseSensBox->GetText().ToString()));
+		PlayClickSound();
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Inputted text wasn't numeric"));
 	}
 	
+}
+
+void UMainMenu::PlayClickSound()
+{
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 }
 

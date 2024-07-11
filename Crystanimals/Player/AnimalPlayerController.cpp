@@ -363,6 +363,7 @@ void AAnimalPlayerController::FadeOutOfBlack()
 void AAnimalPlayerController::DisplayHowToPlayPage()
 {
 	HandleOpenCloseMainMenu();
+	SetInputMode(FInputModeUIOnly());
 	HUD->DisplayHowToPlayPage();
 }
 

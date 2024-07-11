@@ -54,6 +54,15 @@ public:
 	float MouseSens;
 
 	UPROPERTY()
+	float MasterVolume;
+
+	UPROPERTY()
+	float MusicVolume;
+
+	UPROPERTY()
+	float SFXVolume;
+
+	UPROPERTY()
 	bool bShouldSaveAfterRealmChange;
 
 	UPROPERTY()
