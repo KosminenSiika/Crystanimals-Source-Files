@@ -41,7 +41,7 @@ private:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	TObjectPtr<UBorder> GreyMask = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UPROPERTY(EditInstanceOnly, Category = "Audio")
 	TObjectPtr<USoundBase> ButtonClickSound = nullptr;
 
 	UFUNCTION()

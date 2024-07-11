@@ -128,6 +128,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	TObjectPtr<USoundBase> WaterSwimSound = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	TObjectPtr<USoundBase> WingFlapSound = nullptr;
+
 
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> GlideWindSoundComponent = nullptr;

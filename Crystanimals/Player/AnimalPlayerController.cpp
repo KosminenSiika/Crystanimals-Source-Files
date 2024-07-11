@@ -226,6 +226,10 @@ void AAnimalPlayerController::HandleJump()
 	{
 		if (!PlayerCharacter->bIsOnBlueIce)
 		{
+			if (GameInstance->CurrentAnimal == EAnimal::Bird)
+			{
+				UGameplayStatics::PlaySound2D(GetWorld(), WingFlapSound);
+			}
 			PlayerCharacter->Jump();
 		}
 	}

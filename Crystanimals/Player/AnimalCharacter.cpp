@@ -261,7 +261,7 @@ void AAnimalCharacter::LoadLastSaveGame()
 
 void AAnimalCharacter::UpdateUnlocks()
 {
-	if (GameInstance->Score >= 20)
+	if (GameInstance->Score >= 20 && GameInstance->Score < 30)
 	{
 		if (!GameInstance->bHasKey)
 		{
@@ -269,7 +269,7 @@ void AAnimalCharacter::UpdateUnlocks()
 			GameInstance->bHasKey = true;
 		}
 	}
-	if (GameInstance->Score >= 40)
+	if (GameInstance->Score >= 40 && GameInstance->Score < 50)
 	{
 		if (!GameInstance->bHasHeatResistance)
 		{
@@ -277,7 +277,7 @@ void AAnimalCharacter::UpdateUnlocks()
 			GameInstance->bHasHeatResistance = true;
 		}
 	}
-	if (GameInstance->Score >= 70)
+	if (GameInstance->Score >= 70 && GameInstance->Score < 80)
 	{
 		if (!GameInstance->bHasColdResistance)
 		{
