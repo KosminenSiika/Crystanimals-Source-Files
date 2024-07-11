@@ -16,6 +16,7 @@ void UTreasureGameInstance::Init()
 	{
 		LoadDefaultDataValues();
 	}
+	CurrentAnimal = EAnimal::Dog;
 	CurrentRealm = "HubRealm";
 }
 

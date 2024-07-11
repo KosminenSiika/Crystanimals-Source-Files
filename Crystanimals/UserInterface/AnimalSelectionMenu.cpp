@@ -25,7 +25,7 @@ void UAnimalSelectionMenu::NativeConstruct()
 	OtterButton->AnimalName->SetText(FText::FromString("Otter"));
 	OtterButton->SetToolTipText(FText::FromString("Can hold breath for longer and swim a lot faster"));
 	FlyingSquirrelButton->AnimalName->SetText(FText::FromString("Flying Squirrel"));
-	FlyingSquirrelButton->SetToolTipText(FText::FromString("Can gently glide long distances"));
+	FlyingSquirrelButton->SetToolTipText(FText::FromString("Can glide long distances"));
 	JerboaButton->AnimalName->SetText(FText::FromString("Jerboa"));
 	JerboaButton->SetToolTipText(FText::FromString("Is tiny, fits in very small places"));
 	BirdButton->AnimalName->SetText(FText::FromString("Bird"));
