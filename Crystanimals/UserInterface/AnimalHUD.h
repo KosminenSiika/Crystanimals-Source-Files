@@ -145,6 +145,8 @@ public:
 
 	UFUNCTION()
 	void DisplayConfirmationWidget(FString Action);
+	UFUNCTION()
+	void HideConfirmationWidget() const;
 
 	UFUNCTION()
 	void DisplayGameSavedWidget();

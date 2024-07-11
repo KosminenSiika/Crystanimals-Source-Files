@@ -66,6 +66,9 @@ public:
 	void StartExhaustionTimer();
 
 	UFUNCTION()
+	void Perish();
+
+	UFUNCTION()
 	void StopInteracting();
 
 	UFUNCTION()
@@ -288,9 +291,6 @@ private:
 
 	UFUNCTION()
 	void StopFreezingTimer();
-
-	UFUNCTION()
-	void Perish();
 
 	UFUNCTION()
 	void LoadLastSaveGame();

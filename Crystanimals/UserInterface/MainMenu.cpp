@@ -18,6 +18,11 @@ void UMainMenu::NativeConstruct()
 	HUD = GetWorld()->GetFirstPlayerController()->GetHUD<AAnimalHUD>();
 	checkf(HUD, TEXT("MainMenu unable to get reference to HUD"));
 
+	if (PerishButton)
+	{
+		PerishButton->OnClicked.AddDynamic(this, &UMainMenu::Perish);
+	}
+
 	if (HowToPlayButton)
 	{
 		HowToPlayButton->OnClicked.AddDynamic(this, &UMainMenu::OpenHowToPlayPage);
@@ -45,6 +50,12 @@ void UMainMenu::NativeConstruct()
 	}
 }
 
+
+void UMainMenu::Perish()
+{
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	HUD->DisplayConfirmationWidget("unalive yourself");
+}
 
 void UMainMenu::OpenHowToPlayPage()
 {

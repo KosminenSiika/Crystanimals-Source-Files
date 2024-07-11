@@ -22,6 +22,9 @@ class CRYSTANIMALS_API UMainMenu : public UUserWidget
 
 private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UButton> PerishButton = nullptr;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UButton> HowToPlayButton = nullptr;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
@@ -45,6 +48,8 @@ private:
 	UPROPERTY()
 	TObjectPtr<AAnimalHUD> HUD = nullptr;
 
+	UFUNCTION()
+	void Perish();
 	UFUNCTION()
 	void OpenHowToPlayPage();
 	UFUNCTION()

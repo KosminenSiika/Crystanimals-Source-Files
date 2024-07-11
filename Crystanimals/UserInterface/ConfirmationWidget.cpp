@@ -6,6 +6,8 @@
 #include "Components/Button.h"
 #include "Core/TreasureGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/AnimalCharacter.h"
+#include "Player/AnimalPlayerController.h"
 
 void UConfirmationWidget::NativeConstruct()
 {
@@ -42,6 +44,11 @@ void UConfirmationWidget::ConfirmAction()
 		if (Action->GetText().ToString() == "reset the whole game")
 		{
 			GameInstance->ResetGame();
+		}
+		if (Action->GetText().ToString() == "unalive yourself")
+		{
+			GetWorld()->GetFirstPlayerController<AAnimalPlayerController>()->HandleOpenCloseMainMenu();
+			GetWorld()->GetFirstPlayerController()->GetPawn<AAnimalCharacter>()->Perish();
 		}
 	}
 }

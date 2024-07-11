@@ -189,6 +189,7 @@ void AAnimalHUD::HideMainMenu()
 		DisplayCrosshair();
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 		HideMainMenuPages();
+		HideConfirmationWidget();
 		MainMenuWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
@@ -363,6 +364,14 @@ void AAnimalHUD::DisplayConfirmationWidget(FString Action)
 	{
 		ConfirmationWidget->SetAction(Action);
 		ConfirmationWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void AAnimalHUD::HideConfirmationWidget() const
+{
+	if (ConfirmationWidget)
+	{
+		ConfirmationWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
