@@ -97,7 +97,7 @@ private:
 	UFUNCTION()
 	void ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType);
 	UFUNCTION()
-	void PlayClickSound();
+	void MouseCaptureEnded();
 	
 	virtual void NativeConstruct() override;
 };

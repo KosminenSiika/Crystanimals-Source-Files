@@ -45,6 +45,34 @@ void UTreasureGameInstance::SaveGame()
 	}
 }
 
+void UTreasureGameInstance::SaveOnlySettings()
+{
+	if (UTreasureSaveGame* LoadedGame = Cast<UTreasureSaveGame>(UGameplayStatics::LoadGameFromSlot("SaveSlot1", 0)))
+	{
+		if (UTreasureSaveGame* SaveGameInstance = Cast<UTreasureSaveGame>(UGameplayStatics::CreateSaveGameObject(UTreasureSaveGame::StaticClass())))
+		{
+			SaveGameInstance->ExistingCrystals = LoadedGame->ExistingCrystals;
+			SaveGameInstance->Score = LoadedGame->Score;
+			SaveGameInstance->CurrentAnimal = LoadedGame->CurrentAnimal;
+			SaveGameInstance->CurrentRealm = LoadedGame->CurrentRealm;
+			SaveGameInstance->bHasHeatResistance = LoadedGame->bHasHeatResistance;
+			SaveGameInstance->bHasColdResistance = LoadedGame->bHasColdResistance;
+			SaveGameInstance->bNewUnlocksNotClaimed = LoadedGame->bNewUnlocksNotClaimed;
+			SaveGameInstance->bHasKey = LoadedGame->bHasKey;
+			SaveGameInstance->bIsTrapdoorUnlocked = LoadedGame->bIsTrapdoorUnlocked;
+			SaveGameInstance->bIsTrapdoorOpen = LoadedGame->bIsTrapdoorOpen;
+			SaveGameInstance->MouseSens = this->MouseSens;
+			SaveGameInstance->MasterVolume = this->MasterVolume;
+			SaveGameInstance->MusicVolume = this->MusicVolume;
+			SaveGameInstance->SFXVolume = this->SFXVolume;
+
+			UGameplayStatics::AsyncSaveGameToSlot(SaveGameInstance, "SaveSlot1", 0);
+
+			UE_LOG(LogTemp, Warning, TEXT("Settings saved successfully :)"))
+		}
+	}
+}
+
 void UTreasureGameInstance::LoadSaveGame()
 {
 	if (UTreasureSaveGame* LoadedGame = Cast<UTreasureSaveGame>(UGameplayStatics::LoadGameFromSlot("SaveSlot1", 0)))

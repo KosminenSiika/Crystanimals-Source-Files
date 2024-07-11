@@ -84,6 +84,9 @@ public:
 	void SaveGame();
 
 	UFUNCTION()
+	void SaveOnlySettings();
+
+	UFUNCTION()
 	void LoadSaveGame();
 
 	UFUNCTION()

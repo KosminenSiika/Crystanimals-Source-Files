@@ -50,7 +50,7 @@ void UMainMenu::NativeConstruct()
 		ChangeMasterVolume(GameInstance->MasterVolume);
 
 		MasterVolumeSlider->OnValueChanged.AddDynamic(this, &UMainMenu::ChangeMasterVolume);
-		MasterVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::PlayClickSound);
+		MasterVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::MouseCaptureEnded);
 	}
 
 	if (MusicVolumeSlider)
@@ -59,7 +59,7 @@ void UMainMenu::NativeConstruct()
 		ChangeMusicVolume(GameInstance->MusicVolume);
 
 		MusicVolumeSlider->OnValueChanged.AddDynamic(this, &UMainMenu::ChangeMusicVolume);
-		MusicVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::PlayClickSound);
+		MusicVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::MouseCaptureEnded);
 	}
 
 	if (SFXVolumeSlider)
@@ -68,7 +68,7 @@ void UMainMenu::NativeConstruct()
 		ChangeSFXVolume(GameInstance->SFXVolume);
 
 		SFXVolumeSlider->OnValueChanged.AddDynamic(this, &UMainMenu::ChangeSFXVolume);
-		SFXVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::PlayClickSound);
+		SFXVolumeSlider->OnMouseCaptureEnd.AddDynamic(this, &UMainMenu::MouseCaptureEnded);
 	}
 
 	if (MouseSensBox)
@@ -81,31 +81,31 @@ void UMainMenu::NativeConstruct()
 
 void UMainMenu::Perish()
 {
-	PlayClickSound();
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	HUD->DisplayConfirmationWidget("unalive yourself");
 }
 
 void UMainMenu::OpenHowToPlayPage()
 {
-	PlayClickSound();
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	HUD->DisplayHowToPlayPage();
 }
 
 void UMainMenu::OpenCreditsPage()
 {
-	PlayClickSound();
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	HUD->DisplayCreditsPage();
 }
 
 void UMainMenu::ResetGameProgress()
 {
-	PlayClickSound();
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	HUD->DisplayConfirmationWidget("reset the whole game");
 }
 
 void UMainMenu::ExitGame()
 {
-	PlayClickSound();
+	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
 	HUD->DisplayConfirmationWidget("exit the game");
 }
 
@@ -135,17 +135,19 @@ void UMainMenu::ChangeMouseSens(const FText& NewText, ETextCommit::Type TextType
 	if (MouseSensBox->GetText().ToString().IsNumeric())
 	{
 		GameInstance->MouseSens = FCString::Atof(*(MouseSensBox->GetText().ToString()));
-		PlayClickSound();
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Inputted text wasn't numeric"));
+		UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+		GameInstance->SaveOnlySettings();
 	}
 	
 }
 
-void UMainMenu::PlayClickSound()
+void UMainMenu::MouseCaptureEnded()
 {
 	UGameplayStatics::PlaySound2D(GetWorld(), ButtonClickSound);
+	GameInstance->SaveOnlySettings();
 }
 
