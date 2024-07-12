@@ -26,6 +26,30 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Shop")
 	TObjectPtr<UStaticMeshComponent> Mesh = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch1 = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch2 = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch3 = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch4 = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch5 = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch6 = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch7 = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Shop")
+	TObjectPtr<UStaticMeshComponent> CrystalBatch8 = nullptr;
+
 	UPROPERTY(EditInstanceOnly, Category = "Shop")
 	FInteractableData InstanceInteractableData;
 
@@ -39,6 +63,12 @@ protected:
 	virtual void BeginPlay() override;
 
 private:	
+	UFUNCTION()
+	void UpdatePlinthCrystals();
+
+	UFUNCTION()
+	void SetBatchIsPlaced(UStaticMeshComponent* CrystalBatch, bool NewIsPlaced);
+
 	virtual void Interact() override;
 
 };
