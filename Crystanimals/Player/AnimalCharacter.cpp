@@ -492,8 +492,8 @@ bool AAnimalCharacter::SwitchAnimal(EAnimal SelectedAnimal)
 				GetCharacterMovement()->MaxSwimSpeed = BirdSwimSpeed;
 				GetCharacterMovement()->JumpZVelocity = BirdJumpHeight;
 				CanGlide = true;
-				// Flying is implemented as being able to jump "many" (100) times in a row
-				JumpMaxCount = 100;
+				// Flying is implemented as being able to jump "many" (10000) times in a row
+				JumpMaxCount = 10000;
 				GameInstance->CurrentAnimal = SelectedAnimal;
 				GameInstance->OnAnimalSwitched.Broadcast();
 				return true;

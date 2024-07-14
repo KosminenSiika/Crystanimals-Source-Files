@@ -444,7 +444,7 @@ void AAnimalHUD::DisplayNowUnlockedWidget(FString TextToDisplay) const
 		GetWorldTimerManager().SetTimer(TempTimer,
 			this,
 			&AAnimalHUD::HideNowUnlockedWidget,
-			2.5f,
+			5.0f,
 			false);
 	}
 }
