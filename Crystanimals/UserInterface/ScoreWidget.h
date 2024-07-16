@@ -8,6 +8,7 @@
 
 // Forward Declarations
 class UTextBlock;
+class UHorizontalBox;
 class UImage;
 
 /**
@@ -22,6 +23,12 @@ class CRYSTANIMALS_API UScoreWidget : public UUserWidget
 private:
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UTextBlock> ScoreText = nullptr;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UTextBlock> RealmScoreText = nullptr;
+
+	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
+	TObjectPtr<UHorizontalBox> RealmScoreBox = nullptr;
 
 	UPROPERTY(VisibleAnywhere, meta = (BindWidget))
 	TObjectPtr<UImage> CurrentAnimalIcon = nullptr;
@@ -49,7 +56,7 @@ private:
 	TObjectPtr<UTreasureGameInstance> GameInstance = nullptr;
 
 	UFUNCTION()
-	void UpdateScoreText();
+	void UpdateScoreTexts();
 
 	UFUNCTION()
 	void UpdateAnimalIcon();
