@@ -277,7 +277,7 @@ void AAnimalCharacter::UpdateUnlocks()
 			GameInstance->bHasHeatResistance = true;
 		}
 	}
-	if (GameInstance->Score >= 70 && GameInstance->Score < 80)
+	if (GameInstance->Score >= 60 && GameInstance->Score < 70)
 	{
 		if (!GameInstance->bHasColdResistance)
 		{

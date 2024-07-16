@@ -65,7 +65,7 @@ void UAnimalSelectionMenu::UpdateButtons()
 		{
 			FlyingSquirrelButton->ToggleHittable(true);
 		}
-		if (GameInstance->Score >= 60+10)
+		if (GameInstance->Score >= 70+10)
 		{
 			JerboaButton->ToggleHittable(true);
 		}
@@ -100,9 +100,9 @@ void UAnimalSelectionMenu::UpdateButtons()
 
 			FlyingSquirrelButton->ToggleHittable(true);
 		}
-		if (GameInstance->Score >= 60)
+		if (GameInstance->Score >= 70)
 		{
-			if (bClaimingUnlocks && GameInstance->Score < 70)
+			if (bClaimingUnlocks && GameInstance->Score < 80)
 			{
 				GetOwningPlayer()->GetHUD<AAnimalHUD>()->DisplayNowUnlockedWidget("Jerboa");
 			}
