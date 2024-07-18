@@ -406,6 +406,7 @@ void AAnimalPlayerController::CheckSurfaceAndPlayFootstepSound()
 				break;
 			case SurfaceType7:
 				UGameplayStatics::PlaySoundAtLocation(GetWorld(), DirtFootstepSound, TraceHit.Location);
+				break;
 			default:
 				UGameplayStatics::PlaySoundAtLocation(GetWorld(), StoneFootstepSound, TraceHit.Location);
 				break;
